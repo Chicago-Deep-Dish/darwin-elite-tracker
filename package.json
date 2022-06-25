@@ -2,6 +2,7 @@
   "name": "eleet-tracker",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -12,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "firebase": "^9.8.4",
     "react": "^18.2.0",
