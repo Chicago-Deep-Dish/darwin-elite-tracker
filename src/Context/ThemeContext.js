@@ -9,16 +9,13 @@ const darkTheme = createTheme({
     secondary: {
       main: '#ffffff'
     },
-
   },
 });
 
-function Theme({children}) {
+export default function Theme({children}) {
   return (
     <ThemeProvider theme={darkTheme}>
       {children}
     </ThemeProvider>
   );
 }
-
-export default Theme;
