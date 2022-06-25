@@ -1,11 +1,8 @@
-function Layout (props) {
+
+export default function Layout({ children }) {
   return (
     <div>
-      <div>
-        {props.children}
-      </div>
+      {children}
     </div>
   );
 }
-
-export default Layout;
