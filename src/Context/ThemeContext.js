@@ -7,7 +7,9 @@ const darkTheme = createTheme({
       main: '#36494E'
     },
     secondary: {
-      main: '#ffffff'
+      main: '#141414',
+      dark: '#000000',
+      blueish: '#597081'
     },
   },
 });
