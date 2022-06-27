@@ -30,7 +30,6 @@ export default function App() {
           </GlobalContextProvider>
         </CssBaseline>
       </Theme>
-
     </div>
   );
 }

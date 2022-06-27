@@ -2,20 +2,19 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
+    background: {
+      default: '#597081',
+      light: '#FFFFFF'
+    },
     primary: {
-      main: "#36494E",
-      light: "#FFFFFF",
+      main: '#597081',
     },
     secondary: {
-      main: "#141414",
-      dark: "#000000",
-      blueish: "#597081",
+      main: '#000000',
     },
   },
 });
-
-
 
 export default function Theme({ children }) {
   return (
