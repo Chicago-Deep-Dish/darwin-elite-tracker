@@ -107,16 +107,16 @@ export default function NavBar() {
         key="Profile"
         onClick={() => console.log(`opens menu for Profile`)}
       >
-        <p>"Profile"</p>
+        <p>Profile</p>
       </MenuItem>
       <MenuItem
         key="Settings"
         onClick={() => console.log(`opens menu for Settings`)}
       >
-        <p>"Settings"</p>
+        <p>Settings</p>
       </MenuItem>
       <MenuItem key="Logout" onClick={handleLogout}>
-        <p>"Logout"</p>
+        <p>Logout</p>
       </MenuItem>
     </Menu>
   );
