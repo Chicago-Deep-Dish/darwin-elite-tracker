@@ -87,7 +87,7 @@ export default function NavBar({ setModal }) {
   }
   // use this function as a way to navigate to page with dummy data upon logout
   const handleLogout = () => {
-    sessionStorage.removeItem("Auth Token");
+    sessionStorage.setItem("Auth Token", {});
     navigate("/form/login");
   };
 

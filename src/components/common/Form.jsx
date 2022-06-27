@@ -1,6 +1,6 @@
 //Modules
 // import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useGlobalContext from "../../Context/GlobalContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -26,9 +26,19 @@ import {
 
 export default function Form({ title }) {
   let navigate = useNavigate();
+  const { exampleState, setExampleState } = useGlobalContext();
+
+  console.log(exampleState);
+
+  useEffect(() => {
+    setExampleState("setExampleState inside Form.js");
+  }, []);
 
   //------ FIREBASE ------//
-  const { authToken, setAuthToken } = useGlobalContext();
+
+
+  // const { authToken, setAuthToken } = useGlobalContext();
+  const authToken = 2387239482
   const [loginValues, setLogin] = useState({
     email: "",
     password: "",

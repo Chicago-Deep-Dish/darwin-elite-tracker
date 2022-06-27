@@ -4,7 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { GlobalContextProvider } from "./Context/GlobalContext";
 
 //component imports
 import HomePage from "./pages/Homepage";
@@ -13,10 +12,7 @@ import Theme from "./Context/ThemeContext";
 import Layout from "./Layout";
 import Modal from "./components/common/Modal.jsx";
 
-
-
 export default function App() {
-
   //------ MODAL ------//
   // By default, modal is an empty object {}
   // When using setModal, the syntax is setModal({ modalName, modalData })
@@ -29,14 +25,12 @@ export default function App() {
   return (
     <div className="App">
       <Theme>
-        <GlobalContextProvider>
-          <Layout setModal={setModal}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/records" element={<RecordLibrary />} />
-            </Routes>
-          </Layout>
-        </GlobalContextProvider>
+        <Layout setModal={setModal}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/records" element={<RecordLibrary />} />
+          </Routes>
+        </Layout>
       </Theme>
       <Modal modal={modal} />
       <ToastContainer toastStyle={{ backgroundColor: "black" }} />
