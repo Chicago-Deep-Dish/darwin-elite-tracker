@@ -1,5 +1,6 @@
 import './styles/App.css';
 import { Routes, Route } from 'react-router-dom';
+import CssBaseline from '@mui/material/CssBaseline';
 import HomePage from './pages/Homepage';
 import RecordLibrary from './pages/RecordLibrary'
 import Theme from './Context/ThemeContext';
@@ -10,6 +11,7 @@ export default function App() {
   return (
     <div className="App">
       <Theme>
+        <CssBaseline>
         <GlobalContextProvider>
             <Layout>
               <Routes>
@@ -18,6 +20,7 @@ export default function App() {
               </Routes>
             </Layout>
         </GlobalContextProvider>
+        </CssBaseline>
       </Theme>
     </div>
   );
