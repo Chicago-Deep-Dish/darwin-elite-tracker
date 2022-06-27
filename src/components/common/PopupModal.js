@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React from "react";
-import Form from "./Form.jsx";
+import Form from "./Form";
 import "./PopupModal.css";
 // const style = {
 //   position: "absolute",

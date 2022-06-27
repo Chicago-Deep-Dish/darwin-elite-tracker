@@ -4,6 +4,7 @@
 // import * as React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //Styling
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -14,10 +15,10 @@ import {
   InputLabel,
   InputAdornment,
 } from "@mui/material";
-import useGlobalContext from "./../../Context/GlobalContext";
+import useGlobalContext from "../../Context/GlobalContext";
 
 //Firebase
-import { app } from "./../../firebase/firebase-config.js";
+import { app } from "../../firebase/firebase-config.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
