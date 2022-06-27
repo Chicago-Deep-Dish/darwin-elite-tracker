@@ -10,6 +10,7 @@ import HomePage from "./pages/Homepage";
 import RecordLibrary from "./pages/RecordLibrary";
 import Theme from "./Context/ThemeContext";
 import Layout from "./Layout";
+import { CssBaseline } from "@mui/material";
 
 
 export default function App() {
@@ -18,14 +19,16 @@ export default function App() {
   return (
     <div className="App">
       <Theme>
-        <GlobalContextProvider>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/records" element={<RecordLibrary />} />
-            </Routes>
-          </Layout>
-        </GlobalContextProvider>
+        <CssBaseline>
+          <GlobalContextProvider>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/records" element={<RecordLibrary />} />
+              </Routes>
+            </Layout>
+          </GlobalContextProvider>
+        </CssBaseline>
       </Theme>
 
     </div>
