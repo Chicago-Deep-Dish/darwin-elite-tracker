@@ -13,13 +13,6 @@ import Layout from "./Layout";
 import Modal from "./components/common/Modal.jsx";
 
 export default function App() {
-  //------ MODAL ------//
-  // By default, modal is an empty object {}
-  // When using setModal, the syntax is setModal({ modalName, modalData })
-  // modalName: Required; a string, decides which modal content to render
-  // modalData: Optional; an object, should contain some data you need for the modal
-  // Example 1 - setModal: line 14 @ './QuestionsAndAnswers/QAListEntry.jsx'
-  // Example 2 - redernModal: line 8 @ './helper/Modals/Modals.jsx'
   const [modal, setModal] = useState({});
 
   return (
@@ -32,7 +25,7 @@ export default function App() {
           </Routes>
         </Layout>
       </Theme>
-      <Modal modal={modal} />
+      <Modal modal={modal} setModal={setModal} />
       <ToastContainer toastStyle={{ backgroundColor: "black" }} />
     </div>
   );

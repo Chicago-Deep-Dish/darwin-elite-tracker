@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 
-
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -11,11 +10,10 @@ const firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_SENDER_ID,
   appId: process.env.REACT_APP_APP_ID,
 };
-console.log(firebaseConfig);
+// console.log(firebaseConfig);
 
 export const app = initializeApp(firebaseConfig);
 
 //to use Analytics, add two below to the above file:
 // import { getAnalytics } from "firebase/analytics";
 // export const analytics = getAnalytics(app);
-

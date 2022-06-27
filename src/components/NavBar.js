@@ -12,6 +12,8 @@ import {
   Toolbar,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import useGlobalContext from "./../Context/GlobalContext";
+import { toast } from "react-toastify";
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
@@ -55,6 +57,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function NavBar({ setModal }) {
   let navigate = useNavigate();
+  const { toastifyTheme } = useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -81,14 +84,22 @@ export default function NavBar({ setModal }) {
   };
 
   // customer handlers
-  function handleLoginButton() {
-    setModal({ modalName: "login" });
-    document.getElementById("modal").style.display = "block";
+  function handleLoginButton(modal) {
+    if (sessionStorage.getItem("Auth Token")) {
+      toast.success(
+        "Already Logged In. Please Log Out and try again",
+        toastifyTheme
+      );
+      return;
+    } else {
+      setModal({ modalName: modal, modalData: modal });
+      document.getElementById("modal").style.display = "block";
+    }
   }
   // use this function as a way to navigate to page with dummy data upon logout
   const handleLogout = () => {
-    sessionStorage.setItem("Auth Token", {});
-    navigate("/form/login");
+    sessionStorage.removeItem("Auth Token");
+    toast.success("Logged Out", toastifyTheme);
   };
 
   const menuId = "primary-search-account-menu";
@@ -147,16 +158,16 @@ export default function NavBar({ setModal }) {
         key="Profile"
         onClick={() => console.log(`opens menu for Profile`)}
       >
-        <p>"Profile"</p>
+        <p>Profile</p>
       </MenuItem>
       <MenuItem
         key="Settings"
         onClick={() => console.log(`opens menu for Settings`)}
       >
-        <p>"Settings"</p>
+        <p>Settings</p>
       </MenuItem>
       <MenuItem key="Logout" onClick={handleLogout}>
-        <p>"Logout"</p>
+        <p>Logout</p>
       </MenuItem>
     </Menu>
   );
@@ -204,11 +215,25 @@ export default function NavBar({ setModal }) {
               size="large"
               edge="start"
               color="inherit"
-              aria-label="records button"
+              aria-label="login button"
               sx={{ mr: 2 }}
-              onClick={handleLoginButton}
+              onClick={() => {
+                handleLoginButton("login");
+              }}
             >
               LOGIN
+            </Button>
+            <Button
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="register button"
+              sx={{ mr: 2 }}
+              onClick={() => {
+                handleLoginButton("register");
+              }}
+            >
+              REGISTER
             </Button>
             <IconButton
               size="large"

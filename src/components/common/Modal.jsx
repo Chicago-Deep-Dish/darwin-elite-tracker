@@ -2,54 +2,53 @@ import React from "react";
 import "./modal-styles.css";
 import Form from "./Form.jsx";
 
-export default function Modal({
-  handleClickSubmit,
-  modal,
-  loginValues,
-  setLogin,
-}) {
+//------ MODAL ------//
+// By default, modal is an empty object {}
+// When using setModal, the syntax is setModal({ modalName, modalData })
+// modalName: Required; a string, decides which modal content to render
+// modalData: Optional; an object, should contain some data you need for the modal
+// Example 1 - setModal: line 14 @ './QuestionsAndAnswers/QAListEntry.jsx'
+// Example 2 - redernModal: line 8 @ './helper/Modals/Modals.jsx'
+export default function Modal({ modal, setModal }) {
   function renderModal({ modalName, modalData }) {
     switch (modalName) {
       case "login":
         return (
           <Form
             title="Login"
-            loginValues={loginValues}
-            setLogin={setLogin}
-            handleClickSubmit={() => handleClickSubmit("login")}
+            modalData={modalData}
+            setModal={setModal}
+            handleExitModal={handleExitModal}
           />
         );
       case "register":
         return (
           <Form
             title="Register"
-            loginValues={loginValues}
-            setLogin={setLogin}
-            handleClickSubmit={() => handleClickSubmit("register")}
+            z
+            modalData={modalData}
+            setModal={setModal}
+            handleExitModal={handleExitModal}
           />
         );
       default:
-        return <div />;
+        return <div style={{ display: "none" }} />;
     }
   }
 
-  // function reset() {
-  //   const allInputs = document.querySelectorAll(".modal-input");
-  //   allInputs.forEach((i) => {
-  //     i.value = "";
-  //   });
-  // }
+  function handleExitModal(e, command) {
+    console.log("command:", command);
+    console.log("e:", e);
 
-  function handleClick(e) {
     const modalMask = document.getElementById("modal");
-    if (e.target === modalMask) {
+    if (command === "exit" || e.target === modalMask) {
+      console.log("it worked");
       modalMask.style.display = "none";
-      // reset();
     }
   }
 
   return (
-    <div id="modal" className="modal" onClick={handleClick}>
+    <div id="modal" className="modal" onClick={handleExitModal}>
       {renderModal(modal)}
     </div>
   );

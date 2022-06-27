@@ -10,7 +10,7 @@ export default function HomePage() {
 
   const { exampleState, setExampleState } = useGlobalContext();
 
-  console.log(exampleState);
+  // console.log(exampleState);
 
   useEffect(() => {
     setExampleState("setExampleState inside Homepage.js");
