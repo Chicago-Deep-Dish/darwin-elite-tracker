@@ -23,13 +23,11 @@ export function GlobalContextProvider({ children }) {
 
     if (authToken) {
       toast.success("Logged In", toastifyTheme);
-      // navigate("/");
     } else {
       toast.error(
         "Not Logged in: Please Login to use all Features",
         toastifyTheme
       );
-      // navigate("/login");
     }
   }, []);
   const value = {

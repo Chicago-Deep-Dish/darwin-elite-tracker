@@ -1,13 +1,13 @@
+/* eslint-disable no-unused-vars */
+
 //Modules
 // import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 //Styling
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Box,
   Button,
   FormControl,
   OutlinedInput,
@@ -24,7 +24,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
-export default function Form({ title, modalData, setModal, handleExitModal }) {
+export default function Form({ modalName, setModal, handleExitModal }) {
   const { toastifyTheme } = useGlobalContext();
 
   //------ FIREBASE ------//
@@ -33,6 +33,7 @@ export default function Form({ title, modalData, setModal, handleExitModal }) {
     email: "",
     password: "",
     showPassword: false,
+    userLoggedIn: false,
   });
 
   const handleClickSubmit = () => {
@@ -40,21 +41,19 @@ export default function Form({ title, modalData, setModal, handleExitModal }) {
     console.log("Password:", loginValues.password);
     const authentication = getAuth();
 
-    if (modalData === "login") {
-      //TODO: change this behavior to just having the userAccountIcon show up
+    if (modalName === "LOGIN") {
+      //TODO: add userAccountIcon show up on successful login
 
-      if (sessionStorage.getItem("Auth Token")) {
-        toast.success("Already Logged In", toastifyTheme);
-      }
       signInWithEmailAndPassword(
         authentication,
         loginValues.email,
         loginValues.password
       )
         .then((response) => {
-          // navigate("/");
-          handleExitModal(null, 'exit');
-          setModal({ modalName: "empty" });
+          console.log("response:", response);
+          setLogin({ ...loginValues, userLoggedIn: true });
+          handleExitModal(null, "exit");
+          setModal({ modalName: null });
           toast.success("User Logged In Successfully", toastifyTheme);
           sessionStorage.setItem(
             "Auth Token",
@@ -79,14 +78,14 @@ export default function Form({ title, modalData, setModal, handleExitModal }) {
           }
         });
     }
-    if (modalData === "register") {
+    if (modalName === "REGISTER") {
       createUserWithEmailAndPassword(
         authentication,
         loginValues.email,
         loginValues.password
       )
         .then((response) => {
-          handleExitModal(null, 'exit');
+          handleExitModal(null, "exit");
           setModal({ modalName: "empty" });
           toast.success("User Created Successfully", toastifyTheme);
           sessionStorage.setItem(
@@ -118,70 +117,65 @@ export default function Form({ title, modalData, setModal, handleExitModal }) {
   };
 
   return (
-    <div style={{ border: "5px solid red", backgroundColor: "grey" }}>
-      <div className="heading-container">
-        <h3>{title} Form</h3>
-      </div>
-
-      <Box sx={{ backgroundColor: "primary.dark" }}>
-        <div>
-          <FormControl
-            sx={{ backgroundColor: "primary.dark", m: 1, width: "25ch" }}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-email"
-              value={loginValues.email}
-              onChange={handleChange("email")}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  handleExitModal(null, 'exit');
-                }
-              }}
-              label="Password"
-            />
-          </FormControl>
-          <FormControl
-            sx={{ backgroundColor: "primary.dark", m: 1, width: "25ch" }}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={loginValues.showPassword ? "text" : "password"}
-              value={loginValues.password}
-              onChange={handleChange("password")}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  handleClickSubmit();
-                }
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <Button
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {loginValues.showPassword ? (
-                      <VisibilityOff />
-                    ) : (
-                      <Visibility />
-                    )}
-                  </Button>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-        </div>
-      </Box>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <FormControl
+        sx={{ backgroundColor: "primary.light", m: 1, width: "40ch" }}
+        variant="outlined"
+      >
+        <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
+        <OutlinedInput
+          id="outlined-adornment-email"
+          value={loginValues.email}
+          onChange={handleChange("email")}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleExitModal(null, "exit");
+            }
+          }}
+          label="Password"
+        />
+      </FormControl>
+      <FormControl
+        sx={{
+          backgroundColor: "white",
+          m: 1,
+          width: "40ch",
+        }}
+        variant="outlined"
+      >
+        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+        <OutlinedInput
+          sx={{
+            backgroundColor: "white",
+          }}
+          id="outlined-adornment-password"
+          type={loginValues.showPassword ? "text" : "password"}
+          value={loginValues.password}
+          onChange={handleChange("password")}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleClickSubmit();
+            }
+          }}
+          endAdornment={
+            <InputAdornment position="end">
+              <Button
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {loginValues.showPassword ? <VisibilityOff /> : <Visibility />}
+              </Button>
+            </InputAdornment>
+          }
+          label="Password"
+        />
+      </FormControl>
       <Button type="submit" onClick={handleClickSubmit}>
-        {title}
+        {modalName}
       </Button>
     </div>
   );

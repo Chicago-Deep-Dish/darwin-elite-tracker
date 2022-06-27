@@ -10,7 +10,7 @@ import HomePage from "./pages/Homepage";
 import RecordLibrary from "./pages/RecordLibrary";
 import Theme from "./Context/ThemeContext";
 import Layout from "./Layout";
-import Modal from "./components/common/Modal.jsx";
+import PopupModal from "./components/common/PopupModal.jsx";
 
 export default function App() {
   const [modal, setModal] = useState({});
@@ -25,7 +25,7 @@ export default function App() {
           </Routes>
         </Layout>
       </Theme>
-      <Modal modal={modal} setModal={setModal} />
+      <PopupModal modal={modal} setModal={setModal} />
       <ToastContainer toastStyle={{ backgroundColor: "black" }} />
     </div>
   );

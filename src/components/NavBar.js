@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import companyLogo from "./../assets/Darwin_Logo_transparent.png";
-import { useNavigate } from "react-router-dom";
 import {
   Button,
   IconButton,
@@ -15,48 +14,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import useGlobalContext from "./../Context/GlobalContext";
 import { toast } from "react-toastify";
 
-// const Search = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   "&:hover": {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginRight: theme.spacing(2),
-//   marginLeft: 0,
-//   width: "100%",
-//   [theme.breakpoints.up("sm")]: {
-//     marginLeft: theme.spacing(3),
-//     width: "auto",
-//   },
-// }));
-
-// const SearchIconWrapper = styled("div")(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: "100%",
-//   position: "absolute",
-//   pointerEvents: "none",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-// }));
-
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: "inherit",
-//   "& .MuiInputBase-input": {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create("width"),
-//     width: "100%",
-//     [theme.breakpoints.up("md")]: {
-//       width: "20ch",
-//     },
-//   },
-// }));
-
 export default function NavBar({ setModal }) {
-  let navigate = useNavigate();
   const { toastifyTheme } = useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -86,13 +44,13 @@ export default function NavBar({ setModal }) {
   // customer handlers
   function handleLoginButton(modal) {
     if (sessionStorage.getItem("Auth Token")) {
-      toast.success(
+      toast.error(
         "Already Logged In. Please Log Out and try again",
         toastifyTheme
       );
       return;
     } else {
-      setModal({ modalName: modal, modalData: modal });
+      setModal({ modalName: modal });
       document.getElementById("modal").style.display = "block";
     }
   }
@@ -218,7 +176,7 @@ export default function NavBar({ setModal }) {
               aria-label="login button"
               sx={{ mr: 2 }}
               onClick={() => {
-                handleLoginButton("login");
+                handleLoginButton("LOGIN");
               }}
             >
               LOGIN
@@ -230,7 +188,7 @@ export default function NavBar({ setModal }) {
               aria-label="register button"
               sx={{ mr: 2 }}
               onClick={() => {
-                handleLoginButton("register");
+                handleLoginButton("REGISTER");
               }}
             >
               REGISTER
@@ -281,3 +239,45 @@ export default function NavBar({ setModal }) {
     </Box>
   );
 }
+
+
+
+// const Search = styled("div")(({ theme }) => ({
+//   position: "relative",
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   "&:hover": {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginRight: theme.spacing(2),
+//   marginLeft: 0,
+//   width: "100%",
+//   [theme.breakpoints.up("sm")]: {
+//     marginLeft: theme.spacing(3),
+//     width: "auto",
+//   },
+// }));
+
+// const SearchIconWrapper = styled("div")(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: "100%",
+//   position: "absolute",
+//   pointerEvents: "none",
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center",
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: "inherit",
+//   "& .MuiInputBase-input": {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create("width"),
+//     width: "100%",
+//     [theme.breakpoints.up("md")]: {
+//       width: "20ch",
+//     },
+//   },
+// }));
