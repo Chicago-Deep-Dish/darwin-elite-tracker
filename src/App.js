@@ -7,7 +7,7 @@ import { GlobalContextProvider } from "./context/GlobalContext";
 
 //component imports
 import HomePage from "./components/HomePage";
-import RecordLibrary from "./components/RecordLibrary";
+import RecordLibrary from "./components/RecordLibraryPage";
 import Theme from "./context/ThemeContext";
 import Layout from "./Layout";
 import { CssBaseline } from "@mui/material";
