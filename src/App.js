@@ -4,6 +4,7 @@ import HomePage from './pages/Homepage';
 import RecordLibrary from './pages/RecordLibrary'
 import Theme from './Context/ThemeContext';
 import Layout from './Layout';
+import MenueBar from './components/HomePage/HomeGraphs/MenueBar.js';
 
 export default function App() {
   return (
@@ -14,8 +15,10 @@ export default function App() {
             <Route path='/' element={<HomePage />} />
             <Route path='/records' element={<RecordLibrary />} />
           </Routes>
+          <MenueBar/ >
         </Layout>
       </Theme>
+
     </div>
   );
 }
