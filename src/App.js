@@ -11,7 +11,7 @@ import HomePage from "./pages/Homepage";
 import RecordLibrary from "./pages/RecordLibrary";
 import Theme from "./Context/ThemeContext";
 import Layout from "./Layout";
-import Form from "./../src/components/common/Form.jsx";
+import FormRoute from "./../src/components/common/Form/FormRoute.jsx";
 
 //firebase
 // import { app } from "./firebase/firebase-config.js";
@@ -101,28 +101,12 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/records" element={<RecordLibrary />} />
               <Route
-                path="/login"
+                path="/form/*"
                 element={
-                  <Form
-                    title="Login"
+                  <FormRoute
+                    handleClickSubmitLogin={handleClickSubmitLogin}
                     loginValues={loginValues}
                     setLogin={setLogin}
-                    handleClickSubmitLogin={() =>
-                      handleClickSubmitLogin("login")
-                    }
-                  />
-                }
-              />
-              <Route
-                path="/register"
-                element={
-                  <Form
-                    title="Register"
-                    loginValues={loginValues}
-                    setLogin={setLogin}
-                    handleClickSubmitLogin={() =>
-                      handleClickSubmitLogin("register")
-                    }
                   />
                 }
               />

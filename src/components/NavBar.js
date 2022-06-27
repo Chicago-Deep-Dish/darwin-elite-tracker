@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
 //   borderRadius: theme.shape.borderRadius,
@@ -83,7 +82,7 @@ export default function NavBar() {
   // use this function as a way to navigate to page with dummy data upon logout
   const handleLogout = () => {
     sessionStorage.removeItem("Auth Token");
-    navigate("/login");
+    navigate("/form/login");
   };
 
   const menuId = "primary-search-account-menu";
