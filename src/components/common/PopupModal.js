@@ -2,7 +2,7 @@
 
 import React from "react";
 import Form from "./Form";
-import "./PopupModal.css";
+import "../../styles/PopupModal.css";
 // const style = {
 //   position: "absolute",
 //   top: "50%",

@@ -4,7 +4,7 @@
 import React, { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 
-import useGlobalContext from "../Context/GlobalContext";
+import useGlobalContext from "../../context/GlobalContext";
 
 export default function HomePage() {
   // let navigate = useNavigate();
