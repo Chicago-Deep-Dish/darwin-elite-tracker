@@ -18,6 +18,8 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import sample from '../HomePage/HomeGraphs/sampleData';
 import { TableHead } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 // const sample = []
 
 function TablePaginationActions(props) {
@@ -101,7 +103,7 @@ TablePaginationActions.propTypes = {
 //   createData('Oreo', 437, 18.0),
 // ].sort((a, b) => (a.difficulty < b.difficulty ? -1 : 1));
 
-export default function RecordTable() {
+export default function RecordTable({setShowEditModal}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -109,14 +111,17 @@ export default function RecordTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sample.length) : 0;
 
-  const handleChangePage = (event, newPage) => {
+  function handleChangePage(event, newPage) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  function handleEditClick() {
+    setShowEditModal(true);
+  }
 
   return (
     <TableContainer sx={{ maxWidth: '80%', mt: 5, mb: 5 }} component={Paper}>
@@ -127,6 +132,8 @@ export default function RecordTable() {
             <TableCell>Prompt Link</TableCell>
             <TableCell align="right">Difficulty</TableCell>
             <TableCell align="right">Time to Complete</TableCell>
+            <TableCell align="right">Edit</TableCell>
+            <TableCell align="right">Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -138,7 +145,7 @@ export default function RecordTable() {
               <TableCell style={{ width: 160 }}>
                 {row['Prompt Name']}
               </TableCell>
-              <TableCell style={{ width: 160 }}>
+              <TableCell>
                 <a href={row['Prompt Link']} className="prompt-link">
                   {row['Prompt Link']}
                 </a>
@@ -148,6 +155,16 @@ export default function RecordTable() {
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
                 {row['Total Time']}
+              </TableCell>
+              <TableCell style={{ width: 72 }} align="right">
+                <IconButton onClick={handleEditClick}>
+                  <EditIcon/>
+                </IconButton>
+              </TableCell>
+              <TableCell style={{ width: 73 }} align="right">
+                <IconButton onClick={() => {console.log('delete')}}>
+                  <DeleteIcon/>
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}

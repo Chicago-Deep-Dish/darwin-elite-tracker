@@ -83,3 +83,13 @@
   color: white;
   border-radius: 0 0 1.5rem 1.5rem;
 }
+
+.records-modal {
+  margin: auto;
+  width: 90%;
+  height: max-content;
+  max-width: 40rem;
+  background-color: rgb(23, 23, 23);
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 2rem #000a;
+}
