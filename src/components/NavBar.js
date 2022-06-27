@@ -53,7 +53,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 //   },
 // }));
 
-export default function NavBar() {
+export default function NavBar({ setModal }) {
   let navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,6 +62,7 @@ export default function NavBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  // profile menu handlers
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -79,6 +80,11 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  // customer handlers
+  function handleLoginButton() {
+    setModal({ modalName: "login" });
+    document.getElementById("modal").style.display = "block";
+  }
   // use this function as a way to navigate to page with dummy data upon logout
   const handleLogout = () => {
     sessionStorage.removeItem("Auth Token");
@@ -194,7 +200,16 @@ export default function NavBar() {
                 Records
               </Link>
             </Button>
-
+            <Button
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="records button"
+              sx={{ mr: 2 }}
+              onClick={handleLoginButton}
+            >
+              LOGIN
+            </Button>
             <IconButton
               size="large"
               edge="end"

@@ -1,0 +1,157 @@
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 128px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-box {
+  margin: 0 auto;
+  padding: 48px 32px;
+  width: 800px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: scroll;
+  max-height: 80%;
+}
+
+.modal-box header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.modal-box header .subheading {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.modal-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  font-size: 16px;
+}
+
+.modal-form input, textarea {
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
+.modal-form textarea {
+  height: 128px;
+}
+
+.modal-form input[type="submit"] {
+  margin-top: 24px;
+}
+
+/* Checkboxes for Add Review */
+
+.modal-review .container {
+  display: flex;
+  position: relative;
+  padding-left: 35px;
+  padding-right: 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.modal-review .container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.modal-review .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.modal-review .container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.modal-review .container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.modal-review .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.modal-review .container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.modal-review .container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+
+.recommendContainer {
+  display: flex;
+  padding-right: 1rem;
+  padding-top: 3rem;
+}
+
+.charContainer {
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 2rem;
+}
+
+.charNums {
+  display: flex;
+  flex-direction: column;
+}
+
+.charContainer span {
+  font-size: 1rem;
+}
+
+.charCategory {
+  font-size: 1.2rem;
+  font-weight: 500;
+  width: fit-content;
+  border-bottom: 1px black solid;
+}
+
+.modal-form input[type="file"] {
+  margin-bottom: 16px;
+}
+
