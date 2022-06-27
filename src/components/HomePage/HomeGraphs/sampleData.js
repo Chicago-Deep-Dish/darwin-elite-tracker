@@ -32,3 +32,4 @@ const sample = [
 
   {"Prompt Name" : 'Balanced Binary Tree', "Total Time" : '55mins', "Difficulty" : "Hard", "Topic": 'Tree', "Prompt Link" : "https://leetcode.com/problems/balanced-binary-tree/", "Time" : "2022-07-01T9:18:45"}
 ]
+export default sample;
