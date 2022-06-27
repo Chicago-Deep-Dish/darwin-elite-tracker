@@ -1,75 +1,29 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import companyLogo from "./../Assets/Darwin_Logo_transparent.png";
-import { styled, alpha } from "@mui/material/styles";
+import companyLogo from "../../assets/Darwin_Logo_transparent.png"
 import {
   Button,
   IconButton,
-  InputBase,
-  Badge,
   MenuItem,
   Menu,
   AppBar,
   Box,
   Toolbar,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
-import Typography from "@mui/material/Typography";
+import useGlobalContext from "../../context/GlobalContext";
+import { toast } from "react-toastify";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
+export default function NavBar({ setModal }) {
+  const { toastifyTheme } = useGlobalContext();
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
-
-export default function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const settings = ["Profile", "Settings", "Logout"];
-
+  // profile menu handlers
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -85,6 +39,25 @@ export default function NavBar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  // customer handlers
+  function handleLoginButton(modal) {
+    if (sessionStorage.getItem("Auth Token")) {
+      toast.error(
+        "Already Logged In. Please Log Out and try again",
+        toastifyTheme
+      );
+      return;
+    } else {
+      setModal({ modalName: modal });
+      document.getElementById("modal").style.display = "block";
+    }
+  }
+  // use this function as a way to navigate to page with dummy data upon logout
+  const handleLogout = () => {
+    sessionStorage.removeItem("Auth Token");
+    toast.success("Logged Out", toastifyTheme);
   };
 
   const menuId = "primary-search-account-menu";
@@ -104,14 +77,21 @@ export default function NavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {settings.map((setting) => (
-        <MenuItem
-          key={setting}
-          onClick={() => console.log(`opens menu for ${setting} `)}
-        >
-          <p>{setting}</p>
-        </MenuItem>
-      ))}
+      <MenuItem
+        key="Profile"
+        onClick={() => console.log(`opens menu for Profile`)}
+      >
+        <p>Profile</p>
+      </MenuItem>
+      <MenuItem
+        key="Settings"
+        onClick={() => console.log(`opens menu for Settings`)}
+      >
+        <p>Settings</p>
+      </MenuItem>
+      <MenuItem key="Logout" onClick={handleLogout}>
+        <p>Logout</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -132,14 +112,21 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {settings.map((setting) => (
-        <MenuItem
-          key={setting}
-          onClick={() => console.log(`opens menu for ${setting} `)}
-        >
-          <p>{setting}</p>
-        </MenuItem>
-      ))}
+      <MenuItem
+        key="Profile"
+        onClick={() => console.log(`opens menu for Profile`)}
+      >
+        <p>Profile</p>
+      </MenuItem>
+      <MenuItem
+        key="Settings"
+        onClick={() => console.log(`opens menu for Settings`)}
+      >
+        <p>Settings</p>
+      </MenuItem>
+      <MenuItem key="Logout" onClick={handleLogout}>
+        <p>Logout</p>
+      </MenuItem>
     </Menu>
   );
 
@@ -175,7 +162,6 @@ export default function NavBar() {
               aria-label="records button"
               sx={{ mr: 2 }}
             >
-              {" "}
               <Link
                 to="/records"
                 style={{ textDecoration: "inherit", color: "inherit" }}
@@ -183,8 +169,31 @@ export default function NavBar() {
                 Records
               </Link>
             </Button>
-
             <Button
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="login button"
+              sx={{ mr: 2 }}
+              onClick={() => {
+                handleLoginButton("LOGIN");
+              }}
+            >
+              LOGIN
+            </Button>
+            <Button
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="register button"
+              sx={{ mr: 2 }}
+              onClick={() => {
+                handleLoginButton("REGISTER");
+              }}
+            >
+              REGISTER
+            </Button>
+            <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
@@ -194,7 +203,7 @@ export default function NavBar() {
               color="inherit"
             >
               <AccountCircle />
-            </Button>
+            </IconButton>
           </Box>
           {/* MOBILE SECTION BELOW */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -212,7 +221,7 @@ export default function NavBar() {
                 Records
               </Link>
             </Button>
-            <Button
+            <IconButton
               size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -221,7 +230,7 @@ export default function NavBar() {
               color="inherit"
             >
               <AccountCircle />
-            </Button>
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
@@ -230,3 +239,45 @@ export default function NavBar() {
     </Box>
   );
 }
+
+
+
+// const Search = styled("div")(({ theme }) => ({
+//   position: "relative",
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   "&:hover": {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginRight: theme.spacing(2),
+//   marginLeft: 0,
+//   width: "100%",
+//   [theme.breakpoints.up("sm")]: {
+//     marginLeft: theme.spacing(3),
+//     width: "auto",
+//   },
+// }));
+
+// const SearchIconWrapper = styled("div")(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: "100%",
+//   position: "absolute",
+//   pointerEvents: "none",
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center",
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: "inherit",
+//   "& .MuiInputBase-input": {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create("width"),
+//     width: "100%",
+//     [theme.breakpoints.up("md")]: {
+//       width: "20ch",
+//     },
+//   },
+// }));
