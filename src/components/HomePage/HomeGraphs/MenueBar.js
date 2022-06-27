@@ -9,17 +9,23 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import { makeStyles } from "@mui/styles";
 
-
 const useStyles = makeStyles(
   {select: {
     "&:before": {
-      borderColor: "red"
+      borderColor: "black",
     },
     "&:after": {
-      borderColor: 'yellow'
-    }
+      borderColor: 'yellow',
+    },
+  },
+  icon: {
+      fill: 'yellow',
+  },
+  root: {
+      color: 'red',
+  }
 
-  }});
+  });
 
 
 export default function CheckboxesGroup() {
@@ -54,7 +60,6 @@ export default function CheckboxesGroup() {
       [event.target.name]: event.target.checked,
     });
   };
-
 
   React.useEffect ( ()=>{
     console.log('state', language,range,time);
@@ -115,18 +120,25 @@ export default function CheckboxesGroup() {
       </FormControl>
       <Stack>
         <FormControl
-       fullWidth
-
+        required
+        size="small"
+        sx={{ m:1, mt:3, width:'140px'}}
         >
           <InputLabel id="demo-simple-select-label">time</InputLabel>
           <Select
             className={classes.select}
+            inputProps={{
+              classes: {
+                  icon: classes.icon,
+                  root: classes.root,
+              },
+          }}
             labelId="demo-simple-select-label"
             id="demo-simple-select-label"
             value={time}
             label="time"
             onChange={handleTime}
-            style={{zIndex:1250}}
+            style={{ height: 30 }}
           >
             <MenuItem value={'read prompt'} >read prompt</MenuItem>
             <MenuItem value={'whiteboard'} >whiteboard</MenuItem>
@@ -138,7 +150,7 @@ export default function CheckboxesGroup() {
         <FormControl
         required
         size="small"
-        sx={{ m:1,mt:3, width:'120px', color:'black'}}
+        sx={{ m:1,mt:1, width:'140px', color:'black'}}
         fullWidth>
           <InputLabel id="simple-select-label">range</InputLabel>
           <Select
@@ -147,6 +159,7 @@ export default function CheckboxesGroup() {
             value={range}
             label="range"
             onChange={handleRange}
+            style={{ height: 30 }}
           >
             <MenuItem value={'week'} >week</MenuItem>
             <MenuItem value={'month'} >month</MenuItem>
@@ -156,7 +169,7 @@ export default function CheckboxesGroup() {
         <FormControl
         required
         size="small"
-        sx={{ m:1, mt:3, width:'120px'}}
+        sx={{ m:1, mt:1, width:'140px'}}
         >
           <InputLabel id="demo">language</InputLabel>
           <Select
@@ -165,6 +178,7 @@ export default function CheckboxesGroup() {
             value={language}
             label="language"
             onChange={handleLanguage}
+            style={{ height: 30 }}
           >
             <MenuItem value={'Javascript'} >Javascript</MenuItem>
             <MenuItem value={'Python'} >Python</MenuItem>
