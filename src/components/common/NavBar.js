@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import companyLogo from "../Assets/Darwin_Logo_transparent.png"
+import companyLogo from "../../assets/Darwin_Logo_transparent.png"
 import {
   Button,
   IconButton,
@@ -11,7 +11,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import useGlobalContext from "./../Context/GlobalContext";
+import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 
 export default function NavBar({ setModal }) {

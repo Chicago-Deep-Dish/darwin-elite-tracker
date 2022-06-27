@@ -15,7 +15,7 @@ import {
   InputLabel,
   InputAdornment,
 } from "@mui/material";
-import useGlobalContext from "../../Context/GlobalContext";
+import useGlobalContext from "../../context/GlobalContext";
 
 //Firebase
 import { app } from "../../firebase/firebase-config.js";
