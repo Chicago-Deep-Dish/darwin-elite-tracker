@@ -1,15 +1,18 @@
-import './styles/App.css';
-import { Routes, Route } from 'react-router-dom';
-import HomePage from './pages/Homepage';
-import RecordLibrary from './pages/RecordLibrary'
-import Theme from './Context/ThemeContext';
-import Layout from './Layout';
-import { GlobalContextProvider } from './Context/GlobalContext';
-import MenueBar from './components/HomePage/HomeGraphs/MenueBar.js'
 //import modules/css
 import "./styles/App.css";
-//component import
+
+import { Routes, Route } from "react-router-dom";
+import { GlobalContextProvider } from "./context/GlobalContext";
+
+
+//component imports
+import HomePage from "./components/HomePage";
+import RecordLibrary from "./components/RecordLibraryPage";
+import Theme from "./context/ThemeContext";
+import Layout from "./Layout";
 import { CssBaseline } from "@mui/material";
+import MenueBar from './components/HomePage/HomeGraphs/MenueBar.js'
+
 
 
 export default function App() {
