@@ -98,6 +98,11 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           const code = error.response.data.code;
           if (code === "auth/email-already-in-use") {
             toast.error("Email Already in Use", toastifyTheme);
+          } else if (code === "auth/weak-password") {
+            toast.error(
+              "Password is weak, please make it at least 6 alphanumeric charcters",
+              toastifyTheme
+            );
           } else {
             console.log("not getting the right error code...");
           }
@@ -126,6 +131,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     >
       <FormControl sx={{ "& > :not(style)": { m: 1 } }} component="form">
         <TextField
+          sx={{ midwidth: 100, width: 300 }}
           id="outlined-adornment-email"
           value={loginValues.email}
           onChange={handleChange("email")}
@@ -139,7 +145,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
       </FormControl>
       <FormControl sx={{ "& > :not(style)": { m: 1 } }} component="form">
         <TextField
-        sx={{ width: 300}}
+          sx={{ midwidth: 100, width: 300 }}
           id="outlined-adornment-password"
           type={loginValues.showPassword ? "text" : "password"}
           value={loginValues.password}
@@ -164,7 +170,13 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           label="Password"
         />
       </FormControl>
-      <Button type="submit" onClick={handleClickSubmit}>
+      <Button
+        sx={{ midwidth: 80, width: 200, p: 1 }}
+        variant="contained"
+        type="submit"
+        onClick={handleClickSubmit}
+      >
+        {" "}
         {modalName}
       </Button>
     </div>

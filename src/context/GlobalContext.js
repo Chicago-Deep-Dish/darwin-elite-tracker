@@ -12,6 +12,8 @@ export function GlobalContextProvider({ children }) {
   const [exampleState, setExampleState] = useState(
     "Set state inside GlobalContext.js"
   );
+
+  //TODO: change theme to a state so it doesn't rerender every time
   const toastifyTheme = {
     hideProgressBar: false,
     position: "bottom-left",
