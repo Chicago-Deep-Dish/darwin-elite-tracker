@@ -34,6 +34,8 @@ export default function Form({ modalName, setModal, handleExitModal }) {
   });
 
   const handleClickSubmit = () => {
+   // console.log(SampleData(5))
+
     console.log("email:", loginValues.email);
     console.log("Password:", loginValues.password);
 
@@ -98,6 +100,11 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           const code = error.response.data.code;
           if (code === "auth/email-already-in-use") {
             toast.error("Email Already in Use", toastifyTheme);
+          } else if (code === "auth/weak-password") {
+            toast.error(
+              "Password is weak, please make it at least 6 alphanumeric charcters",
+              toastifyTheme
+            );
           } else {
             console.log("not getting the right error code...");
           }
@@ -150,23 +157,34 @@ export default function Form({ modalName, setModal, handleExitModal }) {
               handleClickSubmit();
             }
           }}
-          endAdornment={
-            <InputAdornment position="end">
-              <Button
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {loginValues.showPassword ? <VisibilityOff /> : <Visibility />}
-              </Button>
-            </InputAdornment>
-          }
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Button
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {loginValues.showPassword ? (
+                    <VisibilityOff />
+                  ) : (
+                    <Visibility />
+                  )}
+                </Button>
+              </InputAdornment>
+            ),
+          }}
           label="Password"
         />
       </FormControl>
-      <Button           sx={{ midwidth: 80, width: 200, p: 1 }}
-variant="contained" type="submit" onClick={handleClickSubmit}>
+      <Button
+        sx={{ midwidth: 80, width: 200, p: 1 }}
+        variant="contained"
+        type="submit"
+        onClick={handleClickSubmit}
+      >
+        {" "}
         {modalName}
       </Button>
     </div>

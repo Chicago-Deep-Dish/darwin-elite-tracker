@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 
 import useGlobalContext from "../../context/GlobalContext";
+import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js'
 
 export default function HomePage() {
   // let navigate = useNavigate();
@@ -19,5 +20,11 @@ export default function HomePage() {
 
 
 
-  return <h1>HomePage</h1>;
+  return (
+  <div>
+    <h1>HomePage</h1>;
+    <Graphs/>
+  </div>
+
+  )
 }
