@@ -6,7 +6,7 @@ const {
 } = require("firebase/auth");
 
 // login
-exports.login = ({ email, password }) => {
+module.exports.login = ({ email, password }) => {
   console.log('email pass', email, password);
   const authentication = getAuth();
   return signInWithEmailAndPassword(
@@ -17,7 +17,7 @@ exports.login = ({ email, password }) => {
 }
 
 //register
-exports.register = ({ email, password }) => {
+module.exports.register = ({ email, password }) => {
   const authentication = getAuth();
   return createUserWithEmailAndPassword(
     authentication,

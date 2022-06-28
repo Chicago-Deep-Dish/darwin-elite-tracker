@@ -1,5 +1,5 @@
 const express = require("express");
-const {usersRouter} = require("./routes");
+const {usersRouter, recordsRouter} = require("./routes");
 
 // initialize app
 const app = express();
@@ -14,8 +14,8 @@ app.get('/', (req, res) => {
 
 // routes
 app.use("/users", usersRouter);
-// app.use("/records", routes.recordsRouter);
-// app.use("/graphs", routes.graphsRouter);
+app.use("/records", recordsRouter);
+// app.use("/graphs", graphsRouter);
 
 
 app.listen(8080, () => {

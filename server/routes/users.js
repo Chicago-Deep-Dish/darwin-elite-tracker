@@ -1,7 +1,7 @@
-var UserControllers = require('../controllers/users.js');
+const ctrl = require('../controllers/users');
 const usersRouter = require('express').Router();
 
-usersRouter.get('/login', UserControllers.login);
-usersRouter.get('/register', UserControllers.register);
+usersRouter.get('/login', ctrl.login);
+usersRouter.get('/register', ctrl.register);
 
 module.exports = usersRouter;

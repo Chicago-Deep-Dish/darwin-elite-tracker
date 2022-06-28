@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,8 +16,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import sample from '../HomePage/HomeGraphs/sampleData';
-import { TableHead } from '@mui/material';
+import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 // const sample = []
@@ -103,13 +102,13 @@ TablePaginationActions.propTypes = {
 //   createData('Oreo', 437, 18.0),
 // ].sort((a, b) => (a.difficulty < b.difficulty ? -1 : 1));
 
-export default function RecordTable({setShowEditModal}) {
+export default function RecordTable({tableData, setShowEditModal, setEditRow}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sample.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
 
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -119,7 +118,8 @@ export default function RecordTable({setShowEditModal}) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  function handleEditClick() {
+  function handleEditClick(row) {
+    setEditRow(row)
     setShowEditModal(true);
   }
 
@@ -138,8 +138,8 @@ export default function RecordTable({setShowEditModal}) {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? sample.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : sample
+            ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : tableData
           ).map((row) => (
             <TableRow key={row['Prompt Name']}>
               <TableCell style={{ width: 160 }}>
@@ -157,7 +157,7 @@ export default function RecordTable({setShowEditModal}) {
                 {row['Total Time']}
               </TableCell>
               <TableCell style={{ width: 72 }} align="right">
-                <IconButton onClick={handleEditClick}>
+                <IconButton onClick={() => handleEditClick(row)}>
                   <EditIcon/>
                 </IconButton>
               </TableCell>
@@ -180,7 +180,7 @@ export default function RecordTable({setShowEditModal}) {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={4}
-              count={sample.length}
+              count={tableData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
