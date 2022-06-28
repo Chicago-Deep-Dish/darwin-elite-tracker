@@ -1,5 +1,5 @@
 
-export const data={
+const sample={
   data:[
 
   {"Prompt Name" : 'Two Sum', "Total Time" : 23, "Difficulty" : "Easy", "Topic":'Array', "Prompt Link" : "https://leetcode.com/problems/two-sum/", "Time" : "2022-06-25T14:35:45"},
@@ -30,8 +30,6 @@ export const data={
 
   {"Prompt Name" : ' Path Sum', "Total Time" : 16, "Difficulty" : "Easy", "Topic": 'Tree', "Prompt Link" : "https://leetcode.com/problems/path-sum/", "Time" : "2022-06-29T17:15:45"},
 
-  {"Prompt Name" : ' Binary Tree Preorder Traversal', "Total Time" : 65, "Difficulty" : "Hard", "Topic": 'Tree', "Prompt Link" : "https://leetcode.com/problems/binary-tree-preorder-traversal/", "Time" : "2022-06-30T9:15:45"},
-
-  {"Prompt Name" : 'Balanced Binary Tree', "Total Time" : 55, "Difficulty" : "Hard", "Topic": 'Tree', "Prompt Link" : "https://leetcode.com/problems/balanced-binary-tree/", "Time" : "2022-07-01T9:18:45"}
-  ]
-}
+  {"Prompt Name" : 'Balanced Binary Tree', "Total Time" : '55mins', "Difficulty" : "Hard", "Topic": 'Tree', "Prompt Link" : "https://leetcode.com/problems/balanced-binary-tree/", "Time" : "2022-07-01T9:18:45"}
+]}
+export default sample;

@@ -3,11 +3,11 @@ import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import moment from 'moment';
-import {data} from  './sampleData.js';
+import data from  './sampleData.js';
 
 
 export default function Line() {
-  const [graph, setGraph] = React.useState('speed');
+  const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('difficulity');
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
