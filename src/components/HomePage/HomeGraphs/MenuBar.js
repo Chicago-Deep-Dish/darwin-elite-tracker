@@ -4,11 +4,12 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Radio from '@mui/material/Radio';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import styled from "styled-components";
-
+import RadioGroup from '@mui/material/RadioGroup';
 
   const StyledInput = styled(TextField)`
   width: 100%;
@@ -21,59 +22,35 @@ import styled from "styled-components";
     color:red
   }`;
 
-export default function CheckboxesGroup({state, time, range, language, handleRange, handleLanguage,handleTime, handleChange}) {
+export default function CheckboxesGroup({graph, setGraph, setSelection, time, range, language, handleRange, handleLanguage,handleTime, handleGraph, handleSelection}) {
 
   return (
 
       <Box sx={{ display: 'flex', justifyContent: 'center', border:'2px solid #eab464', '&:hover':{boxShadow:3, },width:'500px', m:4}}>
         <FormControl sx={{ m: 2 }} component="fieldset" variant="standard">
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox  sx={{color: '#eab464'}} color='success' checked={state.frequency} onChange={handleChange} name="frequency" />
-              }
-              label="frequency"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox  sx={{color: '#eab464'}} color='success' checked={state.speed} onChange={handleChange} name="speed" />
-              }
-              label="speed"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox sx={{color: '#eab464'}} color='success' checked={state.total} onChange={handleChange} name="total" />
-              }
-              label="total"
-            />
-          </FormGroup>
-        </FormControl >
+          <RadioGroup
+            aria-label ledby="demo-radio-buttons-group-label"
+            defaultValue="speed"
+            name="radio-buttons-group"
+          >
+            <FormControlLabel value="totalTime"  control={<Radio color='success'/>} label="speed" onChange={handleGraph} />
+            <FormControlLabel value="totalQuantities"  control={<Radio color='success'/>} label="total" onChange={handleGraph} />
+          </RadioGroup>
+        </FormControl>
         <FormControl
           required
           component="fieldset"
           sx={{ m: 2 }}
           variant="standard"
         >
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox sx={{color: '#eab464'}} color='success'  checked={state.difficulty} onChange={handleChange} name="difficulty" />
-              }
-              label="difficulity"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox sx={{color: '#eab464'}}  color='success' checked={state.name} onChange={handleChange} name="name" />
-              }
-              label="name"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox sx={{color: '#eab464'}} color='success' checked={state.subject} onChange={handleChange} name="subject" />
-              }
-              label="subject"
-            />
-          </FormGroup>
+           <RadioGroup
+            aria-label ledby="radio-buttons-group-label"
+            defaultValue="difficulity"
+            name="radio-buttons"
+          >
+              <FormControlLabel value="difficulty"  control={<Radio color='success'/>} label="difficulty" onChange={handleSelection} />
+              <FormControlLabel value="subject"  control={<Radio color='success'/>} label="subject" onChange={handleSelection} />
+          </RadioGroup>
         </FormControl>
         <Stack sx={{display: 'flex', justifyContent: 'center', mb:2}}>
           <FormControl

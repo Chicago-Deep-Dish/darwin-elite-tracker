@@ -6,14 +6,8 @@ import MenuBar from './MenuBar.js';
 
 export default function Area() {
 
-  const [state, setState] = React.useState({
-    speed: false,
-    frequency: false,
-    total: true,
-    difficulty: true,
-    name: false,
-    subject:false
-  });
+  const [graph, setGraph] = React.useState('speed');
+  const [selection, setSelection]=React.useState('difficulity');
 
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
@@ -29,21 +23,21 @@ export default function Area() {
     setLanguage(event.target.value);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+  const handleGraph = (event) => {
+    setGraph(event.target.value);
+  };
+  const handleSelection= (event) => {
+    setSelection(event.target.value);
   };
 
   React.useEffect ( ()=>{
     console.log('state', language,range,time);
-    console.log('testtt', state.speed)
-  }, [state, time, range, language])
+    //console.log('testtt', state.speed)
+  }, [graph, selection, time, range, language])
 
   const option = {
       title: {
-        text: state.speed?'speed':state.total?'total':state.frequency?'frequency':null,
+        text:graph==='speed'?'speed (mins)':graph==='total'?'total':null,
         padding:[20,10,10,10]
       },
 
@@ -143,7 +137,7 @@ export default function Area() {
 
 return (
   <Stack>
-    <MenuBar state={state} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleChange={handleChange}/>
+    <MenuBar graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>

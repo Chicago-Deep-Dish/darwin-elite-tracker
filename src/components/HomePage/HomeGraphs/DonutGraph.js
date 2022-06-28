@@ -7,14 +7,8 @@ import {data} from  './sampleData.js';
 
 export default function Donut() {
 
-  const [state, setState] = React.useState({
-    speed: false,
-    frequency: false,
-    total: true,
-    difficulty: true,
-    name: false,
-    subject:false
-  });
+  const [graph, setGraph] = React.useState('speed');
+  const [selection, setSelection]=React.useState('difficulity');
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([0,0,0])
@@ -32,11 +26,11 @@ export default function Donut() {
     setLanguage(event.target.value);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+  const handleGraph = (event) => {
+    setGraph(event.target.value);
+  };
+  const handleSelection= (event) => {
+    setSelection(event.target.value);
   };
 
   var easy = 0;
@@ -45,7 +39,7 @@ export default function Donut() {
 
   React.useEffect ( ()=>{
 
-    if (state.total===true) {
+    if (graph==='total') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy++;
@@ -56,7 +50,7 @@ export default function Donut() {
         }
       }
     }
-    if (state.speed===true) {
+    if (graph==='speed') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy = easy + data.data[i]["Total Time"];
@@ -71,11 +65,11 @@ export default function Donut() {
    setInput([easy, medium, hard]);
     // console.log('state', language,range,time);
     // console.log('testtt', state.speed)
-  }, [state, time, range, language])
+  }, [graph, selection, time, range, language])
 
   const option = {
     title:{
-      text: state.speed?'speed (mins/question)':state.total?'total quantities':state.frequency?'frequency':null
+      text: graph==='speed'?'speed (mins)':graph==='total'?'total':null
     },
     tooltip: {
       trigger: 'item'
@@ -119,7 +113,7 @@ export default function Donut() {
   };
 return (
   <Stack>
-    <MenuBar state={state} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleChange={handleChange}/>
+    <MenuBar graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>

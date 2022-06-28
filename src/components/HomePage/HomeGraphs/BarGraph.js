@@ -8,44 +8,40 @@ import {data} from  './sampleData.js';
 
 export default function Bar() {
 
-  const [state, setState] = React.useState({
-    speed: false,
-    frequency: false,
-    total: true,
-    difficulty: true,
-    name: false,
-    subject:false
-  });
-  //console.log(data.data[0]);
-  //const { speed, frequency, total, difficulty, name, subject} = state;
+  const [graph, setGraph] = React.useState('totalTime');
+  const [selection, setSelection]=React.useState('difficulity');
+
   const [input, setInput]=React.useState([0,0,0])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
 
-  const handleTime = (event: SelectChangeEvent) => {
+  const handleTime = (event) => {
     setTime(event.target.value);
   };
-  const handleRange= (event: SelectChangeEvent) => {
+  const handleRange= (event) => {
     setRange(event.target.value);
   };
-  const handleLanguage = (event: SelectChangeEvent) => {
+  const handleLanguage = (event) => {
     setLanguage(event.target.value);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+  const handleGraph = (event) => {
+    setGraph(event.target.value);
   };
+  const handleSelection= (event) => {
+    setSelection(event.target.value);
+  };
+
 
   var easy = 0;
   var medium = 0;
   var hard = 0;
 
   React.useEffect ( ()=>{
-    if (state.total===true) {
+    //send request during 'range' time with 'language' for  as data
+    console.log('graphhh', graph);
+    if (graph==='totalQuantities') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy++;
@@ -56,7 +52,7 @@ export default function Bar() {
         }
       }
     }
-    if (state.speed===true) {
+    if (graph==='totalTime') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy = easy + data.data[i]["Total Time"];
@@ -70,11 +66,11 @@ export default function Bar() {
     setInput([easy, medium, hard]);
     // console.log('state', [easy, medium, hard]);
     // console.log('testtt', state.speed)
-  }, [state, time, range, language])
+  }, [graph,selection])
 
   const option = {
     title:{
-      text: state.speed?'speed(mins)':state.total?'total':state.frequency?'frequency':null
+      text: graph==='speed'?'speed (mins)':graph==='total'?'total':null
     },
     tooltip: {
       trigger: 'item'
@@ -100,7 +96,7 @@ export default function Bar() {
   }
 return (
   <Stack >
-    <MenuBar  state={state} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleChange={handleChange}/>
+    <MenuBar  graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>

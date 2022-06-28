@@ -3,18 +3,13 @@ import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import moment from 'moment';
+import {data} from  './sampleData.js';
+
 
 export default function Line() {
-  const [state, setState] = React.useState({
-    speed: false,
-    frequency: false,
-    total: true,
-    difficulty: true,
-    name: false,
-    subject:false
-  });
+  const [graph, setGraph] = React.useState('speed');
+  const [selection, setSelection]=React.useState('difficulity');
 
-console.log('testtt', state.speed)
   //const { speed, frequency, total, difficulty, name, subject} = state;
 
   const [time, setTime]=React.useState('whole process');
@@ -31,44 +26,87 @@ console.log('testtt', state.speed)
     setLanguage(event.target.value);
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
+  const handleGraph = (event) => {
+    setGraph(event.target.value);
+  };
+  const handleSelection= (event) => {
+    setSelection(event.target.value);
   };
 
   const getLastDate = (x)=> {
   const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+  const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+  return result.toISOString();
   }
 
-  var hard = 0;
-  var medium = 0;
-  var easy = 0;
-  const [xValue, setxValue]=useState([]);
+  var hard = [];
+  var medium = [];
+  var easy = [];
+  const [easyValue, setEasy] = useState([]);
+  const [mediumValue, setMedium] = useState([]);
+  const [hardValue, setHard] = useState([]);
 
   React.useEffect ( ()=>{
     const date = new Date();
     const day = date.getDate();
+    const first = getLastDate(6);
+    const last = getLastDate(0);
+    if (range === 'week') {
+      for (let i = 0; i < data.data.length; i++) {
+        if(data.data[i]['Time']<=last && data.data[i]['Time']>= first ) {
+          if(data.data[i].Difficulty.toLowerCase()==='easy'){
+            var arr=[];
+            arr.push(data.data[i]['Time']);
+            arr.push(data.data[i]['Total Time']);
+            easy.push(arr);
+          }else if (data.data[i].Difficulty.toLowerCase()==='medium'){
+            var arr=[];
+            arr.push(data.data[i]['Time']);
+            arr.push(data.data[i]['Total Time']);
+            medium.push(arr);
+          }else {
+            var arr=[];
+            arr.push(data.data[i]['Time']);
+            arr.push(data.data[i]['Total Time']);
+            hard.push(arr);
+          }
+        }
 
+      }
+      console.log('hardddd', hard, easy, medium);
+    } else if (range === 'day') {
+      const last = getLastDate(0);
+      for (let i = 0; i < data.data.length; i++) {
+        if(data.data[i]['Time']<=last && data.data[i]['Time']>= first ) {
+          if(data.data[i].Difficulty.toLowerCase()==='easy'){
+            var arr=[];
+            arr.push(data.data[i]['Time']);
+            arr.push(data.data[i]['Total Time']);
+            easy.push(arr);
+          }else if (data.data[i].Difficulty.toLowerCase()==='medium'){
+            var arr=[];
+            arr.push(data.data[i]['Time']);
+            arr.push(data.data[i]['Total Time']);
+            medium.push(arr);
+          }else {
+            var arr=[];
+            arr.push(data.data[i]['Time']);
+            arr.push(data.data[i]['Total Time']);
+            hard.push(arr);
+          }
+        }
 
-     var week = [["2018-08-15T10:04:01.339Z",1], [ "2018-08-15T10:14:13.914Z",3], ["2018-08-15T10:40:03.147Z",9], ["2018-08-15T12:04:05.655Z",5], ["2018-08-15T11:50:14.335Z",6],["2018-08-15T15:00:19.441Z"
-    , 10]];
-     setxValue(week);
-
-
-
-
-
-
-
-  }, [state, time, range, language])
+      }
+    }
+    setEasy(easy);
+    setMedium(medium);
+    setHard(hard);
+  }, [graph, selection, time, range, language])
 
 
   const option = {
     title: {
-      text: 'Stacked Line',
+      text: graph==='speed'?'speed (mins)':graph==='total'?'total':null,
       padding:[20,5,5,5],
     },
     tooltip: {
@@ -94,7 +132,7 @@ console.log('testtt', state.speed)
       boundaryGap: false,
       axisLabel: {
         formatter: (function(value){
-            return moment(value).format('HH:mm');
+            return moment(value).format('MMDD');
         })
       }
     },
@@ -106,25 +144,25 @@ console.log('testtt', state.speed)
         name: 'Easy',
         type: 'line',
         stack: 'Total',
-        data: xValue
+        data: easyValue
       },
       {
         name: 'Medium',
         type: 'line',
         stack: 'Total',
-        data: xValue
+        data: mediumValue
       },
       {
         name: 'Hard',
         type: 'line',
         stack: 'Total',
-        data: xValue
+        data: hardValue
       }
     ]
   }
   return (
     <Stack>
-      <MenuBar state={state} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleChange={handleChange}/>
+      <MenuBar graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
       <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', m:4, backgroundColor:'white'}}>
         <ReactEcharts option={option} />
       </Box>
