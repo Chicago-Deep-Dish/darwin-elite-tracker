@@ -5,8 +5,7 @@ import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import {data} from  './sampleData.js';
 
-
-export default function Bar() {
+export default function Pie() {
 
   const [state, setState] = React.useState({
     speed: false,
@@ -16,7 +15,7 @@ export default function Bar() {
     name: false,
     subject:false
   });
-  //console.log(data.data[0]);
+
   //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([0,0,0])
   const [time, setTime]=React.useState('whole process');
@@ -45,6 +44,7 @@ export default function Bar() {
   var hard = 0;
 
   React.useEffect ( ()=>{
+
     if (state.total===true) {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
@@ -67,41 +67,56 @@ export default function Bar() {
         }
       }
     }
-    setInput([easy, medium, hard]);
-    // console.log('state', [easy, medium, hard]);
+
+   setInput([easy, medium, hard]);
+    // console.log('state', language,range,time);
     // console.log('testtt', state.speed)
   }, [state, time, range, language])
 
   const option = {
     title:{
-      text: state.speed?'speed(mins)':state.total?'total':state.frequency?'frequency':null
+      text: state.speed?'speed (mins/question)':state.total?'total quantities':state.frequency?'frequency':null
     },
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
     },
-    xAxis: {
-      type: 'category',
-      data: ['easy', 'medium', 'hard']
+    legend: {
+     top:'bottom',
+     left: '80%'
     },
-    yAxis: {
-      type: 'value'
+    toolbox: {
+      show: true,
+      feature: {
+        mark: { show: true },
+        dataView: { show: true, readOnly: false },
+        restore: { show: true },
+        saveAsImage: { show: true }
+      }
     },
     series: [
       {
-        data: input,
-        type: 'bar',
-        emphasis: {
-          itemStyle: {
-            color: '#DC9E41'
-          }
-        }
+        name: 'Pie Chart Data',
+        type: 'pie',
+        radius: [20, 100],
+        center: ['40%', '50%'],
+        roseType: 'area',
+        itemStyle: {
+          borderRadius: 8
+        },
+        data: [
+          { value: input[0], name: 'easy' },
+          { value: input[1], name: 'medium' },
+          { value: input[2], name: 'hard' },
+        ]
+
       }
     ]
-  }
+  };
 return (
-  <Stack >
-    <MenuBar  state={state} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleChange={handleChange}/>
-    <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
+  <Stack>
+    <MenuBar state={state} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleChange={handleChange}/>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>
   </Stack>
