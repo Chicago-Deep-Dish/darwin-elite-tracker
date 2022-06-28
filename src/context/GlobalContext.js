@@ -19,6 +19,7 @@ export function GlobalContextProvider({ children }) {
     position: "bottom-left",
   };
 
+
   useEffect(() => {
     const authToken = sessionStorage.getItem("Auth Token");
     //DON"T REMOVE: this can be useful to navigate to pages with dummy data upon login IF no user is detected
