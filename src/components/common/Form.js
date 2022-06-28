@@ -17,7 +17,6 @@ import {
   TextField,
 } from "@mui/material";
 import useGlobalContext from "../../context/GlobalContext";
-import SampleData from "../../test/sampleData";
 
 //Firebase
 import axios from "axios";
@@ -35,7 +34,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
   });
 
   const handleClickSubmit = () => {
-    console.log(SampleData(5))
+   // console.log(SampleData(5))
 
     console.log("email:", loginValues.email);
     console.log("Password:", loginValues.password);
