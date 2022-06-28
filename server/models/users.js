@@ -25,3 +25,13 @@ exports.register = ({ email, password }) => {
     password
   )
 }
+
+
+exports.storeUserData = ({ email, password }) => {
+  const authentication = getAuth();
+  return createUserWithEmailAndPassword(
+    authentication,
+    email,
+    password
+  )
+}

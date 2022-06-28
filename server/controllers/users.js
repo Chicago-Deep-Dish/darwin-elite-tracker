@@ -4,7 +4,7 @@ module.exports = {
     models
       .login(req.query)
       .then((response) => {
-        console.log('res', response);
+        console.log("login response", response);
         res.send(response);
       })
       .catch((err) => {
@@ -16,11 +16,24 @@ module.exports = {
     models
       .register(req.query)
       .then((response) => {
-        console.log('response', response)
+        console.log("register response", response);
         res.send(response);
       })
       .catch((err) => {
-        console.log('err', err)
+        console.log("err", err);
+        res.status(400).send(err);
+      });
+  },
+
+  storeUserData: function (req, res) {
+    models
+      .register(req.query)
+      .then((response) => {
+        console.log("storeUserData response", response);
+        res.send(response);
+      })
+      .catch((err) => {
+        console.log("err", err);
         res.status(400).send(err);
       });
   },
