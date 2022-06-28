@@ -14,16 +14,12 @@ import {
   OutlinedInput,
   InputLabel,
   InputAdornment,
+  TextField,
 } from "@mui/material";
 import useGlobalContext from "../../context/GlobalContext";
 
 //Firebase
-import { app } from "../../firebase/firebase-config.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import axios from "axios";
 
 export default function Form({ modalName, setModal, handleExitModal }) {
   const { toastifyTheme } = useGlobalContext();
@@ -40,63 +36,70 @@ export default function Form({ modalName, setModal, handleExitModal }) {
   const handleClickSubmit = () => {
     console.log("email:", loginValues.email);
     console.log("Password:", loginValues.password);
-    const authentication = getAuth();
 
     if (modalName === "LOGIN") {
       //TODO: add userAccountIcon show up on successful login
+      axios
+        .get("/users/login", {
+          params: {
+            email: loginValues.email,
+            password: loginValues.password,
+          },
+        })
+        .then(({ data }) => {
+          const token = data._tokenResponse.refreshToken;
+          console.log("token:", token);
 
-      signInWithEmailAndPassword(
-        authentication,
-        loginValues.email,
-        loginValues.password
-      )
-        .then((response) => {
-          console.log("response:", response);
           setLogin({ ...loginValues, userLoggedIn: true });
           handleExitModal(null, "exit");
           setModal({ modalName: null });
           toast.success("User Logged In Successfully", toastifyTheme);
-          sessionStorage.setItem(
-            "Auth Token",
-            response._tokenResponse.refreshToken
-          );
+          sessionStorage.setItem("Auth Token", token);
         })
         .catch((error) => {
-          if (error.code === "auth/wrong-password") {
+          console.log(error);
+          const code = error.response.data.code;
+          if (code === "auth/wrong-password") {
             toast.error(
               "Password may have been incorrect, please check and try again",
               toastifyTheme
             );
-          }
-          if (error.code === "auth/user-not-found") {
+          } else if (code === "auth/user-not-found") {
             toast.error("Invalid Email, try again", toastifyTheme);
-          }
-          if (error.code === "auth/too-many-requests") {
+          } else if (code === "auth/too-many-requests") {
             toast.error(
               "Too Many requests. Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. ",
               toastifyTheme
             );
+          } else {
+            console.log("not getting the right error code...");
           }
         });
     }
     if (modalName === "REGISTER") {
-      createUserWithEmailAndPassword(
-        authentication,
-        loginValues.email,
-        loginValues.password
-      )
-        .then((response) => {
+      axios
+        .get("/users/register", {
+          params: {
+            email: loginValues.email,
+            password: loginValues.password,
+          },
+        })
+        .then(({ data }) => {
+          console.log("REGISTER data:", data);
+          const token = data._tokenResponse.refreshToken;
+
           handleExitModal(null, "exit");
           setModal({ modalName: "empty" });
           toast.success("User Created Successfully", toastifyTheme);
-          sessionStorage.setItem(
-            "Auth Token",
-            response._tokenResponse.refreshToken
-          );
+          sessionStorage.setItem("Auth Token", token);
         })
         .catch((error) => {
-          if (error.code === "auth/email-already-in-use") {
+          console.log(error);
+          const code = error.response.data.code;
+          if (code === "auth/email-already-in-use") {
             toast.error("Email Already in Use", toastifyTheme);
+          } else {
+            console.log("not getting the right error code...");
           }
         });
     }
@@ -121,12 +124,8 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <FormControl
-        sx={{ backgroundColor: "primary.light", m: 1, width: "40ch" }}
-        variant="outlined"
-      >
-        <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
-        <OutlinedInput
+      <FormControl sx={{ "& > :not(style)": { m: 1 } }} component="form">
+        <TextField
           id="outlined-adornment-email"
           value={loginValues.email}
           onChange={handleChange("email")}
@@ -135,22 +134,12 @@ export default function Form({ modalName, setModal, handleExitModal }) {
               handleExitModal(null, "exit");
             }
           }}
-          label="Password"
+          label="Email"
         />
       </FormControl>
-      <FormControl
-        sx={{
-          backgroundColor: "white",
-          m: 1,
-          width: "40ch",
-        }}
-        variant="outlined"
-      >
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          sx={{
-            backgroundColor: "white",
-          }}
+      <FormControl sx={{ "& > :not(style)": { m: 1 } }} component="form">
+        <TextField
+        sx={{ width: 300}}
           id="outlined-adornment-password"
           type={loginValues.showPassword ? "text" : "password"}
           value={loginValues.password}
