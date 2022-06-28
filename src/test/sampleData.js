@@ -65,6 +65,7 @@ function createSampleDataRow() {
     whiteBoardTime: createRandomNumerWithRange(10000, 300000),
     pseudocodeTime: createRandomNumerWithRange(10000, 300000),
     codeTime: createRandomNumerWithRange(10000, 300000),
+    timeStamp: RandomTimeGeneratorForLastMonth(),
   };
 }
 function createRandomNumerWithRange(min, max) {
@@ -87,4 +88,14 @@ function createRandomParagraph(length) {
     result += createRandomWordStringWithLength(5) + " ";
   }
   return result;
+}
+
+function RandomTimeGeneratorForLastMonth() {
+  return `2022-${createRandomNumerWithRange(1, 6)}-${createRandomNumerWithRange(
+    1,
+    28
+  )}T${createRandomNumerWithRange(1, 12)}:${createRandomNumerWithRange(
+    1,
+    59
+  )}:${createRandomNumerWithRange(1, 59)}`;
 }

@@ -17,6 +17,7 @@ import {
   TextField,
 } from "@mui/material";
 import useGlobalContext from "../../context/GlobalContext";
+import SampleData from "../../test/sampleData";
 
 //Firebase
 import axios from "axios";
@@ -34,6 +35,8 @@ export default function Form({ modalName, setModal, handleExitModal }) {
   });
 
   const handleClickSubmit = () => {
+    console.log(SampleData(5))
+
     console.log("email:", loginValues.email);
     console.log("Password:", loginValues.password);
 
@@ -155,18 +158,24 @@ export default function Form({ modalName, setModal, handleExitModal }) {
               handleClickSubmit();
             }
           }}
-          endAdornment={
-            <InputAdornment position="end">
-              <Button
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {loginValues.showPassword ? <VisibilityOff /> : <Visibility />}
-              </Button>
-            </InputAdornment>
-          }
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Button
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {loginValues.showPassword ? (
+                    <VisibilityOff />
+                  ) : (
+                    <Visibility />
+                  )}
+                </Button>
+              </InputAdornment>
+            ),
+          }}
           label="Password"
         />
       </FormControl>
