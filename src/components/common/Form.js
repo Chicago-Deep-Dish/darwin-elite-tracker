@@ -14,6 +14,7 @@ import {
   OutlinedInput,
   InputLabel,
   InputAdornment,
+  TextField,
 } from "@mui/material";
 import useGlobalContext from "../../context/GlobalContext";
 
@@ -123,14 +124,9 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <FormControl
-        sx={{ m: 1, width: "40ch" }}
-        variant="outlined"
-      >
-        <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
-        <OutlinedInput
+      <FormControl sx={{ "& > :not(style)": { m: 1 } }} component="form">
+        <TextField
           id="outlined-adornment-email"
-          sx={{backgroundColor: 'white', color: 'black'}}
           value={loginValues.email}
           onChange={handleChange("email")}
           onKeyPress={(e) => {
@@ -141,20 +137,9 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           label="Email"
         />
       </FormControl>
-      <FormControl
-        sx={{
-          backgroundColor: "white",
-          m: 1,
-          width: "40ch",
-        }}
-        variant="outlined"
-      >
-        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-        <OutlinedInput
-          sx={{
-            backgroundColor: "white",
-            color: 'black'
-          }}
+      <FormControl sx={{ "& > :not(style)": { m: 1 } }} component="form">
+        <TextField
+        sx={{ width: 300}}
           id="outlined-adornment-password"
           type={loginValues.showPassword ? "text" : "password"}
           value={loginValues.password}
