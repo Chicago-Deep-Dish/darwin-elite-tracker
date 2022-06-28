@@ -124,12 +124,13 @@ export default function Form({ modalName, setModal, handleExitModal }) {
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <FormControl
-        sx={{ backgroundColor: "primary.light", m: 1, width: "40ch" }}
+        sx={{ m: 1, width: "40ch" }}
         variant="outlined"
       >
         <InputLabel htmlFor="outlined-adornment-email">Email</InputLabel>
         <OutlinedInput
           id="outlined-adornment-email"
+          sx={{backgroundColor: 'white', color: 'black'}}
           value={loginValues.email}
           onChange={handleChange("email")}
           onKeyPress={(e) => {
@@ -137,7 +138,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
               handleExitModal(null, "exit");
             }
           }}
-          label="Password"
+          label="Email"
         />
       </FormControl>
       <FormControl
@@ -152,6 +153,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
         <OutlinedInput
           sx={{
             backgroundColor: "white",
+            color: 'black'
           }}
           id="outlined-adornment-password"
           type={loginValues.showPassword ? "text" : "password"}

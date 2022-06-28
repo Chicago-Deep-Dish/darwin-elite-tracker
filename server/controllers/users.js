@@ -13,7 +13,6 @@ module.exports = {
       });
   },
   register: function (req, res) {
-    console.log("req", req);
     models
       .register(req.query)
       .then((response) => {
