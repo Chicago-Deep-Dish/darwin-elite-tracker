@@ -67,7 +67,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
 
             <FormControlLabel value="subject"   control={<Radio color='success'/>} label="subject" onChange={handleSelection} />
             <Select
-            labelId="demo-simple-select-label"
+            labelid="demo-simple-select-label"
             id="demo-simple-select-label"
             value={subject}
             multiple
@@ -99,7 +99,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
           >
             <StyledInput
               color="success"
-              labelId="demo-simple-select-label"
+              labelid="demo-simple-select-label"
               id="demo-simple-select-label"
               value={time}
               label="time"
@@ -123,7 +123,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
           fullWidth>
             <StyledInput
               color="success"
-              labelId="simple-select-label"
+              labelid="simple-select-label"
               id="simple-select"
               variant="outlined"
               value={range}

@@ -36,8 +36,8 @@ export default function Form({ modalName, setModal, handleExitModal }) {
   const handleClickSubmit = () => {
    // console.log(SampleData(5))
 
-    console.log("email:", loginValues.email);
-    console.log("Password:", loginValues.password);
+    // console.log("email:", loginValues.email);
+    // console.log("Password:", loginValues.password);
 
     if (modalName === "LOGIN") {
       //TODO: add userAccountIcon show up on successful login
@@ -74,7 +74,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
               toastifyTheme
             );
           } else {
-            console.log("not getting the right error code...");
+            toast.error("NEW ERROR CODE: ", code);
           }
         });
     }
