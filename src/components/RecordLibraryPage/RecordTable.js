@@ -102,6 +102,12 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
     setShowEditModal(true);
   };
 
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  }
+
   return (
     <TableContainer
       sx={{
@@ -118,7 +124,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
             <TableCell>Prompt Name</TableCell>
             <TableCell>Prompt Link</TableCell>
             <TableCell align="right">Difficulty</TableCell>
-            <TableCell align="right">Time to Complete</TableCell>
+            <TableCell align="right">Time to Complete (mm:ss)</TableCell>
             <TableCell align="right">Edit</TableCell>
             <TableCell align="right">Delete</TableCell>
           </TableRow>
@@ -141,7 +147,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                 {row.difficulty}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.totalTime}
+                {millisToMinutesAndSeconds(row.totalTime)}
               </TableCell>
               <TableCell style={{ width: 72 }} align="right">
                 <IconButton onClick={() => handleEditClick(row, idx)}>
