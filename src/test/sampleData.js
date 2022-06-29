@@ -30,25 +30,27 @@ export const sampleClass = {
   lastName: null,
   defaultGraph: [],
   timestamp: null,
-  problems: {
-    id: uuidv4(),
-    promptName: null,
-    difficulty: null,
-    topics: [],
-    promptLink: null,
-    time: null,
-    // optional
-    promptText: null,
-    solution: [],
-    readTime: null,
-    whiteboardTime: null,
-    pseudocodeTime: null,
-    codeTime: null,
-    contraints: null,
-    timeComplexity: null,
-    programmingLanguage: null,
-  }
-}
+  problems: [
+    {
+      id: uuidv4(),
+      promptName: null,
+      difficulty: null,
+      topics: [],
+      promptLink: null,
+      time: null,
+      // optional
+      promptText: null,
+      solution: [],
+      readTime: null,
+      whiteboardTime: null,
+      pseudocodeTime: null,
+      codeTime: null,
+      contraints: null,
+      timeComplexity: null,
+      programmingLanguage: null,
+    },
+  ],
+};
 
 export default function createSampleData(rows) {
   let sampleData = [];

@@ -45,10 +45,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           handleExitModal(null, "exit");
           setModal({ modalName: null });
           // console.log("data", data);
-          sessionStorage.setItem(
-            "AuthToken",
-            data._tokenResponse.refreshToken
-          );
+          sessionStorage.setItem("AuthToken", data._tokenResponse.refreshToken);
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Logged In Successfully", toastifyTheme);
         })
@@ -65,15 +62,13 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           },
         })
         .then(({ data }) => {
-          sessionStorage.setItem(
-            "AuthToken",
-            data._tokenResponse.refreshToken
-          );
+          sessionStorage.setItem("AuthToken", data._tokenResponse.refreshToken);
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
-
-          axios.post("/users/userData", sampleClass).then(({ data }) => {
-            toast.success(`${data.type} Created Successfully`, toastifyTheme);
+          const userData = { ...sampleClass, userId: data.user.uid };
+          axios.post("/users/userData", userData).then((data) => {
+            // console.log(data);
+            toast.success(`Created Successfully`, toastifyTheme);
 
             handleExitModal(null, "exit");
             setModal({ modalName: "empty" });

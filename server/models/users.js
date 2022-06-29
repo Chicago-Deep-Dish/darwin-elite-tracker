@@ -1,4 +1,5 @@
-const { colRef, getDocs, Timestamp, addDoc } = require("../db/firebase-config");
+const { db } = require("../db/firebase-config");
+const { doc, setDoc } = require('firebase/firestore');
 const {
   getAuth,
   signInWithEmailAndPassword,
@@ -18,9 +19,6 @@ exports.register = ({ email, password }) => {
 };
 
 exports.storeUserData = (data) => {
-  return addDoc(colRef, data);
+  const user = doc(db, `users/${data.userId}`);
+  return setDoc(user, data);
 };
-
-//for GET functionality
-// get collection data
-// getDocs(colRef);
