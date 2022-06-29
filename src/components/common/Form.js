@@ -52,6 +52,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
         .then(({ data }) => {
           const token = data._tokenResponse.refreshToken;
           console.log("token:", token);
+          console.log("data:", data);
 
           setLogin({ ...loginValues, userLoggedIn: true });
           handleExitModal(null, "exit");

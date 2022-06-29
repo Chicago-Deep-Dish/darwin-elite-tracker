@@ -29,7 +29,7 @@ export default function createSampleData(rows) {
   return sampleData;
 }
 
-function createSampleDataRow() {
+function createSampleDataRow(userID) {
   return {
     promptName: createRandomParagraph(2),
     totalTime: createRandomNumerWithRange(10000, 10000000),
@@ -66,8 +66,17 @@ function createSampleDataRow() {
     pseudocodeTime: createRandomNumerWithRange(10000, 300000),
     codeTime: createRandomNumerWithRange(10000, 300000),
     timeStamp: RandomTimeGeneratorForLastMonth(),
+    user: users[createRandomNumerWithRange(0, 2)],
   };
 }
+
+const users = [
+  "WcmIqdF33oc7KGOpcvtD82YyCv53",
+  "9nj0CngezSPN6q8vj0gDjienlsT2",
+  "LdiAUMtv6rOjnN33s5XnJ6VVUdb2",
+];
+
+//helper
 function createRandomNumerWithRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -98,4 +107,19 @@ function RandomTimeGeneratorForLastMonth() {
     1,
     59
   )}:${createRandomNumerWithRange(1, 59)}`;
+}
+
+//NOT USED YET
+function randomUserGenerator() {
+  return {
+    username: createRandomWordStringWithLength(5),
+    password: createRandomWordStringWithLength(5),
+    email: `${createRandomWordStringWithLength(
+      5
+    )}@${createRandomWordStringWithLength(5)}.com`,
+    firstName: createRandomWordStringWithLength(5),
+    lastName: createRandomWordStringWithLength(5),
+    role: "user",
+    timeStamp: RandomTimeGeneratorForLastMonth(),
+  };
 }
