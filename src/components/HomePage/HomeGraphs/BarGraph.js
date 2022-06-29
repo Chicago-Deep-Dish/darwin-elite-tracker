@@ -9,7 +9,8 @@ import data from  './sampleData.js';
 export default function Bar() {
 
   const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('difficulity');
+  const [selection, setSelection]=React.useState('');
+  const [subject, setSubject] = React.useState([]);
 
   const [input, setInput]=React.useState([0,0,0])
   const [time, setTime]=React.useState('whole process');
@@ -31,6 +32,10 @@ export default function Bar() {
   };
   const handleSelection= (event) => {
     setSelection(event.target.value);
+    setSubject([]);
+  };
+  const handleSubject= (event) => {
+    setSubject(event.target.value);
   };
 
 
@@ -39,8 +44,9 @@ export default function Bar() {
   var hard = 0;
 
   React.useEffect ( ()=>{
+
     //send request during 'range' time with 'language' for  as data
-    console.log('graphhh', graph);
+    // console.log('subject',subject);
     if (graph==='totalQuantities') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
@@ -66,7 +72,7 @@ export default function Bar() {
     setInput([easy, medium, hard]);
     // console.log('state', [easy, medium, hard]);
     // console.log('testtt', state.speed)
-  }, [graph,selection])
+  }, [graph,selection, subject])
 
   const option = {
     title:{
@@ -96,7 +102,7 @@ export default function Bar() {
   }
 return (
   <Stack >
-    <MenuBar  graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+    <MenuBar  graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>

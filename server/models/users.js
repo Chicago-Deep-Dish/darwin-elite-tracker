@@ -1,4 +1,4 @@
-const { app } = require("../db/firebase-config");
+const { colRef, getDocs, Timestamp, addDoc } = require("../db/firebase-config");
 const {
   getAuth,
   signInWithEmailAndPassword,
@@ -6,22 +6,21 @@ const {
 } = require("firebase/auth");
 
 // login
-module.exports.login = ({ email, password }) => {
-  console.log('email pass', email, password);
+exports.login = ({ email, password }) => {
   const authentication = getAuth();
-  return signInWithEmailAndPassword(
-    authentication,
-    email,
-    password
-  )
-}
+  return signInWithEmailAndPassword(authentication, email, password);
+};
 
 //register
-module.exports.register = ({ email, password }) => {
+exports.register = ({ email, password }) => {
   const authentication = getAuth();
-  return createUserWithEmailAndPassword(
-    authentication,
-    email,
-    password
-  )
-}
+  return createUserWithEmailAndPassword(authentication, email, password);
+};
+
+exports.storeUserData = (data) => {
+  return addDoc(colRef, data);
+};
+
+//for GET functionality
+// get collection data
+// getDocs(colRef);

@@ -1,25 +1,54 @@
-let sampleData = {
-  promptName: "Two Sum",
-  totalTime: 1500000,
-  difficulty: "easy",
-  topic: ["Array", "Hash Table"],
-  promptLink: "https://leetcode.com/problems/two-sum/",
-  PromptText:
-    "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.",
-  constraints: [
-    "2 <= nums.length < 10000",
-    "-1000000000 <= nums[i] <= 1000000000",
-    "-1000000000 <= target = 1000000000",
-    "only one valid answer exists",
-  ],
-  timeComplexity: "O(n2)",
-  solution: "",
-  programmingLanguage: "JavaScript",
-  readTime: 300000,
-  whiteBoardTime: 300000,
-  pseudocodeTime: 600000,
-  codeTime: 300000,
-};
+import { v4 as uuidv4 } from "uuid";
+
+// let sampleData = {
+//   promptName: "Two Sum",
+//   totalTime: 1500000,
+//   difficulty: "easy",
+//   topic: ["Array", "Hash Table"],
+//   promptLink: "https://leetcode.com/problems/two-sum/",
+//   PromptText:
+//     "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.",
+//   constraints: [
+//     "2 <= nums.length < 10000",
+//     "-1000000000 <= nums[i] <= 1000000000",
+//     "-1000000000 <= target = 1000000000",
+//     "only one valid answer exists",
+//   ],
+//   timeComplexity: "O(n2)",
+//   solution: "",
+//   programmingLanguage: "JavaScript",
+//   readTime: 300000,
+//   whiteBoardTime: 300000,
+//   pseudocodeTime: 600000,
+//   codeTime: 300000,
+// };
+
+export const sampleClass = {
+  // userId: firebaseuserId << get's created automatically during doc addition
+  settings: {},
+  firstName: null,
+  lastName: null,
+  defaultGraph: [],
+  timestamp: null,
+  problems: {
+    id: uuidv4(),
+    promptName: null,
+    difficulty: null,
+    topics: [],
+    promptLink: null,
+    time: null,
+    // optional
+    promptText: null,
+    solution: [],
+    readTime: null,
+    whiteboardTime: null,
+    pseudocodeTime: null,
+    codeTime: null,
+    contraints: null,
+    timeComplexity: null,
+    programmingLanguage: null,
+  }
+}
 
 export default function createSampleData(rows) {
   let sampleData = [];
@@ -29,7 +58,7 @@ export default function createSampleData(rows) {
   return sampleData;
 }
 
-function createSampleDataRow() {
+function createSampleDataRow(userID) {
   return {
     promptName: createRandomParagraph(2),
     totalTime: createRandomNumerWithRange(10000, 10000000),
@@ -66,8 +95,17 @@ function createSampleDataRow() {
     pseudocodeTime: createRandomNumerWithRange(10000, 300000),
     codeTime: createRandomNumerWithRange(10000, 300000),
     timeStamp: RandomTimeGeneratorForLastMonth(),
+    user: users[createRandomNumerWithRange(0, 2)],
   };
 }
+
+const users = [
+  "WcmIqdF33oc7KGOpcvtD82YyCv53",
+  "9nj0CngezSPN6q8vj0gDjienlsT2",
+  "LdiAUMtv6rOjnN33s5XnJ6VVUdb2",
+];
+
+//helper
 function createRandomNumerWithRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -98,4 +136,19 @@ function RandomTimeGeneratorForLastMonth() {
     1,
     59
   )}:${createRandomNumerWithRange(1, 59)}`;
+}
+
+//NOT USED YET
+function randomUserGenerator() {
+  return {
+    username: createRandomWordStringWithLength(5),
+    password: createRandomWordStringWithLength(5),
+    email: `${createRandomWordStringWithLength(
+      5
+    )}@${createRandomWordStringWithLength(5)}.com`,
+    firstName: createRandomWordStringWithLength(5),
+    lastName: createRandomWordStringWithLength(5),
+    role: "user",
+    timeStamp: RandomTimeGeneratorForLastMonth(),
+  };
 }
