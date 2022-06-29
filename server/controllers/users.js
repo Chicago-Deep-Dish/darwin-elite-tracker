@@ -15,6 +15,7 @@ exports.register = (req, res) => {
   models
     .register(req.query)
     .then((response) => {
+      console.log(response);
       res.send(response);
     })
     .catch((err) => {

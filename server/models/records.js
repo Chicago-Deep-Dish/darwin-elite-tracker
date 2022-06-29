@@ -42,7 +42,7 @@ exports.updateRecord = (data) => {
   // });
 };
 
-exports.removeRecord = (data) => {
+exports.removeRecord = (userId, problemId, data) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
   const demo = doc(db, 'users', '8It7dKjfVVzy0AvTLbEP');
   return updateDoc(demo, {
