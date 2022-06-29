@@ -60,7 +60,7 @@ export default function createSampleData(rows) {
   return sampleData;
 }
 
-function createSampleDataRow(userID) {
+export function createSampleDataRow(userID) {
   return {
     promptName: createRandomParagraph(2),
     totalTime: createRandomNumerWithRange(10000, 10000000),

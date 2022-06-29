@@ -11,7 +11,7 @@ const recordsRouter = require('express').Router();
  */
 recordsRouter.get('/', ctrl.searchRecords);
 recordsRouter.post('/', ctrl.addRecord);
-recordsRouter.put('/:record_id', ctrl.updateRecord);
-recordsRouter.delete('/:record_id', ctrl.removeRecord);
+recordsRouter.put('/', ctrl.updateRecord);
+recordsRouter.delete('/', ctrl.removeRecord);
 
 module.exports = recordsRouter;
