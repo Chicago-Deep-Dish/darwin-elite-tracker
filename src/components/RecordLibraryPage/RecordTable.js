@@ -110,25 +110,33 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
   }
 
   function handleDelete(data) {
-    // Junsu: Gil, this delete route works now
-    axios({
-      method: 'delete',
-      url: `/records/${data.promptName}`, // Junsu TODO: replace with problem ID
-      data: data,
-    })
-      .then(response => console.log(response));
-
-    // Junsu: Gil, put the code below in your Edit Button
+    // Junsu: Gil, this delete route works now, feel free to modify how data is sent
     // axios({
-    //   method: 'put',
-    //   url: `/records/${data.promptName}`,
+    //   method: 'delete',
+    //   url: `/records`,
     //   data: data,
     // })
     //   .then(response => console.log(response));
 
-    //Junsu: Gil, put the code below for your search function
+    // Junsu: Gil, this is the edit/put route
+    // axios({
+    //   method: 'put',
+    //   url: `/records`,
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    //Junsu: Gil, this is for search
     // axios.get('/records')
     //   .then(response => console.log(response.data._document.data.value.mapValue.fields));
+
+    // Junsu: Gil, feel free to delete this or provide it to Jerry for his component
+    axios({
+      method: 'post',
+      url: `/records`,
+      data: data,
+    })
+      .then(response => console.log(response));
   }
 
   return (
