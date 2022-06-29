@@ -19,6 +19,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -108,6 +109,36 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
   }
 
+  function handleDelete(data) {
+    // Junsu: Gil, this delete route works now, feel free to modify how data is sent
+    // axios({
+    //   method: 'delete',
+    //   url: `/records`,
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    // Junsu: Gil, this is the edit/put route
+    // axios({
+    //   method: 'put',
+    //   url: `/records`,
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    //Junsu: Gil, this is for search
+    // axios.get('/records')
+    //   .then(response => console.log(response.data._document.data.value.mapValue.fields));
+
+    // Junsu: Gil, feel free to delete this or provide it to Jerry for his component
+    axios({
+      method: 'post',
+      url: `/records`,
+      data: data,
+    })
+      .then(response => console.log(response));
+  }
+
   return (
     <TableContainer
       sx={{
@@ -155,7 +186,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 73 }} align="right">
-                <IconButton onClick={() => { console.log('delete') }}>
+                <IconButton onClick={() => handleDelete(row)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
