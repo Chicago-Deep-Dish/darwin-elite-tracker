@@ -15,6 +15,7 @@ import Stopwatch from './Stopwatch/Stopwatch';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
+import moment from 'moment';
 
 
 export default function ImportForm() {
@@ -63,7 +64,7 @@ export default function ImportForm() {
     axios.post('/submission', {
       ...values,
       ['time']: times,
-      ['date']: new Date().toISOString()
+      ['date']: moment(new Date().toISOString()).format('MM/DD/YYYY')
     })
       .then(() => {
         setValues({
