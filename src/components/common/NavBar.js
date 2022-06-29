@@ -15,7 +15,7 @@ import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
-import sampleData from "../../test/sampleData";
+import sampleData, { createSampleDataRow } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
   const { toastifyTheme } = useGlobalContext();
@@ -66,7 +66,7 @@ export default function NavBar({ setModal }) {
   };
 
   const handleGettingData = () => {
-    console.log(sampleData(5))
+    console.log(sampleData(5));
     sessionStorage.getItem("UserID");
     axios
       .get("/records", {
@@ -74,9 +74,26 @@ export default function NavBar({ setModal }) {
           userId: sessionStorage.getItem("UserID"),
         },
       })
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log("data", data);
         toast.success("Recieved Data Successfully", toastifyTheme);
+      })
+      .catch((error) => {
+        firebaseErrorCodes(error.response.data.code, toastifyTheme);
+      });
+  };
+
+  const handleInputData = (inputProblem) => {
+    console.log("inputPramas", inputProblem);
+    axios
+      .post("/records", inputProblem, {
+        params: {
+          userID: sessionStorage.getItem("UserID"),
+        },
+      })
+      .then(({ data }) => {
+        console.log("data", data);
+        toast.success("Added Data Successfully", toastifyTheme);
       })
       .catch((error) => {
         firebaseErrorCodes(error.response.data.code, toastifyTheme);
@@ -180,11 +197,19 @@ export default function NavBar({ setModal }) {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={() => {
+                handleInputData(createSampleDataRow(1));
+              }}
+              style={{ textDecoration: "inherit", color: "inherit" }}
+            >
+              SubmitInput
+            </Button>{" "}
+            <Button
+              onClick={() => {
                 handleGettingData();
               }}
               style={{ textDecoration: "inherit", color: "inherit" }}
             >
-              GET ALL DATA
+              getData
             </Button>
             <Button
               size="large"

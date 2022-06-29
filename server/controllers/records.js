@@ -13,6 +13,22 @@ exports.searchRecords = (req, res) => {
     });
 };
 
+exports.addRecord = (req, res) => {
+  // console.log ('req.body', req.body);
+  console.log ('req.query', req.query);
+  console.log ('req.query.userID', req.query.userID);
+  models
+    .addRecord(req.body, req.query.userID)
+    .then((response) => {
+      // console.log("login response", response);
+      res.send(response);
+    })
+    .catch((err) => {
+      console.log("updateRecord err", err);
+      res.status(405).send(err);
+    });
+};
+
 exports.updateRecord = (req, res) => {
   models
     .updateRecord(req.body)
@@ -25,6 +41,7 @@ exports.updateRecord = (req, res) => {
       res.status(405).send(err);
     });
 };
+
 exports.removeRecord = (req, res) => {
   models
     .removeRecord(req.body)

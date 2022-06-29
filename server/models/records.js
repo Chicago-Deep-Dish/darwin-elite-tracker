@@ -1,11 +1,10 @@
-const { colRef } = require("../db/firebase-config");
-const { getDocs } = require("firebase/firestore");
-
+const { colRef, db } = require("../db/firebase-config");
+const { doc, setDoc, getDocs, collection } = require("firebase/firestore");
 // query to DB with these params
 // exports.searchRecords = ({difficulty, time, topic, search}) => {
 
 // }
-exports.searchRecords = async ({ userId }) => {
+exports.searchRecords = ({ userId }) => {
   return getDocs(colRef).then((snapshot) => {
     let users = [];
 
@@ -20,3 +19,20 @@ exports.searchRecords = async ({ userId }) => {
     return problems;
   });
 };
+
+exports.addRecord = async (data, userID) => {
+  // console.log("data to addRecord", data);
+  console.log("userID to addRecord", userID);
+  // const user = doc(db, `users/${userID}`);
+  // const problem = doc(db, `users/${userID}`);
+
+  // const problems = (db, `users/${userID}`).collection("problems");
+
+  const problems = doc(db, `users/${userID}`).collection("problems")
+  // const problems = doc(db, `users/${userID}`).collection('problems')
+
+  console.log(problems);
+  return setDoc(problems, data);
+};
+exports.updateRecord = ({ userId }) => {};
+exports.removeRecord = ({ userId }) => {};
