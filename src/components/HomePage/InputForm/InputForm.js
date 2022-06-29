@@ -60,7 +60,7 @@ export default function ImportForm() {
 
   const handleSubmit = (e, values) => {
     e.preventDefault();
-    axios.post('/submission', {
+    axios.post('/', {
       ...values,
       ['time']: times,
       ['timestamp']: {
