@@ -62,8 +62,8 @@ export default function ImportForm() {
     e.preventDefault();
     axios.post('/', {
       ...values,
-      ['time']: times,
-      ['timestamp']: {
+      time: times,
+      timestamp: {
         'date': new Date().toISOString(),
         'month': new Date().getMonth() + 1,
         'day': new Date().getDate(),
