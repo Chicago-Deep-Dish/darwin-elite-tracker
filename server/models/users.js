@@ -16,7 +16,7 @@ exports.register = ({ email, password }) => {
 };
 
 exports.storeUserData = (data) => {
-  return addDoc(colRef, { ...data, timestamp: Timestamp.now() });
+  return addDoc(colRef, data);
 };
 
 //for GET functionality

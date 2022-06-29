@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 
 import useGlobalContext from "../../context/GlobalContext";
 import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js'
+import InputForm from '../../components/HomePage/InputForm/InputForm.js'
 
 export default function HomePage() {
   // let navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function HomePage() {
   return (
   <div>
     <h1>HomePage</h1>;
+    <InputForm/>
     <Graphs/>
   </div>
 

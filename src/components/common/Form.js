@@ -41,12 +41,16 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           },
         })
         .then(({ data }) => {
-          const token = data._tokenResponse.refreshToken;
           setLogin({ ...loginValues, userLoggedIn: true });
           handleExitModal(null, "exit");
           setModal({ modalName: null });
+          // console.log("data", data);
+          sessionStorage.setItem(
+            "AuthToken",
+            data._tokenResponse.refreshToken
+          );
+          sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Logged In Successfully", toastifyTheme);
-          sessionStorage.setItem("Auth Token", token);
         })
         .catch((error) => {
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
@@ -61,9 +65,12 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           },
         })
         .then(({ data }) => {
-          const token = data._tokenResponse.refreshToken;
+          sessionStorage.setItem(
+            "AuthToken",
+            data._tokenResponse.refreshToken
+          );
+          sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
-          sessionStorage.setItem("Auth Token", token);
 
           axios.post("/users/userData", sampleClass).then(({ data }) => {
             toast.success(`${data.type} Created Successfully`, toastifyTheme);

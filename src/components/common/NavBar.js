@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import companyLogo from "../../assets/Darwin_Logo_transparent.png"
+import companyLogo from "../../assets/Darwin_Logo_transparent.png";
 import {
   Button,
   IconButton,
@@ -13,6 +13,9 @@ import {
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
+import axios from "axios";
+import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
+import sampleData from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
   const { toastifyTheme } = useGlobalContext();
@@ -43,7 +46,7 @@ export default function NavBar({ setModal }) {
 
   // customer handlers
   function handleLoginButton(modal) {
-    if (sessionStorage.getItem("Auth Token")) {
+    if (sessionStorage.getItem("AuthToken")) {
       toast.error(
         "Already Logged In. Please Log Out and try again",
         toastifyTheme
@@ -56,8 +59,28 @@ export default function NavBar({ setModal }) {
   }
   // use this function as a way to navigate to page with dummy data upon logout
   const handleLogout = () => {
-    sessionStorage.removeItem("Auth Token");
+    sessionStorage.removeItem("AuthToken");
+    sessionStorage.removeItem("UserID");
+
     toast.success("Logged Out", toastifyTheme);
+  };
+
+  const handleGettingData = () => {
+    console.log(sampleData(5))
+    sessionStorage.getItem("UserID");
+    axios
+      .get("/records", {
+        params: {
+          userId: sessionStorage.getItem("UserID"),
+        },
+      })
+      .then(({data}) => {
+        console.log("data", data);
+        toast.success("Recieved Data Successfully", toastifyTheme);
+      })
+      .catch((error) => {
+        firebaseErrorCodes(error.response.data.code, toastifyTheme);
+      });
   };
 
   const menuId = "primary-search-account-menu";
@@ -156,6 +179,14 @@ export default function NavBar({ setModal }) {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Button
+              onClick={() => {
+                handleGettingData();
+              }}
+              style={{ textDecoration: "inherit", color: "inherit" }}
+            >
+              GET ALL DATA
+            </Button>
+            <Button
               size="large"
               edge="start"
               color="inherit"
@@ -239,8 +270,6 @@ export default function NavBar({ setModal }) {
     </Box>
   );
 }
-
-
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
