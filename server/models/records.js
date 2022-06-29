@@ -1,9 +1,5 @@
-const { colRef, getDocs, Timestamp, addDoc } = require("../db/firebase-config");
-const {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} = require("firebase/auth");
+const { colRef } = require("../db/firebase-config");
+const { getDocs } = require("firebase/firestore");
 
 // query to DB with these params
 // exports.searchRecords = ({difficulty, time, topic, search}) => {
@@ -12,15 +8,15 @@ const {
 exports.searchRecords = async ({ userId }) => {
   return getDocs(colRef).then((snapshot) => {
     let users = [];
-    let problems = [];
 
     snapshot.docs.forEach((doc) => {
       users.push({ ...doc.data() });
     });
-    users.forEach((user) => {
-      problems.push(user.problems);
+
+    const problems = users.filter((user, index) => {
+      return user.userID === userId;
     });
 
-    return users;
+    return problems;
   });
 };
