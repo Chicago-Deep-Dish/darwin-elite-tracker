@@ -19,7 +19,6 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-// const sample = []
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -82,29 +81,9 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-// function createData(toyProblemName, difficulty, aveTime) {
-//   return { toyProblemName, difficulty, aveTime };
-// }
-
-// const rows = [
-//   createData('Cupcake', 305, 3.7),
-//   createData('Donut', 452, 25.0),
-//   createData('Eclair', 262, 16.0),
-//   createData('Frozen yoghurt', 159, 6.0),
-//   createData('Gingerbread', 356, 16.0),
-//   createData('Honeycomb', 408, 3.2),
-//   createData('Ice cream sandwich', 237, 9.0),
-//   createData('Jelly Bean', 375, 0.0),
-//   createData('KitKat', 518, 26.0),
-//   createData('Lollipop', 392, 0.2),
-//   createData('Marshmallow', 318, 0),
-//   createData('Nougat', 360, 19.0),
-//   createData('Oreo', 437, 18.0),
-// ].sort((a, b) => (a.difficulty < b.difficulty ? -1 : 1));
-
-export default function RecordTable({tableData, setShowEditModal, setEditRow}) {
+export default function RecordTable({ tableData, setShowEditModal, setEditRow }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -118,13 +97,21 @@ export default function RecordTable({tableData, setShowEditModal, setEditRow}) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  function handleEditClick(row) {
-    setEditRow(row)
+  function handleEditClick(data, idx) {
+    setEditRow({ data, idx })
     setShowEditModal(true);
-  }
+  };
 
   return (
-    <TableContainer sx={{ maxWidth: '80%', mt: 5, mb: 5 }} component={Paper}>
+    <TableContainer
+      sx={{
+        width: '80%',
+        mb: 2,
+        borderTopRightRadius: 0,
+        borderTopLeftRadius: 0
+      }}
+      component={Paper}
+    >
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
@@ -140,30 +127,30 @@ export default function RecordTable({tableData, setShowEditModal, setEditRow}) {
           {(rowsPerPage > 0
             ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : tableData
-          ).map((row) => (
-            <TableRow key={row['Prompt Name']}>
+          ).map((row, idx) => (
+            <TableRow id={idx} key={idx}>
               <TableCell style={{ width: 160 }}>
-                {row['Prompt Name']}
+                {row.promptName}
               </TableCell>
               <TableCell>
-                <a href={row['Prompt Link']} className="prompt-link">
-                  {row['Prompt Link']}
+                <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">
+                  {row.promptLink}
                 </a>
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.Difficulty}
+                {row.difficulty}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row['Total Time']}
+                {row.totalTime}
               </TableCell>
               <TableCell style={{ width: 72 }} align="right">
-                <IconButton onClick={() => handleEditClick(row)}>
-                  <EditIcon/>
+                <IconButton onClick={() => handleEditClick(row, idx)}>
+                  <EditIcon />
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 73 }} align="right">
-                <IconButton onClick={() => {console.log('delete')}}>
-                  <DeleteIcon/>
+                <IconButton onClick={() => { console.log('delete') }}>
+                  <DeleteIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -196,6 +183,6 @@ export default function RecordTable({tableData, setShowEditModal, setEditRow}) {
           </TableRow>
         </TableFooter>
       </Table>
-    </TableContainer>
+    </TableContainer >
   );
 }

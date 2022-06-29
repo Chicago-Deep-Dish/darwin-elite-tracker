@@ -1,26 +1,31 @@
 import React from "react";
-import CloseIcon from '@mui/icons-material/Close';
 import "../../styles/PopupModal.css";
-import { Button, FormControl, IconButton, TextField } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
 
-export default function EditModal({ setShowEditModal, row, setRow }) {
-  function handleExitModal(e) {
+export default function EditModal({ setShowEditModal, row, setRow, tableData, setTableData }) {
+  function handleExitModal() {
     setShowEditModal(false);
+    setRow({});
   }
 
   function handleFormSubmit(e) {
     e.preventDefault();
-    console.log('hello');
-    //axios put?? then axios get
-    setRow({});
-    setShowEditModal(false);
+    tableData.splice(row.idx, 1, row.data);
+    setTableData(tableData);
+    handleExitModal();
   }
 
   function handleFormChange(e) {
-    console.log(e.target.id);
     setRow({
-      ...row,
-      [e.target.id]: e.target.value
+      idx: row.idx,
+      data: {
+        ...row.data,
+        [e.target.id]: e.target.value
+      }
     });
   }
 
@@ -34,13 +39,13 @@ export default function EditModal({ setShowEditModal, row, setRow }) {
           </IconButton>
         </header>
         <div className="modal-content">
-          <FormControl autoComplete="off" sx={{'& > :not(style)': {m: 1}}} component="form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
-            <TextField id="Prompt Name" label="Name" value={row['Prompt Name']}></TextField>
-            <TextField id="Prompt Link" label="Link" value={row['Prompt Link']}></TextField>
-            <TextField id="Difficulty" label="Difficulty" value={row['Difficulty']}></TextField>
-            <TextField id="Time" label="Date" value={row['Time']}></TextField>
-            <TextField id="Total Time" label="Total Time" value={row['Total Time']}></TextField>
-            <TextField id="Topic" label="Topic" value={row['Topic']}></TextField>
+          <FormControl autoComplete="off" sx={{ '& > :not(style)': { m: 1 } }} component="form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
+            <TextField id="promptName" label="Name" value={row.data.promptName}></TextField>
+            <TextField id="promptLink" label="Link" value={row.data.promptLink}></TextField>
+            <TextField id="difficulty" label="Difficulty" value={row.data.difficulty}></TextField>
+            <TextField id="date" label="Date" value={row.data.date}></TextField>
+            <TextField id="totalTime" label="Total Time" value={row.data.totalTime}></TextField>
+            <TextField id="topic" label="Topic" value={row.data.topic}></TextField>
             <Button type="submit">Submit</Button>
           </FormControl>
         </div>
