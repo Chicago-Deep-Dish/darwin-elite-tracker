@@ -22,10 +22,16 @@ export default function HomePage() {
 
 
   return (
-  <div>
+    <div>
     <h1>HomePage</h1>;
-    <InputForm/>
-    <Graphs/>
+    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      <div>
+        <InputForm />
+      </div>
+      <div>
+        <Graphs />
+      </div>
+    </div>
   </div>
 
   )

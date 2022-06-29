@@ -109,10 +109,10 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
               size="small"
               select
             >
-              <MenuItem value={'read prompt'} >read prompt</MenuItem>
-              <MenuItem value={'whiteboard'} >whiteboard</MenuItem>
-              <MenuItem value={'pseudocode'} >pseudocode</MenuItem>
-              <MenuItem value={'write code'} >write code</MenuItem>
+              <MenuItem value={'read prompt'} disabled>read prompt</MenuItem>
+              <MenuItem value={'whiteboard'} disabled>whiteboard</MenuItem>
+              <MenuItem value={'pseudocode'} disabled>pseudocode</MenuItem>
+              <MenuItem value={'write code'} disabled>write code</MenuItem>
               <MenuItem value={'whole process'} >whole process</MenuItem>
             </StyledInput>
           </FormControl>
@@ -154,12 +154,17 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
           size="small"
           select
         >
-            <MenuItem value={'Javascript'} >Javascript</MenuItem>
-            <MenuItem value={'Python'} >Python</MenuItem>
-            <MenuItem value={'Java'} >Java</MenuItem>
-            <MenuItem value={'C++'} >C++</MenuItem>
+            <MenuItem value='JavaScript'>JavaScript</MenuItem>
+            <MenuItem value='Python'>Python</MenuItem>
+            <MenuItem value='Java'>Java</MenuItem>
+            <MenuItem value='C++'>C++</MenuItem>
+            <MenuItem value='Kotlin'>Kotlin</MenuItem>
+            <MenuItem value='C'>C</MenuItem>
+            <MenuItem value='Swift'>Swift</MenuItem>
+            <MenuItem value='C#'>C#</MenuItem>
+            <MenuItem value='PHP'>PHP</MenuItem>
           </StyledInput>
-          </FormControl>
+        </FormControl>
           </Stack>
       </Box>
 
