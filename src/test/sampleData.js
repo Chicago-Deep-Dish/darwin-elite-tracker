@@ -94,7 +94,7 @@ function createSampleDataRow(userID) {
     whiteBoardTime: createRandomNumerWithRange(10000, 300000),
     pseudocodeTime: createRandomNumerWithRange(10000, 300000),
     codeTime: createRandomNumerWithRange(10000, 300000),
-    timeStamp: RandomTimeGeneratorForLastMonth(),
+    timestamp: RandomTimeGeneratorForLastMonth(),
     user: users[createRandomNumerWithRange(0, 2)],
   };
 }
@@ -129,13 +129,13 @@ function createRandomParagraph(length) {
 }
 
 function RandomTimeGeneratorForLastMonth() {
-  return `2022-${createRandomNumerWithRange(1, 6)}-${createRandomNumerWithRange(
-    1,
-    28
-  )}T${createRandomNumerWithRange(1, 12)}:${createRandomNumerWithRange(
-    1,
-    59
-  )}:${createRandomNumerWithRange(1, 59)}`;
+  const timestamp = {
+    date: new Date().toISOString(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate(),
+    year: new Date().getFullYear()
+  }
+  return timestamp;
 }
 
 //NOT USED YET
