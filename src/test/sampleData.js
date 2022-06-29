@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 // let sampleData = {
 //   promptName: "Two Sum",
 //   totalTime: 1500000,
@@ -21,35 +23,32 @@
 //   codeTime: 300000,
 // };
 
-// let sampleClass = {
-//   userId: firebaseuserId,
-//   // below is optional as user may register without this data
-//   settings: settings || {},
-//   firstName: firstName || null,
-//   lastName: lastName || null,
-//   defaultGraph: defaultGraph || [],
-//   timestamp: timestamp || null,
-//   problems: [
-//     {
-//       // id: id || null,
-//       promptName: promptName || null,
-//       difficulty: difficulty || null,
-//       topics: topics || [],
-//       promptLink: promptLink || null,
-//       time: time || null,
-
-//       promptText: promptText || null,
-//       solution: solution || [],
-//       readTime: readTime || null,
-//       whiteboardTime: whiteboardTime || null,
-//       pseudocodeTime: pseudocodeTime || null,
-//       codeTime: codeTime || null,
-//       contraints: contraints || null,
-//       timeComplexity: timeComplexity || null,
-//       programmingLanguage: programmingLanguage || null,
-//     },
-//   ],
-// }
+export const sampleClass = {
+  // userId: firebaseuserId << get's created automatically during doc addition
+  settings: {},
+  firstName: null,
+  lastName: null,
+  defaultGraph: [],
+  timestamp: null,
+  problems: {
+    id: uuidv4(),
+    promptName: null,
+    difficulty: null,
+    topics: [],
+    promptLink: null,
+    time: null,
+    // optional
+    promptText: null,
+    solution: [],
+    readTime: null,
+    whiteboardTime: null,
+    pseudocodeTime: null,
+    codeTime: null,
+    contraints: null,
+    timeComplexity: null,
+    programmingLanguage: null,
+  }
+}
 
 export default function createSampleData(rows) {
   let sampleData = [];

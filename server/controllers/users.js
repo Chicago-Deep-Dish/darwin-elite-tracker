@@ -21,22 +21,19 @@ module.exports = {
       })
       .catch((err) => {
         console.log("err", err);
-        res.status(400).send(err);
+        res.status(402).send(err);
       });
   },
 
   storeUserData: function (req, res) {
-    console.log('req', req)
-    console.log('req.body', req.body)
     models
       .storeUserData(req.body)
       .then((response) => {
-        console.log("storeUserData response", response);
         res.send(response);
       })
       .catch((err) => {
         console.log("err", err);
-        res.status(400).send(err);
+        res.status(403).send(err);
       });
   },
 };
