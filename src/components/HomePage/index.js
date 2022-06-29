@@ -6,6 +6,8 @@ import React, { useEffect } from "react";
 
 import useGlobalContext from "../../context/GlobalContext";
 import DashBoard from './DashBoard/Dashboard.js';
+import InputForm from './InputForm/InputForm.js';
+import Dash from './TestDash/Dashboard.js';
 import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js';
 
 
@@ -25,8 +27,16 @@ export default function HomePage() {
   return (
   <div>
     <h1>HomePage</h1>
-    <DashBoard/>
-    <Graphs/>
+    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+    <div>
+        <InputForm></InputForm>
+    </div>
+    {/* <DashBoard/> */}
+    <div>
+      <Dash/>
+      <Graphs/>
+    </div>
+    </div>
   </div>
 
   )
