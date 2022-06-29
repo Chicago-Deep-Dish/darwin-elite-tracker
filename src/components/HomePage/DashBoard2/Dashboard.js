@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
   const dates = [
-    new Date('01/01/2018'),
+    new Date('01-01-2018'),
     new Date('01/02/2018'),
     new Date('01/03/2018'),
     new Date('01/04/2018'),
@@ -54,34 +54,49 @@ export default function DashBoard() {
             { max: streakSummary.longestStreak, current: streakSummary.currentStreak }
         )
     }, [])
+    
 
     return <>
-        <Grid sx={{flexWrap:'wrap', justifyContent:'center'}} spacing={2}>
-        <Stack direction='row' sx={{flexWrap:'wrap', justifyContent:'center'}} spacing={2}>
-            <Stack spacing={2} >
-                <h3> Dashboard </h3>
-                <Item >
-                    <TotalProblems problemData={problemData}></TotalProblems>
-                </Item>
-                <Item>
-                    <Streak streakData={streakData}></Streak>
-                </Item>
-            </Stack>
-            <Stack spacing={2}>
-            <Stack direction="row" spacing={2}>
-                <Item>
-                    <Graph2></Graph2>
-                </Item>
+        <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+            <Grid item xs={3} >
+                <Stack spacing={2}>
+        <h2> Dashboard </h2>
+                    <Item >
+                        <TotalProblems problemData={problemData}></TotalProblems>
+                    </Item>
+                    <Item>
+                        <Streak streakData={streakData}></Streak>
+                    </Item>
+                </Stack>
+            </Grid>
+            {/* <Grid item xs={5}>
                 <Item>
                     <Graph1></Graph1>
                 </Item>
-                </Stack>
+            </Grid>
+            <Grid item xs={4}>
                 <Item>
-                    <HeatMap></HeatMap>
+                    <Graph2></Graph2>
                 </Item>
-            </Stack>
-        </Stack>
+            </Grid> */}
+            <Grid item xs={9}>
+                <Stack spacing={2}>
+                <Stack direction="row" spacing={2}>
+                    <Item>
+                        <Graph2></Graph2>
+                    </Item>
+                    <Item>
+                        <Graph1></Graph1>
+                    </Item>
+                    </Stack>
+                    <Item>
+                        <HeatMap></HeatMap>
+                    </Item>
+                </Stack>
+            </Grid>
         </Grid>
+        </Box>
         
         
         

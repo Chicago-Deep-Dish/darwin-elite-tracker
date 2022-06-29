@@ -11,20 +11,20 @@ export default function Streak({streakData}) {
           value: streakData.current,
           name: 'Current\nStreak',
           title: {
-            offsetCenter: ['-45%', '110%']
+            offsetCenter: ['-45%', '100%']
           },
           detail: {
-            offsetCenter: ['-45%', '160%']
+            offsetCenter: ['-45%', '150%']
           }
         },
         {
           value: streakData.max,
           name: 'Max\nStreak',
           title: {
-            offsetCenter: ['45%', '110%']
+            offsetCenter: ['45%', '100%']
           },
           detail: {
-            offsetCenter: ['45%', '160%']
+            offsetCenter: ['45%', '150%']
           }
         }
       ];
@@ -34,15 +34,8 @@ export default function Streak({streakData}) {
             type: 'gauge',
             min: 0,
             max:streakData.max,
-            center: ['50%', '40%'],
-            anchor: {
-              show: true,
-              showAbove: true,
-              size: 20,
-              itemStyle: {
-                color: '#FAC858'
-              }
-            },
+            center: ['50%', '35%'],
+
             progress: {
               show: true,
               overlap: false,
@@ -51,15 +44,41 @@ export default function Streak({streakData}) {
             axisLine: {
               roundCap: true
             },
+            axisTick: {
+              length: 1,
+              // interval: 2,
+              lineStyle: {
+                width: .25
+              }
+            },
+            // minorTick: {
+            //   max: 1,
+            // },
+            // xAxis:{
+            //   maxInterval: 2,
+            // },
+            splitLine: {
+              length: 5,
+              lineStyle: {
+                color: 'auto',
+                width: .5
+              }
+            },
+            axisLabel: {
+              color: '#fff',
+              fontSize: 10,
+              distance: 9,
+            },
             data: gaugeData,
             title: {
+              color: '#fff',
               fontSize: 15
             },
             detail: {
-              width: 30,
-              height: 30,
+              width: 40,
+              height: 35,
               fontSize: 20,
-              padding: 10,
+              padding: 4,
               color: '#fff',
               backgroundColor: 'auto',
               borderRadius: 5,
@@ -70,7 +89,7 @@ export default function Streak({streakData}) {
       };
       console.log(streakData.max)
     return <>
-        <Box sx={{height: "220px", width: "200px"}}>
+        <Box sx={{height: "216px", width: "200px"}}>
         <ReactECharts option={option} style={{height: "100%" }}/>
         </Box>
     </>

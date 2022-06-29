@@ -16,20 +16,37 @@ export default function TotalProblems({problemData}) {
           trigger: 'item'
         },
         legend: {
-          orient: 'vertical',
-          left: 'left'
+          orient: 'horizontal',
+          left: 'left',
+          textStyle: {
+              color: '#fff'
+          }
+        
         },
         series: [
           {
             name: 'Problem',
             type: 'pie',
-            radius: ['20%', '30%'],
+            radius: ['40%', '65%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: 'center'
+            },
+            labelLine: {
+              show: false
+            },
             data: problemData,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+                label: {
+                  show: true,
+                  fontSize: '40',
+                  fontWeight: 'bold'
+                }
               }
             }
           }
@@ -39,7 +56,7 @@ export default function TotalProblems({problemData}) {
 
     return <>
     <h4> Problems </h4>
-    <div style={{height: "175px"}}>
+    <div style={{height: "140px"}}>
     <ReactECharts option={option} style={{ height: "100%"}}/>
     </div>
     </>

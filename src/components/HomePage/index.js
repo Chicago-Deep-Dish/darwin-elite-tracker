@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 import useGlobalContext from "../../context/GlobalContext";
 import DashBoard from './DashBoard/Dashboard.js';
 import InputForm from './InputForm/InputForm.js';
-import Dash from './TestDash/Dashboard.js';
+// import DashBoard from './TestDash/Dashboard.js';
 import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js';
 
 
@@ -31,9 +31,9 @@ export default function HomePage() {
     <div>
         <InputForm></InputForm>
     </div>
-    {/* <DashBoard/> */}
     <div>
-      <Dash/>
+      <DashBoard/>
+      {/* <Dash/> */}
       <Graphs/>
     </div>
     </div>
