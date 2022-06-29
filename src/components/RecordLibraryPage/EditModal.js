@@ -78,7 +78,7 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <Button type="submit">Submit</Button>
           </FormControl>
         </div>
-      </section >
-    </div >
+      </section>
+    </div>
   );
 }
