@@ -8,7 +8,8 @@ import data from  './sampleData.js';
 export default function Donut() {
 
   const [graph, setGraph] = React.useState('speed');
-  const [selection, setSelection]=React.useState('difficulity');
+  const [selection, setSelection]=React.useState('');
+  const [subject, setSubject] = React.useState([]);
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([0,0,0])
@@ -31,8 +32,11 @@ export default function Donut() {
   };
   const handleSelection= (event) => {
     setSelection(event.target.value);
+    setSubject([]);
   };
-
+  const handleSubject= (event) => {
+    setSubject(event.target.value);
+  };
   var easy = 0;
   var medium = 0;
   var hard = 0;
@@ -113,7 +117,7 @@ export default function Donut() {
   };
 return (
   <Stack>
-    <MenuBar graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+    <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>

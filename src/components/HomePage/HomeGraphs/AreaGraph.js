@@ -7,7 +7,8 @@ import MenuBar from './MenuBar.js';
 export default function Area() {
 
   const [graph, setGraph] = React.useState('speed');
-  const [selection, setSelection]=React.useState('difficulity');
+  const [selection, setSelection]=React.useState('');
+  const [subject, setSubject] = React.useState([]);
 
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
@@ -28,8 +29,11 @@ export default function Area() {
   };
   const handleSelection= (event) => {
     setSelection(event.target.value);
+    setSubject([]);
   };
-
+  const handleSubject= (event) => {
+    setSubject(event.target.value);
+  };
   React.useEffect ( ()=>{
     console.log('state', language,range,time);
     //console.log('testtt', state.speed)
@@ -137,7 +141,7 @@ export default function Area() {
 
 return (
   <Stack>
-    <MenuBar graph={graph} setGraph={setGraph} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+    <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>
