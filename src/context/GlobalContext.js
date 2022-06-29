@@ -9,15 +9,16 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
-  const [exampleState, setExampleState] = useState(
-    "Set state inside GlobalContext.js"
-  );
-
-  //TODO: change theme to a state so it doesn't rerender every time
-  const toastifyTheme = {
+  const [userSettings, setUserSettings] = useState({
+    firstGraph: 'bar',
+    secondGraph: 'pie',
+  });
+  const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
     position: "bottom-left",
-  };
+  });
+
+  //TODO: axios request on mount to get user settings
 
 
   useEffect(() => {
@@ -34,8 +35,8 @@ export function GlobalContextProvider({ children }) {
     }
   }, []);
   const value = {
-    exampleState,
-    setExampleState,
+    userSettings,
+    setUserSettings,
     toastifyTheme,
   };
   return (

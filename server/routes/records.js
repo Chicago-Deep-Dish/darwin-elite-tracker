@@ -10,7 +10,7 @@ const recordsRouter = require('express').Router();
  * search: prompt_name
  */
 recordsRouter.get('/', ctrl.searchRecords);
-// recordsRouter.post('/', ctrl.addRecord);
+recordsRouter.post('/', ctrl.addRecord);
 recordsRouter.put('/:record_id', ctrl.updateRecord);
 recordsRouter.delete('/:record_id', ctrl.removeRecord);
 

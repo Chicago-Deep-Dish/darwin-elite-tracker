@@ -76,18 +76,20 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <TextField id="promptName" label="Name" value={row.data.promptName}></TextField>
             <TextField id="promptLink" label="Link" value={row.data.promptLink}></TextField>
             {/* <TextField id="difficulty" label="Difficulty" value={row.data.difficulty}></TextField> */}
-            <InputLabel id="difficulty-select-label">Age</InputLabel>
-            <Select
-              labelId="difficulty-select-label"
-              id="difficulty"
-              value={row.data.difficulty}
-              label="Difficulty"
-              onChange={handleDifficultyChange}
-            >
-              <MenuItem id="difficulty" value="easy">easy</MenuItem>
-              <MenuItem id="difficulty" value="medium">medium</MenuItem>
-              <MenuItem value="hard">hard</MenuItem>
-            </Select>
+            <FormControl>
+              <InputLabel id="difficulty-select-label">Difficulty</InputLabel>
+              <Select
+                labelId="difficulty-select-label"
+                id="difficulty"
+                value={row.data.difficulty}
+                label="Difficulty"
+                onChange={handleDifficultyChange}
+              >
+                <MenuItem id="difficulty" value="easy">easy</MenuItem>
+                <MenuItem id="difficulty" value="medium">medium</MenuItem>
+                <MenuItem value="hard">hard</MenuItem>
+              </Select>
+            </FormControl>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="Date&Time picker"
