@@ -28,7 +28,7 @@ export function GlobalContextProvider({ children }) {
       toast.success("Logged In", toastifyTheme);
     } else {
       toast.error(
-        "Not Logged in: Please Login to use all Features",
+        "Not Logged in: Please Login to begin using all features",
         toastifyTheme
       );
     }

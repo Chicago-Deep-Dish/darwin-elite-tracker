@@ -46,7 +46,7 @@ export default function Bar() {
   React.useEffect ( ()=>{
 
     //send request during 'range' time with 'language' for  as data
-    console.log('subject',subject);
+    // console.log('subject',subject);
     if (graph==='totalQuantities') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
