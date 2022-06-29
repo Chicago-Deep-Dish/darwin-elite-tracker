@@ -1,4 +1,5 @@
 const { initializeApp } = require("firebase/app");
+const { getFirestore } = require("firebase/firestore");
 require('dotenv').config();
 
 const firebaseConfig = {
@@ -12,7 +13,14 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
 };
 
-exports.app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
+
+
+const db = getFirestore(app);
+
+module.exports = { app, db };
+
 
 //to use Analytics, add two below to the above file:
 // import { getAnalytics } from "firebase/analytics";

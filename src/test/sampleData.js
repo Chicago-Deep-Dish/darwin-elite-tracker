@@ -21,6 +21,36 @@ let sampleData = {
   codeTime: 300000,
 };
 
+// let sampleClass = {
+//   userId: firebaseuserId,
+//   // below is optional as user may register without this data
+//   settings: settings || {},
+//   firstName: firstName || null,
+//   lastName: lastName || null,
+//   defaultGraph: defaultGraph || [],
+//   timestamp: timestamp || null,
+//   problems: [
+//     {
+//       // id: id || null,
+//       promptName: promptName || null,
+//       difficulty: difficulty || null,
+//       topics: topics || [],
+//       promptLink: promptLink || null,
+//       time: time || null,
+
+//       promptText: promptText || null,
+//       solution: solution || [],
+//       readTime: readTime || null,
+//       whiteboardTime: whiteboardTime || null,
+//       pseudocodeTime: pseudocodeTime || null,
+//       codeTime: codeTime || null,
+//       contraints: contraints || null,
+//       timeComplexity: timeComplexity || null,
+//       programmingLanguage: programmingLanguage || null,
+//     },
+//   ],
+// }
+
 export default function createSampleData(rows) {
   let sampleData = [];
   for (let i = 0; i < rows; i++) {

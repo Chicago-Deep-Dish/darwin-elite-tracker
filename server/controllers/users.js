@@ -26,8 +26,10 @@ module.exports = {
   },
 
   storeUserData: function (req, res) {
+    console.log('req', req)
+    console.log('req.body', req.body)
     models
-      .register(req.query)
+      .storeUserData(req.body)
       .then((response) => {
         console.log("storeUserData response", response);
         res.send(response);
