@@ -4,10 +4,12 @@ import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import data from  './sampleData.js';
+import axios from 'axios';
+
 
 export default function Pie() {
 
-  const [graph, setGraph] = React.useState('speed');
+  const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
   //const { speed, frequency, total, difficulty, name, subject} = state;
@@ -41,8 +43,15 @@ export default function Pie() {
   var hard = 0;
 
   React.useEffect ( ()=>{
+    if (graph==='totalQuantities'&&selection==='subject') {
+      //for total and subject
+      axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
 
-    if (graph==='total') {
+
+    }
+    if (graph==='totalQuantities'&&selection==='difficulty') {
+      axios.get('/total', { params:{"range":range,'language':language}})
+
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy++;
@@ -53,7 +62,20 @@ export default function Pie() {
         }
       }
     }
-    if (graph==='speed') {
+
+
+    if (graph==='totalTime'&&selection==='subject') {
+      axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
+
+
+
+
+
+    }
+
+    if(graph==='totalTime'&&selection==='difficulty') {
+      axios.get('/total', { params:{"range":range,'language':language}})
+
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy = easy + data.data[i]["Total Time"];
@@ -65,14 +87,15 @@ export default function Pie() {
       }
     }
 
+
    setInput([easy, medium, hard]);
     // console.log('state', language,range,time);
     // console.log('testtt', state.speed)
-  }, [graph, selection, subject])
+  },  [graph,selection, subject,time, language,range])
 
   const option = {
     title:{
-      text: graph==='speed'?'speed (mins)':graph==='total'?'total':null
+      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
     },
     tooltip: {
       trigger: 'item',
@@ -101,10 +124,13 @@ export default function Pie() {
         itemStyle: {
           borderRadius: 8
         },
-        data: [
-          { value: input[0], name: 'easy' },
+        data: selection==='difficulty'?
+        [ { value: input[0], name: 'easy' },
           { value: input[1], name: 'medium' },
           { value: input[2], name: 'hard' },
+        ]:[
+          'subject'//neeed to update it
+
         ]
 
       }
@@ -112,7 +138,7 @@ export default function Pie() {
   };
 return (
   <Stack>
-    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', m:4, backgroundColor:'white'}}>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px',  ml:4, mr:4, mt:1,mb:2, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

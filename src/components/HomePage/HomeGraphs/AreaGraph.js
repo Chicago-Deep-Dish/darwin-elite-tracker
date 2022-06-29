@@ -3,10 +3,11 @@ import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
+import moment from 'moment';
 
 export default function Area() {
 
-  const [graph, setGraph] = React.useState('speed');
+  const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
 
@@ -34,14 +35,17 @@ export default function Area() {
   const handleSubject= (event) => {
     setSubject(event.target.value);
   };
+
+
   React.useEffect ( ()=>{
     console.log('state', language,range,time);
     //console.log('testtt', state.speed)
-  }, [graph, selection, time, range, language])
+  },  [graph,selection, subject,time, language,range])
+
 
   const option = {
       title: {
-        text:graph==='speed'?'speed (mins)':graph==='total'?'total':null,
+        text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null,
         padding:[20,10,10,10]
       },
 
@@ -55,7 +59,7 @@ export default function Area() {
         }
       },
       legend: {
-        data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+        data: selection==='difficulty'?['Easy', 'Medium', 'Hard']:subject
       },
       toolbox: {
         feature: {
@@ -69,13 +73,21 @@ export default function Area() {
         bottom: '3%',
         containLabel: true
       },
-      xAxis: [
+      xAxis:
         {
-          type: 'category',
+          type: 'time',
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          axisLabel: range==='year'?{
+            formatter: (function(value){
+                return moment(value).format('MM');
+            })
+          }:{
+            formatter: (function(value){
+                return moment(value).format('MM/DD');
+            })
+          }
         }
-      ],
+      ,
       yAxis: [
         {
           type: 'value'
@@ -83,65 +95,42 @@ export default function Area() {
       ],
       series: [
         {
-          name: 'Email',
+          name: 'Hard',
           type: 'line',
           stack: 'Total',
           areaStyle: {},
           emphasis: {
             focus: 'series'
           },
-          data: [120, 132, 101, 134, 90, 230, 210]
+          data: [["2022-06-25T14:35:45", 3], ["2022-06-27T14:35:45",132], ["2022-06-28T14:35:45",101]]
         },
         {
-          name: 'Union Ads',
+          name: 'Medium',
           type: 'line',
           stack: 'Total',
           areaStyle: {},
           emphasis: {
             focus: 'series'
           },
-          data: [220, 182, 191, 234, 290, 330, 310]
+          data: [["2022-06-25T14:34:45", 3], ["2022-06-27T14:30:45",132], ["2022-06-28T14:32:45",101]]
         },
         {
-          name: 'Video Ads',
+          name: 'Easy',
           type: 'line',
           stack: 'Total',
           areaStyle: {},
           emphasis: {
             focus: 'series'
           },
-          data: [150, 232, 201, 154, 190, 330, 410]
-        },
-        {
-          name: 'Direct',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series'
-          },
-          data: [320, 332, 301, 334, 390, 330, 320]
-        },
-        {
-          name: 'Search Engine',
-          type: 'line',
-          stack: 'Total',
-          label: {
-            show: true,
-            position: 'top'
-          },
-          areaStyle: {},
-          emphasis: {
-            focus: 'series'
-          },
-          data: [820, 932, 901, 934, 1290, 1330, 1320]
+          data: [["2022-06-25T12:35:45", 3], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
         }
+
       ]
     }
 
 return (
   <Stack>
-     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
+     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

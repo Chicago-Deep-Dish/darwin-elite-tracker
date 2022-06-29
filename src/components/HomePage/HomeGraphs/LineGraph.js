@@ -8,7 +8,7 @@ import data from  './sampleData.js';
 
 export default function Line() {
   const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
+  const [selection, setSelection]=React.useState('dificulty');
   const [subject, setSubject] = React.useState([]);
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
@@ -52,73 +52,88 @@ export default function Line() {
   const [hardValue, setHard] = useState([]);
 
   React.useEffect ( ()=>{
-    const date = new Date();
-    const day = date.getDate();
-    const first = getLastDate(6);
-    const last = getLastDate(0);
-    if (range === 'week') {
-      for (let i = 0; i < data.data.length; i++) {
-        if(data.data[i]['Time']<=last && data.data[i]['Time']>= first ) {
-          if(data.data[i].Difficulty.toLowerCase()==='easy'){
-            var arr=[];
-            arr.push(data.data[i]['Time']);
-            arr.push(data.data[i]['Total Time']);
-            easy.push(arr);
-          }else if (data.data[i].Difficulty.toLowerCase()==='medium'){
-            var arr=[];
-            arr.push(data.data[i]['Time']);
-            arr.push(data.data[i]['Total Time']);
-            medium.push(arr);
-          }else {
-            var arr=[];
-            arr.push(data.data[i]['Time']);
-            arr.push(data.data[i]['Total Time']);
-            hard.push(arr);
-          }
-        }
+    console.log('subbbject in line', subject);
 
-      }
-      console.log('hardddd', hard, easy, medium);
-    } else if (range === 'day') {
-      const last = getLastDate(0);
-      for (let i = 0; i < data.data.length; i++) {
-        if(data.data[i]['Time']<=last && data.data[i]['Time']>= first ) {
-          if(data.data[i].Difficulty.toLowerCase()==='easy'){
-            var arr=[];
-            arr.push(data.data[i]['Time']);
-            arr.push(data.data[i]['Total Time']);
-            easy.push(arr);
-          }else if (data.data[i].Difficulty.toLowerCase()==='medium'){
-            var arr=[];
-            arr.push(data.data[i]['Time']);
-            arr.push(data.data[i]['Total Time']);
-            medium.push(arr);
-          }else {
-            var arr=[];
-            arr.push(data.data[i]['Time']);
-            arr.push(data.data[i]['Total Time']);
-            hard.push(arr);
-          }
-        }
+    //series needs to change like this :
 
-      }
-    }
-    setEasy(easy);
-    setMedium(medium);
-    setHard(hard);
-  }, [graph, selection, time, range, language])
+    // {
+    //   name: 'Easy',
+    //   type: 'line',
+    //   stack: 'Total',
+    //   data: easyValue ///format will be [ [timestamp,value], [timestamp, value].....]
+    // },
+
+    var series=[];
+
+
+
+    // const date = new Date();
+    // const day = date.getDate();
+    // const first = getLastDate(6);
+    // const last = getLastDate(0);
+    // if (range === 'week') {
+    //   for (let i = 0; i < data.data.length; i++) {
+    //     if(data.data[i]['Time']<=last && data.data[i]['Time']>= first ) {
+    //       if(data.data[i].Difficulty.toLowerCase()==='easy'){
+    //         var arr=[];
+    //         arr.push(data.data[i]['Time']);
+    //         arr.push(data.data[i]['Total Time']);
+    //         easy.push(arr);
+    //       }else if (data.data[i].Difficulty.toLowerCase()==='medium'){
+    //         var arr=[];
+    //         arr.push(data.data[i]['Time']);
+    //         arr.push(data.data[i]['Total Time']);
+    //         medium.push(arr);
+    //       }else {
+    //         var arr=[];
+    //         arr.push(data.data[i]['Time']);
+    //         arr.push(data.data[i]['Total Time']);
+    //         hard.push(arr);
+    //       }
+    //     }
+
+    //   }
+    //   console.log('hardddd', hard, easy, medium);
+    // } else if (range === 'day') {
+    //   const last = getLastDate(0);
+    //   for (let i = 0; i < data.data.length; i++) {
+    //     if(data.data[i]['Time']<=last && data.data[i]['Time']>= first ) {
+    //       if(data.data[i].Difficulty.toLowerCase()==='easy'){
+    //         var arr=[];
+    //         arr.push(data.data[i]['Time']);
+    //         arr.push(data.data[i]['Total Time']);
+    //         easy.push(arr);
+    //       }else if (data.data[i].Difficulty.toLowerCase()==='medium'){
+    //         var arr=[];
+    //         arr.push(data.data[i]['Time']);
+    //         arr.push(data.data[i]['Total Time']);
+    //         medium.push(arr);
+    //       }else {
+    //         var arr=[];
+    //         arr.push(data.data[i]['Time']);
+    //         arr.push(data.data[i]['Total Time']);
+    //         hard.push(arr);
+    //       }
+    //     }
+
+    //   }
+    // }
+    // setEasy(easy);
+    // setMedium(medium);
+    // setHard(hard);
+  }, [graph, selection, subject, time,language, range])
 
 
   const option = {
     title: {
-      text: graph==='speed'?'speed (mins)':graph==='total'?'total':null,
+      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null,
       padding:[20,5,5,5],
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: ['Easy', 'Medium', 'Hard']
+      data: selection==='difficulty'?['Easy', 'Medium', 'Hard']:console.log('anything',selection, subject)
     },
     grid: {
       left: '3%',
@@ -135,39 +150,43 @@ export default function Line() {
     xAxis: {
       type: 'time',
       boundaryGap: false,
-      axisLabel: {
+      axisLabel: range==='year'?{
         formatter: (function(value){
-            return moment(value).format('MMDD');
+            return moment(value).format('MM');
+        })
+      }:{
+        formatter: (function(value){
+            return moment(value).format('MM/DD');
         })
       }
     },
     yAxis: {
       type: 'value'
     },
-    series: [
+    series: [ //need to update according to data
       {
         name: 'Easy',
         type: 'line',
         stack: 'Total',
-        data: easyValue
+        data: [["2022-06-27T12:35:45", 33], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
       },
       {
         name: 'Medium',
         type: 'line',
         stack: 'Total',
-        data: mediumValue
+        data: [["2022-06-25T10:35:45", 3], ["2022-06-27T12:35:45",132], ["2022-06-28T17:35:45",101]]
       },
       {
         name: 'Hard',
         type: 'line',
         stack: 'Total',
-        data: hardValue
+        data: [["2022-06-25T10:35:45", 3], ["2022-06-27T19:35:45",132], ["2022-06-28T20:35:45",101]]
       }
     ]
   }
   return (
     <Stack>
-      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', m:4, backgroundColor:'white'}}>
+      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'white'}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

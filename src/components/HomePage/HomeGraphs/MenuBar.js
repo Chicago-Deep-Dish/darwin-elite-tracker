@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {Box, Stack} from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Radio from '@mui/material/Radio';
@@ -11,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import styled from "styled-components";
 import RadioGroup from '@mui/material/RadioGroup';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import ListItemText from '@mui/material/ListItemText';
 
 
 const StyledInput = styled(TextField)`
@@ -20,7 +20,7 @@ width: 100%;
 
 }
 & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: black;
+  border-color: white;
   color:red
 }`;
 
@@ -40,7 +40,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
 
   return (
 
-      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'500px', m:4}}>
+      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'500px', ml:4, mr:4, mt:0.1}}>
         <FormControl sx={{mt:3, width:'140px'}} component="fieldset" variant="standard">
           <RadioGroup
             aria-label ledby="demo-radio-buttons-group-label"
@@ -52,7 +52,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
           </RadioGroup>
         </FormControl>
 
-        <Stack sx={{display: 'flex', justifyContent: 'center', mb:3}}>
+        <Stack sx={{display: 'flex', justifyContent: 'center', mt:1, mb:3, width:'150px'}}>
         <FormControl
           required
           size="small"
@@ -66,30 +66,33 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
               <FormControlLabel value="difficulty"   control={<Radio color='success'/>} label="difficulty" onChange={handleSelection} />
 
             <FormControlLabel value="subject"   control={<Radio color='success'/>} label="subject" onChange={handleSelection} />
+            </RadioGroup>
+          </FormControl>
+
+            <FormControl>
             <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select-label"
             value={subject}
             multiple
+            size='small'
             onChange={handleSubject}
             label='Subject'
-            //size="small"
+            renderValue={(selected) => selected.join(', ')}
             input={<OutlinedInput label='Subject' />}
             MenuProps={MenuProps}
             >
               {leetTopics.map((topic) => {
-                return (<MenuItem key={topic} value={topic}>
-                  {topic}
+                return (
+                <MenuItem key={topic} value={topic}>
+                  <Checkbox checked={subject.indexOf(topic) > -1} />
+                  <ListItemText primary={topic} />
                 </MenuItem>)
               })}
             </Select>
-          </RadioGroup>
+          {/* </RadioGroup> */}
         </FormControl>
         </Stack>
-
-
-
-
 
         <Stack sx={{display: 'flex', justifyContent: 'center', mb:2}}>
           <FormControl

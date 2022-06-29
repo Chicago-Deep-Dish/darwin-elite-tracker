@@ -39,7 +39,7 @@ export default function Graphs() {
       <FormControl
         required
         size="small"
-        sx={{ m:1, mt:3, width:'140px'}}
+        sx={{ m:1, mt:3, ml:45, width:'140px'}}
       >
           <StyledInput
             color="success"
@@ -65,7 +65,7 @@ export default function Graphs() {
       <FormControl
         required
         size="small"
-        sx={{ m:1, mt:3, width:'140px'}}
+        sx={{ m:1, mt:3, ml:45, width:'140px'}}
       >
           <StyledInput
             color="success"
