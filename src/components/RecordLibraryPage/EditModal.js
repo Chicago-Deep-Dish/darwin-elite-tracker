@@ -17,6 +17,9 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
 
   function handleFormSubmit(e) {
     e.preventDefault();
+    if (isNaN(row.data.timeStamp.day)) {
+      return;
+    }
     tableData.splice(row.idx, 1, row.data);
     setTableData(tableData);
     handleExitModal();
@@ -33,20 +36,19 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
   }
 
   function handleDateChange(newDate) {
-    const timestamp = {
+    const timeStamp = {
       date: newDate,
       month: new Date(newDate).getMonth() + 1,
       day: new Date(newDate).getDate(),
       year: new Date(newDate).getFullYear()
     }
-    console.log(timestamp)
     setRow({
       idx: row.idx,
       data: {
         ...row.data,
-        timestamp
+        timeStamp
       }
-    })
+    });
   }
 
   return (
@@ -66,7 +68,7 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="Date&Time picker"
-                value={row.data.timestamp.date}
+                value={row.data.timeStamp.date}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
               />
