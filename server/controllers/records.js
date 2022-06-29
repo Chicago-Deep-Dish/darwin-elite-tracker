@@ -4,7 +4,6 @@ exports.searchRecords = (req, res) => {
   models
     .searchRecords(req.query)
     .then((response) => {
-      // console.log("login response", response);
       res.send(response);
     })
     .catch((err) => {
@@ -13,9 +12,9 @@ exports.searchRecords = (req, res) => {
     });
 };
 
-exports.updateRecord = (req, res) => {
+exports.addRecord = (req, res) => {
   models
-    .updateRecord(req.body)
+    .addRecord(req.body, req.query.userID)
     .then((response) => {
       // console.log("login response", response);
       res.send(response);
@@ -25,11 +24,23 @@ exports.updateRecord = (req, res) => {
       res.status(405).send(err);
     });
 };
+
+exports.updateRecord = (req, res) => {
+  models
+    .updateRecord(req.body)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      console.log("updateRecord err", err);
+      res.status(405).send(err);
+    });
+};
+
 exports.removeRecord = (req, res) => {
   models
     .removeRecord(req.body)
     .then((response) => {
-      // console.log("login response", response);
       res.send(response);
     })
     .catch((err) => {
