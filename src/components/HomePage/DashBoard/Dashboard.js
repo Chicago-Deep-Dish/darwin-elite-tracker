@@ -25,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
   const dates = [
-    new Date('01/01/2018'),
+    new Date('01-01-2018'),
     new Date('01/02/2018'),
     new Date('01/03/2018'),
     new Date('01/04/2018'),
