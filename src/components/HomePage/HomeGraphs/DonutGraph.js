@@ -5,25 +5,25 @@ import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import data from  './sampleData.js';
 
+export default function Donut() {
 
-export default function Bar() {
-
-  const [graph, setGraph] = React.useState('totalTime');
+  const [graph, setGraph] = React.useState('speed');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
 
+  //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([0,0,0])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
 
-  const handleTime = (event) => {
+  const handleTime = (event: SelectChangeEvent) => {
     setTime(event.target.value);
   };
-  const handleRange= (event) => {
+  const handleRange= (event: SelectChangeEvent) => {
     setRange(event.target.value);
   };
-  const handleLanguage = (event) => {
+  const handleLanguage = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
   };
 
@@ -37,17 +37,13 @@ export default function Bar() {
   const handleSubject= (event) => {
     setSubject(event.target.value);
   };
-
-
   var easy = 0;
   var medium = 0;
   var hard = 0;
 
   React.useEffect ( ()=>{
 
-    //send request during 'range' time with 'language' for  as data
-    // console.log('subject',subject);
-    if (graph==='totalQuantities') {
+    if (graph==='total') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy++;
@@ -58,7 +54,7 @@ export default function Bar() {
         }
       }
     }
-    if (graph==='totalTime') {
+    if (graph==='speed') {
       for ( let i=0; i<data.data.length; i++) {
         if (data.data[i].Difficulty.toLowerCase()==='easy') {
           easy = easy + data.data[i]["Total Time"];
@@ -69,10 +65,11 @@ export default function Bar() {
         }
       }
     }
-    setInput([easy, medium, hard]);
-    // console.log('state', [easy, medium, hard]);
+
+   setInput([easy, medium, hard]);
+    // console.log('state', language,range,time);
     // console.log('testtt', state.speed)
-  }, [graph,selection, subject])
+  }, [graph, selection, time, range, language])
 
   const option = {
     title:{
@@ -81,29 +78,47 @@ export default function Bar() {
     tooltip: {
       trigger: 'item'
     },
-    xAxis: {
-      type: 'category',
-      data: ['easy', 'medium', 'hard']
-    },
-    yAxis: {
-      type: 'value'
+    legend: {
+     top:'bottom',
+     left: '80%'
     },
     series: [
       {
-        data: input,
-        type: 'bar',
+        name: 'Donut',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
         emphasis: {
-          itemStyle: {
-            color: '#DC9E41'
+          label: {
+            show: true,
+            fontSize: '40',
+            fontWeight: 'bold'
           }
-        }
+        },
+        labelLine: {
+          show: false
+        },
+        data: [
+          { value: input[0], name: 'Easy' },
+          { value: input[1], name: 'Medium'},
+          { value: input[2], name: 'Hard' }
+        ]
       }
     ]
-  }
+  };
 return (
-  <Stack >
-    <MenuBar  graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
-    <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
+  <Stack>
+    <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', m:4, backgroundColor:'white'}}>
       <ReactEcharts option={option} />
     </Box>
   </Stack>

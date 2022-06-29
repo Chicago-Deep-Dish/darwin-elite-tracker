@@ -124,7 +124,7 @@ export default function ImportForm() {
             <FormControl variant='filled'>
               <InputLabel id='difficulty-label'>Difficulty</InputLabel>
               <Select
-              labelId='difficulty-label'
+              labelid='difficulty-label'
                 name="difficulty"
                 value={values.difficulty}
                 onChange={(e) => handleChange(e)}
@@ -146,7 +146,7 @@ export default function ImportForm() {
             <FormControl>
               <InputLabel id='leet-checkbox-label'>Topic</InputLabel>
               <Select
-              labelId='leet-checkbox-label'
+              labelid='leet-checkbox-label'
               id='leet-checkbox'
               multiple
               value={leets}
@@ -195,7 +195,7 @@ export default function ImportForm() {
               <FormControl variant='filled'>
               <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
               <Select
-              labelId='timecomplexity-label'
+              labelid='timecomplexity-label'
                 name="timeComplexity"
                 value={values.timeComplexity}
                 onChange={(e) => handleChange(e)}
@@ -219,7 +219,7 @@ export default function ImportForm() {
               <FormControl variant='filled'>
               <InputLabel id='language-label'>Programming Language</InputLabel>
               <Select
-              labelId='language-label'
+              labelid='language-label'
                 name="programmingLanguage"
                 value={values.programmingLanguage}
                 onChange={(e) => handleChange(e)}

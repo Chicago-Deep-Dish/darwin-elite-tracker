@@ -7,7 +7,7 @@ const {
 
 // login
 exports.login = ({ email, password }) => {
-  console.log("email pass", email, password);
+  // console.log("email pass", email, password);
   const authentication = getAuth();
   return signInWithEmailAndPassword(authentication, email, password);
 };
