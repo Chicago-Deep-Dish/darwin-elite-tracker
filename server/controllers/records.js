@@ -4,7 +4,6 @@ exports.searchRecords = (req, res) => {
   models
     .searchRecords(req.query)
     .then((response) => {
-      // console.log("login response", response);
       res.send(response);
     })
     .catch((err) => {
@@ -17,7 +16,6 @@ exports.updateRecord = (req, res) => {
   models
     .updateRecord(req.body)
     .then((response) => {
-      // console.log("login response", response);
       res.send(response);
     })
     .catch((err) => {
@@ -29,7 +27,6 @@ exports.removeRecord = (req, res) => {
   models
     .removeRecord(req.body)
     .then((response) => {
-      // console.log("login response", response);
       res.send(response);
     })
     .catch((err) => {

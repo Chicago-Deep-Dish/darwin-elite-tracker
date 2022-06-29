@@ -19,6 +19,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -108,6 +109,27 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
   }
 
+  function handleDelete(data) {
+    // axios({
+    //   method: 'delete',
+    //   url: `/records/${data.promptName}`, // Junsu TODO: replace with problem ID
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    // Junsu: Gil, put the code below in your Edit Button
+    // axios({
+    //   method: 'put',
+    //   url: `/records/${data.promptName}`,
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    //Junsu: Gil, put the code below for your search function
+    axios.get('/records')
+      .then(response => console.log(response.data._document.data.value.mapValue.fields));
+  }
+
   return (
     <TableContainer
       sx={{
@@ -155,7 +177,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 73 }} align="right">
-                <IconButton onClick={() => { console.log('delete') }}>
+                <IconButton onClick={() => handleDelete(row)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
