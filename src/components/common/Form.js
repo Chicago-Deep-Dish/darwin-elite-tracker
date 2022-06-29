@@ -127,6 +127,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           onChange={handleChange("password")}
           onKeyPress={(e) => {
             if (e.key === "Enter") {
+              e.preventDefault();
               handleClickSubmit();
             }
           }}
