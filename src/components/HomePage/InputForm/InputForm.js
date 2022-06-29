@@ -63,7 +63,7 @@ export default function ImportForm() {
     axios.post('/', {
       ...values,
       ['time']: times,
-      ['timestamp']: {
+      ['timeStamp']: {
         'date': new Date().toISOString(),
         'month': new Date().getMonth() + 1,
         'day': new Date().getDate(),
