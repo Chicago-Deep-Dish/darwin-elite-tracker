@@ -98,7 +98,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
     setPage(0);
   };
   function handleEditClick(data, idx) {
-    setEditRow({ data, idx })
+    setEditRow({ data, idx: idx + (page * rowsPerPage) })
     setShowEditModal(true);
   };
 
@@ -163,8 +163,8 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
           ))}
 
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={4} />
+            <TableRow style={{ height: 73 * emptyRows }}>
+              <TableCell colSpan={6} />
             </TableRow>
           )}
         </TableBody>
@@ -172,7 +172,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-              colSpan={4}
+              colSpan={6}
               count={tableData.length}
               rowsPerPage={rowsPerPage}
               page={page}
