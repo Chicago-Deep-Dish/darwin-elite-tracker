@@ -5,11 +5,13 @@ const {
   createUserWithEmailAndPassword,
 } = require("firebase/auth");
 
+// login
 exports.login = ({ email, password }) => {
   const authentication = getAuth();
   return signInWithEmailAndPassword(authentication, email, password);
 };
 
+//register
 exports.register = ({ email, password }) => {
   const authentication = getAuth();
   return createUserWithEmailAndPassword(authentication, email, password);

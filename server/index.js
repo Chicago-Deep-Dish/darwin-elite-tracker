@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 // routes
 app.use("/users", usersRouter);
 app.use("/records", recordsRouter);
-// app.use("/graphs", routes.graphsRouter);
+// app.use("/graphs", graphsRouter);
 
 
 app.listen(8080, () => {
