@@ -19,6 +19,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -97,16 +98,21 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   function handleEditClick(data, idx) {
     setEditRow({ data, idx: idx + (page * rowsPerPage) })
     setShowEditModal(true);
   };
 
+  function handleDeleteClick(row) {
+    // axios.delete(`/records/${recordId}`)
+  }
+
   function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-  }
+  };
 
   return (
     <TableContainer
@@ -135,7 +141,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
             : tableData
           ).map((row, idx) => (
             <TableRow id={idx} key={idx}>
-              <TableCell style={{ width: 160 }}>
+              <TableCell style={{ width: 200 }}>
                 {row.promptName}
               </TableCell>
               <TableCell>
@@ -143,10 +149,10 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                   {row.promptLink}
                 </a>
               </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
+              <TableCell style={{ width: 90 }} align="right">
                 {row.difficulty}
               </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
+              <TableCell style={{ width: 95 }} align="right">
                 {millisToMinutesAndSeconds(row.totalTime)}
               </TableCell>
               <TableCell style={{ width: 72 }} align="right">
@@ -155,7 +161,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 73 }} align="right">
-                <IconButton onClick={() => { console.log('delete') }}>
+                <IconButton onClick={() => handleDeleteClick(row)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
