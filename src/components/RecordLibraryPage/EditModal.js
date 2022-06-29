@@ -5,6 +5,9 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 export default function EditModal({ setShowEditModal, row, setRow, tableData, setTableData }) {
   function handleExitModal() {
@@ -14,6 +17,9 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
 
   function handleFormSubmit(e) {
     e.preventDefault();
+    if (isNaN(row.data.timeStamp.day)) {
+      return;
+    }
     tableData.splice(row.idx, 1, row.data);
     setTableData(tableData);
     handleExitModal();
@@ -25,6 +31,22 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
       data: {
         ...row.data,
         [e.target.id]: e.target.value
+      }
+    });
+  }
+
+  function handleDateChange(newDate) {
+    const timeStamp = {
+      date: newDate,
+      month: new Date(newDate).getMonth() + 1,
+      day: new Date(newDate).getDate(),
+      year: new Date(newDate).getFullYear()
+    }
+    setRow({
+      idx: row.idx,
+      data: {
+        ...row.data,
+        timeStamp
       }
     });
   }
@@ -43,13 +65,20 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <TextField id="promptName" label="Name" value={row.data.promptName}></TextField>
             <TextField id="promptLink" label="Link" value={row.data.promptLink}></TextField>
             <TextField id="difficulty" label="Difficulty" value={row.data.difficulty}></TextField>
-            <TextField id="date" label="Date" value={row.data.date}></TextField>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                label="Date&Time picker"
+                value={row.data.timeStamp.date}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
             <TextField id="totalTime" label="Total Time" value={row.data.totalTime}></TextField>
             <TextField id="topic" label="Topic" value={row.data.topic}></TextField>
             <Button type="submit">Submit</Button>
           </FormControl>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }

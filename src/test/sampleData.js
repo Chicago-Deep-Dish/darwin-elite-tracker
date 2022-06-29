@@ -29,7 +29,7 @@ export const sampleClass = {
   firstName: null,
   lastName: null,
   defaultGraph: [],
-  timestamp: null,
+  timeStamp: null,
   problems: [
     {
       id: uuidv4(),
@@ -49,8 +49,8 @@ export const sampleClass = {
       timeComplexity: null,
       programmingLanguage: null,
     },
-  ],
-};
+  ]
+}
 
 export default function createSampleData(rows) {
   let sampleData = [];
@@ -131,13 +131,13 @@ function createRandomParagraph(length) {
 }
 
 function RandomTimeGeneratorForLastMonth() {
-  return `2022-${createRandomNumerWithRange(1, 6)}-${createRandomNumerWithRange(
-    1,
-    28
-  )}T${createRandomNumerWithRange(1, 12)}:${createRandomNumerWithRange(
-    1,
-    59
-  )}:${createRandomNumerWithRange(1, 59)}`;
+  const timeStamp = {
+    date: new Date().toISOString(),
+    month: new Date().getMonth() + 1,
+    day: new Date().getDate(),
+    year: new Date().getFullYear()
+  }
+  return timeStamp;
 }
 
 //NOT USED YET
