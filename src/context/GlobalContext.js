@@ -21,14 +21,14 @@ export function GlobalContextProvider({ children }) {
 
 
   useEffect(() => {
-    const authToken = sessionStorage.getItem("Auth Token");
+    const authToken = sessionStorage.getItem("AuthToken");
     //DON"T REMOVE: this can be useful to navigate to pages with dummy data upon login IF no user is detected
 
     if (authToken) {
       toast.success("Logged In", toastifyTheme);
     } else {
       toast.error(
-        "Not Logged in: Please Login to use all Features",
+        "Not Logged in: Please Login to begin using all features",
         toastifyTheme
       );
     }

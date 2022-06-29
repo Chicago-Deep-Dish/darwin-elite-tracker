@@ -78,7 +78,7 @@ export default function Line() {
         }
 
       }
-      console.log('hardddd', hard, easy, medium);
+      // console.log('hardddd', hard, easy, medium);
     } else if (range === 'day') {
       const last = getLastDate(0);
       for (let i = 0; i < data.data.length; i++) {

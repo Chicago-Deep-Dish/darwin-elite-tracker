@@ -35,7 +35,7 @@ export default function Area() {
     setSubject(event.target.value);
   };
   React.useEffect ( ()=>{
-    console.log('state', language,range,time);
+    // console.log('state', language,range,time);
     //console.log('testtt', state.speed)
   }, [graph, selection, time, range, language])
 

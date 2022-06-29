@@ -2,6 +2,6 @@
 // const Router = require('express-promise-router')
 module.exports = {
   usersRouter: require("./users"),
-  // recordsRouter: require("./records"),
+  recordsRouter: require("./records"),
   // graphsRouter: require("./graphs"),
 };

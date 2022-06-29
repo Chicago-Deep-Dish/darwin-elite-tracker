@@ -11,9 +11,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import Stopwatch from './Stopwatch/Stopwatch';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import Stopwatch from './Stopwatch/Stopwatch';
 import axios from 'axios';
 
 
@@ -60,10 +60,15 @@ export default function ImportForm() {
 
   const handleSubmit = (e, values) => {
     e.preventDefault();
-    axios.post('/submission', {
+    axios.post('/', {
       ...values,
-      ['time']: times,
-      ['date']: new Date().toISOString()
+      time: times,
+      timestamp: {
+        'date': new Date().toISOString(),
+        'month': new Date().getMonth() + 1,
+        'day': new Date().getDate(),
+        'year': new Date().getFullYear()
+      }
     })
       .then(() => {
         setValues({
@@ -124,7 +129,7 @@ export default function ImportForm() {
             <FormControl variant='filled'>
               <InputLabel id='difficulty-label'>Difficulty</InputLabel>
               <Select
-              labelId='difficulty-label'
+              labelid='difficulty-label'
                 name="difficulty"
                 value={values.difficulty}
                 onChange={(e) => handleChange(e)}
@@ -146,7 +151,7 @@ export default function ImportForm() {
             <FormControl>
               <InputLabel id='leet-checkbox-label'>Topic</InputLabel>
               <Select
-              labelId='leet-checkbox-label'
+              labelid='leet-checkbox-label'
               id='leet-checkbox'
               multiple
               value={leets}
@@ -195,7 +200,7 @@ export default function ImportForm() {
               <FormControl variant='filled'>
               <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
               <Select
-              labelId='timecomplexity-label'
+              labelid='timecomplexity-label'
                 name="timeComplexity"
                 value={values.timeComplexity}
                 onChange={(e) => handleChange(e)}
@@ -219,7 +224,7 @@ export default function ImportForm() {
               <FormControl variant='filled'>
               <InputLabel id='language-label'>Programming Language</InputLabel>
               <Select
-              labelId='language-label'
+              labelid='language-label'
                 name="programmingLanguage"
                 value={values.programmingLanguage}
                 onChange={(e) => handleChange(e)}
