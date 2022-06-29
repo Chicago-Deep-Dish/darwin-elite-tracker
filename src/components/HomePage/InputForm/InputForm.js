@@ -11,9 +11,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import Stopwatch from './Stopwatch/Stopwatch';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
+import Stopwatch from './Stopwatch/Stopwatch';
 import axios from 'axios';
 
 
@@ -60,10 +60,15 @@ export default function ImportForm() {
 
   const handleSubmit = (e, values) => {
     e.preventDefault();
-    axios.post('/submission', {
+    axios.post('/', {
       ...values,
       ['time']: times,
-      ['date']: new Date().toISOString()
+      ['timestamp']: {
+        'date': new Date().toISOString(),
+        'month': new Date().getMonth() + 1,
+        'day': new Date().getDate(),
+        'year': new Date().getFullYear()
+      }
     })
       .then(() => {
         setValues({
