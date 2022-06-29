@@ -15,6 +15,7 @@ import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
+import sampleData from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
   const { toastifyTheme } = useGlobalContext();
@@ -65,6 +66,7 @@ export default function NavBar({ setModal }) {
   };
 
   const handleGettingData = () => {
+    console.log(sampleData(5))
     sessionStorage.getItem("UserID");
     axios
       .get("/records", {
