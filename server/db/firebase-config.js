@@ -3,10 +3,7 @@ const { initializeApp } = require("firebase/app"); //Auth init
 // Cloud Firestore
 const {
   getFirestore,
-  Timestamp,
   collection,
-  getDocs,
-  addDoc,
 } = require("firebase/firestore");
 
 require("dotenv").config();
@@ -23,15 +20,15 @@ const firebaseConfig = {
 // console.log("firebaseConfig", firebaseConfig);
 
 // init firebase app
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // Cloud Firestore - init services
-const db = getFirestore();
+const db = getFirestore(app);
 
 // Cloud Firestore - Users collection reference
 const colRef = collection(db, "users");
 
-module.exports = { colRef, getDocs, addDoc, Timestamp };
+module.exports = { db, colRef };
 
 //to use Analytics, add two below to the above file:
 // import { getAnalytics } from "firebase/analytics";
