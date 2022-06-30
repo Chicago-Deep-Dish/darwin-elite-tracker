@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,11 +16,10 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import sample from '../HomePage/HomeGraphs/sampleData';
-import { TableHead } from '@mui/material';
+import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-// const sample = []
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -83,33 +82,13 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-// function createData(toyProblemName, difficulty, aveTime) {
-//   return { toyProblemName, difficulty, aveTime };
-// }
-
-// const rows = [
-//   createData('Cupcake', 305, 3.7),
-//   createData('Donut', 452, 25.0),
-//   createData('Eclair', 262, 16.0),
-//   createData('Frozen yoghurt', 159, 6.0),
-//   createData('Gingerbread', 356, 16.0),
-//   createData('Honeycomb', 408, 3.2),
-//   createData('Ice cream sandwich', 237, 9.0),
-//   createData('Jelly Bean', 375, 0.0),
-//   createData('KitKat', 518, 26.0),
-//   createData('Lollipop', 392, 0.2),
-//   createData('Marshmallow', 318, 0),
-//   createData('Nougat', 360, 19.0),
-//   createData('Oreo', 437, 18.0),
-// ].sort((a, b) => (a.difficulty < b.difficulty ? -1 : 1));
-
-export default function RecordTable({setShowEditModal}) {
+export default function RecordTable({ tableData, setShowEditModal, setEditRow }) {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - sample.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
 
   function handleChangePage(event, newPage) {
     setPage(newPage);
@@ -119,51 +98,96 @@ export default function RecordTable({setShowEditModal}) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  function handleEditClick() {
+  function handleEditClick(data, idx) {
+    setEditRow({ data, idx })
     setShowEditModal(true);
+  };
+
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  }
+
+  function handleDelete(data) {
+    // Junsu: Gil, this delete route works now, feel free to modify how data is sent
+    // axios({
+    //   method: 'delete',
+    //   url: `/records`,
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    // Junsu: Gil, this is the edit/put route
+    // axios({
+    //   method: 'put',
+    //   url: `/records`,
+    //   data: data,
+    // })
+    //   .then(response => console.log(response));
+
+    //Junsu: Gil, this is for search
+    // axios.get('/records')
+    //   .then(response => console.log(response.data._document.data.value.mapValue.fields));
+
+    // Junsu: Gil, feel free to delete this or provide it to Jerry for his component
+    axios({
+      method: 'post',
+      url: `/records`,
+      data: data,
+    })
+      .then(response => console.log(response));
   }
 
   return (
-    <TableContainer sx={{ maxWidth: '80%', mt: 5, mb: 5 }} component={Paper}>
+    <TableContainer
+      sx={{
+        width: '80%',
+        mb: 2,
+        borderTopRightRadius: 0,
+        borderTopLeftRadius: 0
+      }}
+      component={Paper}
+    >
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             <TableCell>Prompt Name</TableCell>
             <TableCell>Prompt Link</TableCell>
             <TableCell align="right">Difficulty</TableCell>
-            <TableCell align="right">Time to Complete</TableCell>
+            <TableCell align="right">Time to Complete (mm:ss)</TableCell>
             <TableCell align="right">Edit</TableCell>
             <TableCell align="right">Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? sample.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : sample
-          ).map((row) => (
-            <TableRow key={row['Prompt Name']}>
+            ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : tableData
+          ).map((row, idx) => (
+            <TableRow id={idx} key={idx}>
               <TableCell style={{ width: 160 }}>
-                {row['Prompt Name']}
+                {row.promptName}
               </TableCell>
               <TableCell>
-                <a href={row['Prompt Link']} className="prompt-link">
-                  {row['Prompt Link']}
+                <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">
+                  {row.promptLink}
                 </a>
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.Difficulty}
+                {row.difficulty}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row['Total Time']}
+                {millisToMinutesAndSeconds(row.totalTime)}
               </TableCell>
               <TableCell style={{ width: 72 }} align="right">
-                <IconButton onClick={handleEditClick}>
-                  <EditIcon/>
+                <IconButton onClick={() => handleEditClick(row, idx)}>
+                  <EditIcon />
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 73 }} align="right">
-                <IconButton onClick={() => {console.log('delete')}}>
-                  <DeleteIcon/>
+                <IconButton onClick={() => handleDelete(row)}>
+                  <DeleteIcon />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -180,7 +204,7 @@ export default function RecordTable({setShowEditModal}) {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
               colSpan={4}
-              count={sample.length}
+              count={tableData.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -196,6 +220,6 @@ export default function RecordTable({setShowEditModal}) {
           </TableRow>
         </TableFooter>
       </Table>
-    </TableContainer>
+    </TableContainer >
   );
 }

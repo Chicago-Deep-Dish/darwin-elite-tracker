@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 
 //Modules
-// import * as React from "react";
 import { useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 
+import { registeredUser } from "../../test/sampleData";
 //Styling
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -18,13 +20,8 @@ import {
 } from "@mui/material";
 import useGlobalContext from "../../context/GlobalContext";
 
-//Firebase
-import axios from "axios";
-
 export default function Form({ modalName, setModal, handleExitModal }) {
   const { toastifyTheme } = useGlobalContext();
-
-  //------ FIREBASE ------//
 
   const [loginValues, setLogin] = useState({
     email: "",
@@ -34,11 +31,6 @@ export default function Form({ modalName, setModal, handleExitModal }) {
   });
 
   const handleClickSubmit = () => {
-   // console.log(SampleData(5))
-
-    console.log("email:", loginValues.email);
-    console.log("Password:", loginValues.password);
-
     if (modalName === "LOGIN") {
       //TODO: add userAccountIcon show up on successful login
       axios
@@ -49,33 +41,16 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           },
         })
         .then(({ data }) => {
-          const token = data._tokenResponse.refreshToken;
-          console.log("token:", token);
-
           setLogin({ ...loginValues, userLoggedIn: true });
           handleExitModal(null, "exit");
           setModal({ modalName: null });
+          // console.log("data", data);
+          sessionStorage.setItem("AuthToken", data._tokenResponse.refreshToken);
+          sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Logged In Successfully", toastifyTheme);
-          sessionStorage.setItem("Auth Token", token);
         })
         .catch((error) => {
-          console.log(error);
-          const code = error.response.data.code;
-          if (code === "auth/wrong-password") {
-            toast.error(
-              "Password may have been incorrect, please check and try again",
-              toastifyTheme
-            );
-          } else if (code === "auth/user-not-found") {
-            toast.error("Invalid Email, try again", toastifyTheme);
-          } else if (code === "auth/too-many-requests") {
-            toast.error(
-              "Too Many requests. Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. ",
-              toastifyTheme
-            );
-          } else {
-            console.log("not getting the right error code...");
-          }
+          firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     }
     if (modalName === "REGISTER") {
@@ -87,27 +62,20 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           },
         })
         .then(({ data }) => {
-          console.log("REGISTER data:", data);
-          const token = data._tokenResponse.refreshToken;
-
-          handleExitModal(null, "exit");
-          setModal({ modalName: "empty" });
+          sessionStorage.setItem("AuthToken", data._tokenResponse.refreshToken);
+          sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
-          sessionStorage.setItem("Auth Token", token);
+          const userData = { ...registeredUser, userId: data.user.uid };
+          axios.post("/users/userData", userData).then((data) => {
+            // console.log(data);
+            toast.success(`Created Successfully`, toastifyTheme);
+
+            handleExitModal(null, "exit");
+            setModal({ modalName: "empty" });
+          });
         })
         .catch((error) => {
-          console.log(error);
-          const code = error.response.data.code;
-          if (code === "auth/email-already-in-use") {
-            toast.error("Email Already in Use", toastifyTheme);
-          } else if (code === "auth/weak-password") {
-            toast.error(
-              "Password is weak, please make it at least 6 alphanumeric charcters",
-              toastifyTheme
-            );
-          } else {
-            console.log("not getting the right error code...");
-          }
+          firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     }
   };
@@ -154,6 +122,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           onChange={handleChange("password")}
           onKeyPress={(e) => {
             if (e.key === "Enter") {
+              e.preventDefault();
               handleClickSubmit();
             }
           }}
@@ -179,7 +148,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
         />
       </FormControl>
       <Button
-        sx={{ midwidth: 80, width: 200, p: 1 }}
+        sx={{ midwidth: 80, width: 200, p: 1, disabled: true }}
         variant="contained"
         type="submit"
         onClick={handleClickSubmit}
