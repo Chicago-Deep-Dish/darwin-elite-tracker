@@ -5,8 +5,11 @@ import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import data from  './sampleData.js';
 import axios from 'axios';
+import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
+  const { userProblemArray } = useGlobalContext();
+
 
   const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
