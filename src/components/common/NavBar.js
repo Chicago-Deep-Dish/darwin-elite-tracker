@@ -15,7 +15,7 @@ import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
-import sampleData, { createSampleDataRow } from "../../test/sampleData";
+import sampleData, { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
   const { toastifyTheme } = useGlobalContext();
@@ -63,24 +63,6 @@ export default function NavBar({ setModal }) {
     sessionStorage.removeItem("UserID");
 
     toast.success("Logged Out", toastifyTheme);
-  };
-
-  const handleGettingData = () => {
-    console.log(sampleData(5));
-    sessionStorage.getItem("UserID");
-    axios
-      .get("/records", {
-        params: {
-          userId: sessionStorage.getItem("UserID"),
-        },
-      })
-      .then(({ data }) => {
-        console.log("data", data);
-        toast.success("Recieved Data Successfully", toastifyTheme);
-      })
-      .catch((error) => {
-        firebaseErrorCodes(error.response.data.code, toastifyTheme);
-      });
   };
 
   const handleInputData = (inputProblem) => {
@@ -197,20 +179,12 @@ export default function NavBar({ setModal }) {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={() => {
-                handleInputData(createSampleDataRow(1));
+                handleInputData(createSamplePrompt());
               }}
               style={{ textDecoration: "inherit", color: "inherit" }}
             >
-              SubmitInput
+              Submit ONE Input for USER
             </Button>{" "}
-            <Button
-              onClick={() => {
-                handleGettingData();
-              }}
-              style={{ textDecoration: "inherit", color: "inherit" }}
-            >
-              getData
-            </Button>
             <Button
               size="large"
               edge="start"

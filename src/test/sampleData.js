@@ -1,3 +1,4 @@
+import { Javascript } from "@mui/icons-material";
 import { v4 as uuidv4 } from "uuid";
 
 // let sampleData = {
@@ -24,48 +25,69 @@ import { v4 as uuidv4 } from "uuid";
 // };
 
 export const sampleClass = {
-  // userId: firebaseuserId << get's created automatically during doc addition
-  settings: {},
-  firstName: null,
-  lastName: null,
-  defaultGraph: [],
-  timeStamp: null,
+  userId: "RWppECpthsW2ZQPudWkostZ8aHX2", //single user to populate database
+  settings: { defaultGraph: ["bar", "line"] }, //object with properties
+  firstName: null, //string
+  lastName: null, //string
   problems: [
     {
-      id: uuidv4(),
-      promptName: null,
-      difficulty: null,
-      topics: [],
+      id: uuidv4(), //<< random
+      promptName: null, //string
+      difficulty: null, //string ex.('easy')
+      topics: [], //array of strings (input will push comma delimited strings)
       promptLink: null,
-      time: null,
-      // optional
-      promptText: null,
-      solution: [],
-      readTime: null,
-      whiteboardTime: null,
-      pseudocodeTime: null,
-      codeTime: null,
-      contraints: null,
-      timeComplexity: null,
-      programmingLanguage: null,
+
+      //---- optional bellow----//
+      promptText: null, //string
+      solution: [], //array of strings ex. multiple solutions  (input will push comma delimited strings)
+      constraints: [], //array of strings ex. multiple constraints  (input will push comma delimited strings)
+      timeComplexity: null, //string ex. ('bigO[n]' notation)
+      programmingLanguage: null, //string ex. ('JavaScript')
+
+      readTime: null, //number in milliseconds
+      whiteboardTime: null, //number in milliseconds
+      pseudocodeTime: null, //number in milliseconds
+      codeTime: null, //number in milliseconds
+      totalTime: null, //number in milliseconds based on input from stopwatch
+
+      //---- automatically created in productio but will be randomizes for populating the database----//
+      timeStamp: null, //ISO string of time submitted when submit is pressed
+
+      //ISO string above turned into object
+      timeStampinfo: {
+        month: null, //number out of a range
+        day: null, //number out of a range
+        year: null, //number out of a range
+      },
     },
-  ]
-}
+  ],
+};
 
 export default function createSampleData(rows) {
   let sampleData = [];
   for (let i = 0; i < rows; i++) {
-    sampleData.push(createSampleDataRow());
+    sampleData.push(createSamplePrompt());
   }
   return sampleData;
 }
 
-export function createSampleDataRow(userID) {
+export const registeredUser = {
+  userId: "OWOrUCkxVIUg4UwBR4b4tOW4KQV2", //single user to populate database
+  settings: { defaultGraph: ["bar", "line"] }, //object with properties
+  firstName: null, //string
+  lastName: null, //string
+  problems: [],
+};
+
+export function createSamplePrompt(userID) {
+  const randomISODate = getrandomDateIn2022();
+  const randmDateArray = ISOtoDateMonthYear(randomISODate);
+
   return {
+    id: uuidv4(),
     promptName: createRandomParagraph(2),
-    totalTime: createRandomNumerWithRange(10000, 10000000),
-    difficulty: "easy",
-    topic: [
+    difficulty: randomizeFromArray(difficultyArray),
+    topics: [
       createRandomParagraph(2),
       createRandomParagraph(2),
       createRandomParagraph(2),
@@ -73,7 +95,12 @@ export function createSampleDataRow(userID) {
     promptLink: `https://leetcode.com/problems/${createRandomWordStringWithLength(
       10
     )}`,
-    PromptText: createRandomParagraph(50),
+    promptText: createRandomParagraph(50),
+    solution: [
+      createRandomParagraph(50),
+      createRandomParagraph(50),
+      createRandomParagraph(50),
+    ],
     constraints: [
       `${createRandomNumerWithRange(
         1,
@@ -89,23 +116,53 @@ export function createSampleDataRow(userID) {
       )} <= target <= ${createRandomNumerWithRange(10000, 100000)}`,
       "only one valid answer exists",
     ],
-    timeComplexity: "O(n2)",
-    solution: createRandomParagraph(50),
-    programmingLanguage: "JavaScript",
+    timeComplexity: randomizeFromArray(timeComplexityArray),
+    programmingLanguage: randomizeFromArray(languagesArray),
+
     readTime: createRandomNumerWithRange(10000, 300000),
     whiteBoardTime: createRandomNumerWithRange(10000, 300000),
     pseudocodeTime: createRandomNumerWithRange(10000, 300000),
     codeTime: createRandomNumerWithRange(10000, 300000),
-    timeStamp: RandomTimeGeneratorForLastMonth(),
-    user: users[createRandomNumerWithRange(0, 2)],
+    totalTime: createRandomNumerWithRange(10000, 10000000),
+
+    timeStamp: randomISODate,
+    timeStampinfo: {
+      year: randmDateArray[0],
+      month: randmDateArray[1],
+      day: randmDateArray[2],
+    },
   };
 }
 
-const users = [
-  "WcmIqdF33oc7KGOpcvtD82YyCv53",
-  "9nj0CngezSPN6q8vj0gDjienlsT2",
-  "LdiAUMtv6rOjnN33s5XnJ6VVUdb2",
+const difficultyArray = ["easy", "medium", "hard"];
+const timeComplexityArray = [
+  "O(n log(n))",
+  "O(n)",
+  "O(n^2)",
+  "O(1)",
+  "O(n+k)",
+  "O(nk)",
 ];
+const languagesArray = [
+  "Javascript",
+  "Java",
+  "Python",
+  "C++",
+  "C",
+  "Kotlin",
+  "Swift",
+  "C#",
+  "PHP",
+];
+
+function randomizeFromArray(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+// const users = [
+//   "WcmIqdF33oc7KGOpcvtD82YyCv53",
+//   "9nj0CngezSPN6q8vj0gDjienlsT2",
+//   "LdiAUMtv6rOjnN33s5XnJ6VVUdb2",
+// ];
 
 //helper
 function createRandomNumerWithRange(min, max) {
@@ -130,27 +187,53 @@ function createRandomParagraph(length) {
   return result;
 }
 
-function RandomTimeGeneratorForLastMonth() {
-  const timeStamp = {
-    date: new Date().toISOString(),
-    month: new Date().getMonth() + 1,
-    day: new Date().getDate(),
-    year: new Date().getFullYear()
+// function RandomTimeGeneratorForLast5Months() {
+//   const timeStamp = {
+//     month: new Date().getMonth() + createRandomNumerWithRange(1, 5),
+//     day: new Date().getDate(),
+//     year: 2022,
+//   };
+//   return timeStamp;
+// }
+
+function randomDate(start, end) {
+  return new Date(
+    start.getTime() + Math.random() * (end.getTime() - start.getTime())
+  );
+}
+
+console.log(new Date(randomDate(new Date(2022, 1, 1), new Date())));
+
+function ISOtoDateMonthYear(date) {
+  // date = new Date(date);
+  const year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let dt = date.getDate();
+
+  if (dt < 10) {
+    dt = "0" + dt;
   }
-  return timeStamp;
+  if (month < 10) {
+    month = "0" + month;
+  }
+  return [year, month, dt];
+}
+
+function getrandomDateIn2022() {
+  return new Date(randomDate(new Date(2022, 1, 1), new Date()));
 }
 
 //NOT USED YET
-function randomUserGenerator() {
-  return {
-    username: createRandomWordStringWithLength(5),
-    password: createRandomWordStringWithLength(5),
-    email: `${createRandomWordStringWithLength(
-      5
-    )}@${createRandomWordStringWithLength(5)}.com`,
-    firstName: createRandomWordStringWithLength(5),
-    lastName: createRandomWordStringWithLength(5),
-    role: "user",
-    timeStamp: RandomTimeGeneratorForLastMonth(),
-  };
-}
+// function randomUserGenerator() {
+//   return {
+//     username: createRandomWordStringWithLength(5),
+//     password: createRandomWordStringWithLength(5),
+//     email: `${createRandomWordStringWithLength(
+//       5
+//     )}@${createRandomWordStringWithLength(5)}.com`,
+//     firstName: createRandomWordStringWithLength(5),
+//     lastName: createRandomWordStringWithLength(5),
+//     role: "user",
+//     timeStamp: RandomTimeGeneratorForLastMonth(),
+//   };
+// }
