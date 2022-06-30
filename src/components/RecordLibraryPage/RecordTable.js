@@ -20,6 +20,10 @@ import TableHead from '@mui/material/TableHead';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
+import useGlobalContext from '../../context/GlobalContext';
+import dataDecipher from '../../helpers/dataDecipher';
+import firebaseCodes from '../../helpers/firebaseErrorCodes';
+import { toast } from 'react-toastify';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -83,6 +87,7 @@ TablePaginationActions.propTypes = {
 };
 
 export default function RecordTable({ tableData, setShowEditModal, setEditRow }) {
+  const { setUserProblemArray, toastifyTheme } = useGlobalContext();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -104,8 +109,29 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
     setShowEditModal(true);
   };
 
-  function handleDeleteClick(row) {
-    axios.delete(`/records/testProblemId`)
+  function handleDeleteClick(problem_id) {
+    axios.delete(`/records/${problem_id}`, {
+      params: {
+        userID: sessionStorage.getItem('UserID'),
+      }
+    })
+      .then(() => {
+        axios.get("/records", {
+          params: {
+            userID: sessionStorage.getItem("UserID"),
+          },
+        })
+          .then(({ data }) => {
+            const setUserData = dataDecipher(data);
+            setUserProblemArray(setUserData[1]);
+            toast.success("Problem Removed", toastifyTheme);
+          })
+
+      })
+      .catch((error) => {
+        console.log(error);
+        firebaseCodes(error.response.data.code, toastifyTheme);
+      });
   }
 
   function millisToMinutesAndSeconds(millis) {
@@ -176,7 +202,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
               </TableCell>
               <TableCell>
                 <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">
-                  {row.promptLink}
+                  {row.promptLink.slice(8, 37)}...
                 </a>
               </TableCell>
               <TableCell style={{ width: 90 }} align="right">
@@ -191,7 +217,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                 </IconButton>
               </TableCell>
               <TableCell style={{ width: 73 }} align="right">
-                <IconButton onClick={() => handleDeleteClick(row)}>
+                <IconButton onClick={() => handleDeleteClick(row.id)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>

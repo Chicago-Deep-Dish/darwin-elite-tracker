@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import RecordTable from './RecordTable';
 import EditModal from './EditModal';
 import '../../styles/RecordLibrary.css'
-import createSampleData from '../../test/sampleData';
 import InputFields from './InputFields';
 import useGlobalContext from '../../context/GlobalContext';
 
@@ -29,7 +28,11 @@ export default function RecordLibrary() {
       (
         filters.timeFrame === 'all'
       )
-    ));
+    ))
+      .sort((prompt1, prompt2) => (
+        -prompt1.timeStamp.localeCompare(prompt2.timeStamp)
+      ));
+      console.log(newData)
     setShownData(newData);
   }, [search, filters, userProblemArray]);
 

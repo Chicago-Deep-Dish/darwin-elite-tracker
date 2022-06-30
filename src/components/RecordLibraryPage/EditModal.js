@@ -93,7 +93,7 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="Date&Time picker"
-                value={row.data.timeStamp.date}
+                value={row.data.timeStamp}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
               />
