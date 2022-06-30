@@ -26,12 +26,20 @@ export default function InputForm() {
     constraints: '',
     timeComplexity: '',
     solution: '',
+<<<<<<< jerrybranch3
     programmingLanguage: 'Javascript',
     readTime: 0,
     whiteBoardTime: 0,
     pseudocodeTime: 0,
     codeTime: 0,
     topic: '',
+=======
+    programmingLanguage: 'JavaScript',
+    readTime: '',
+    whiteBoardTime: '',
+    pseudocodeTime: '',
+    codeTime: '',
+>>>>>>> master
   });
 
 
@@ -55,7 +63,11 @@ export default function InputForm() {
       'solution': values.solution.split(', '),
       time: times,
       timeStamp: new Date().toISOString(),
+<<<<<<< jerrybranch3
       timeStampinfo: {
+=======
+      timeStampInfo: {
+>>>>>>> master
         'month': new Date().getMonth() + 1,
         'day': new Date().getDate(),
         'year': new Date().getFullYear()
@@ -112,21 +124,41 @@ export default function InputForm() {
             value={values.promptName}
             onChange={(e) => handleChange(e)}
             />
+<<<<<<< jerrybranch3
             <FormControl variant='outlined' size='small' >
               <InputLabel id='difficulty-label'>Difficulty</InputLabel>
               <Select
                 labelid='difficulty-label'
                 name="difficulty"
                 value={values.difficulty}
+=======
+            <FormControl variant='outlined'>
+              <InputLabel id='language-label'>Programming Language</InputLabel>
+              <Select
+              labelid='language-label'
+                name="programmingLanguage"
+                value={values.programmingLanguage}
+>>>>>>> master
                 onChange={(e) => handleChange(e)}
               >
-                <MenuItem value='easy'>Easy</MenuItem>
-                <MenuItem value='medium'>Medium</MenuItem>
-                <MenuItem value='hard'>Hard</MenuItem>
+                <MenuItem value='JavaScript'>JavaScript</MenuItem>
+                <MenuItem value='Python'>Python</MenuItem>
+                <MenuItem value='Java'>Java</MenuItem>
+                <MenuItem value='C++'>C++</MenuItem>
+                <MenuItem value='Kotlin'>Kotlin</MenuItem>
+                <MenuItem value='C'>C</MenuItem>
+                <MenuItem value='Swift'>Swift</MenuItem>
+                <MenuItem value='C#'>C#</MenuItem>
+                <MenuItem value='PHP'>PHP</MenuItem>
               </Select>
             </FormControl>
+<<<<<<< jerrybranch3
             <FormControl variant='outlined' size='small'>
               <InputLabel id='language-label'>Programming Language</InputLabel>
+=======
+            <FormControl>
+              <InputLabel id='leet-checkbox-label'>Topic</InputLabel>
+>>>>>>> master
               <Select
               labelid='language-label'
                 name="programmingLanguage"
@@ -160,6 +192,21 @@ export default function InputForm() {
                 ))}
               </Select>
             </FormControl>
+            <FormControl >
+              <InputLabel id='demo-simple-select-label'>Difficulty</InputLabel>
+              <Select
+              labelid='demo-simple-select-label'
+              id='demo-simple-select'
+                name="difficulty"
+                value={values.difficulty}
+                onChange={(e) => handleChange(e)}
+              >
+                <MenuItem value='easy'>Easy</MenuItem>
+                <MenuItem value='medium'>Medium</MenuItem>
+                <MenuItem value='hard'>Hard</MenuItem>
+              </Select>
+            </FormControl>
+
             <Stopwatch
               times={times}
               setTimes={setTimes}
@@ -172,7 +219,11 @@ export default function InputForm() {
                 Additional Fields
               </Typography>
               <TextField
+<<<<<<< jerrybranch3
                 size='small'
+=======
+                required
+>>>>>>> master
                 type='text'
                 id="outlined-basic"
                 label="Prompt Link"
@@ -181,7 +232,10 @@ export default function InputForm() {
                 onChange={(e) => handleChange(e)}
               />
               <TextField
+<<<<<<< jerrybranch3
               size='small'
+=======
+>>>>>>> master
               label="Prompt Text"
               multiline
               rows={4}
@@ -200,6 +254,7 @@ export default function InputForm() {
               value={values.constraints}
               onChange={(e) => handleChange(e)}
               />
+<<<<<<< jerrybranch3
               <FormControl variant='outlined'>
                 <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
                 <Select
@@ -214,6 +269,22 @@ export default function InputForm() {
                   <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
                   <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
                 </Select>
+=======
+              <FormControl >
+              <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
+              <Select
+              labelid='timecomplexity-label'
+                name="timeComplexity"
+                value={values.timeComplexity}
+                onChange={(e) => handleChange(e)}
+              >
+                <MenuItem value='O(1)'>O(1)</MenuItem>
+                <MenuItem value='O(log n)'>O(log n)</MenuItem>
+                <MenuItem value='O(n)'>O(n)</MenuItem>
+                <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
+                <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
+              </Select>
+>>>>>>> master
               </FormControl>
               <TextField
               size='small'
@@ -225,8 +296,12 @@ export default function InputForm() {
                 value={values.solution}
                 onChange={(e) => handleChange(e)}
                 />
+<<<<<<< jerrybranch3
 
           </Stack>
+=======
+          </>
+>>>>>>> master
           )}
           <Box
             sx={{

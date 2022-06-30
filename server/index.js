@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require('cookie-parser');
 const {usersRouter, recordsRouter} = require("./routes");
 
 // initialize app
@@ -6,6 +7,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(cookieParser());
 
 // base route for making sure server is operational
 app.get('/', (req, res) => {
