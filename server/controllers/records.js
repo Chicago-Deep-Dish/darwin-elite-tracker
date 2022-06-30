@@ -2,7 +2,7 @@ const models = require("../models/records");
 
 exports.searchRecords = (req, res) => {
   models
-    .searchRecords(req.query)
+    .searchRecords(req.query, req.query.userID)
     .then((response) => {
       res.send(response);
     })
@@ -27,7 +27,7 @@ exports.addRecord = (req, res) => {
 
 exports.updateRecord = (req, res) => {
   models
-    .updateRecord(req.body)
+    .updateRecord(req.body, req.query.userID)
     .then((response) => {
       res.send(response);
     })
@@ -39,7 +39,7 @@ exports.updateRecord = (req, res) => {
 
 exports.removeRecord = (req, res) => {
   models
-    .removeRecord(req.body)
+    .removeRecord(req.body, req.query.userID, req.params.problem_id)
     .then((response) => {
       res.send(response);
     })

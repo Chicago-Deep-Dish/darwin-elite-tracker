@@ -12,18 +12,18 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
-  const [exampleState, setExampleState] = useState(
-    "Set state inside GlobalContext.js"
-  );
+  const [userSettings, setUserSettings] = useState({
+    firstGraph: 'bar',
+    secondGraph: 'pie',
+  });
+  const [toastifyTheme, setToastifyTheme] = useState({
+    hideProgressBar: false,
+    position: "bottom-left",
+  });
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
 
-  //TODO: change theme to a state so it doesn't rerender every time
-  const toastifyTheme = {
-    hideProgressBar: false,
-    position: "bottom-left",
-  };
-
+  //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
       toast.success("Logged In", toastifyTheme);
@@ -31,7 +31,7 @@ export function GlobalContextProvider({ children }) {
       axios
         .get("/records", {
           params: {
-            userId: sessionStorage.getItem("UserID"),
+            userID: sessionStorage.getItem("UserID"),
           },
         })
         .then(({ data }) => {
@@ -55,9 +55,10 @@ export function GlobalContextProvider({ children }) {
   }, []);
 
   const value = {
-    exampleState,
-    setExampleState,
+    userSettings,
+    setUserSettings,
     toastifyTheme,
+    setToastifyTheme,
     userProblemArray,
     userProfileData
   };

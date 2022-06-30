@@ -66,7 +66,7 @@ export default function NavBar({ setModal }) {
   };
 
   const handleInputData = (inputProblem) => {
-    console.log("inputPramas", inputProblem);
+    console.log("inputProblem", inputProblem);
     axios
       .post("/records", inputProblem, {
         params: {
