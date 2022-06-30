@@ -4,21 +4,24 @@ import EditModal from './EditModal';
 import '../../styles/RecordLibrary.css'
 import createSampleData from '../../test/sampleData';
 import InputFields from './InputFields';
+import useGlobalContext from '../../context/GlobalContext';
 
 export default function RecordLibrary() {
+  const { userProblemArray } = useGlobalContext();
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState({});
-  const [tableData, setTableData] = useState(createSampleData(54))
-  const [shownData, setShownData] = useState(tableData);
+  // const [tableData, setTableData] = useState(createSampleData(54));
+  const [shownData, setShownData] = useState(userProblemArray);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({
     difficulty: 'all',
     timeFrame: 'all',
   });
+
   useEffect(() => {
-    let newData = tableData.filter((prompt) => (
+    let newData = userProblemArray.filter((prompt) => (
       (prompt.promptName.includes(search) ||
-        prompt.PromptText.includes(search)) &&
+        prompt.promptText.includes(search)) &&
       (
         filters.difficulty === 'all' ||
         filters.difficulty === prompt.difficulty
@@ -28,7 +31,8 @@ export default function RecordLibrary() {
       )
     ));
     setShownData(newData);
-  }, [search, filters, tableData]);
+  }, [search, filters, userProblemArray]);
+
   return (
     <main className="main">
       <InputFields
@@ -44,8 +48,8 @@ export default function RecordLibrary() {
       />
       {showEditModal &&
         <EditModal
-          tableData={tableData}
-          setTableData={setTableData}
+          tableData={userProblemArray}
+          // setTableData={setTableData}
           setShowEditModal={setShowEditModal}
           row={editRow}
           setRow={setEditRow}
