@@ -6,11 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import Stopwatch from './Stopwatch/Stopwatch';
@@ -29,14 +26,14 @@ export default function InputForm() {
     constraints: '',
     timeComplexity: '',
     solution: '',
-    programmingLanguage: 'JavaScript',
-    readTime: '',
-    whiteBoardTime: '',
-    pseudocodeTime: '',
-    codeTime: '',
+    programmingLanguage: 'Javascript',
+    readTime: 0,
+    whiteBoardTime: 0,
+    pseudocodeTime: 0,
+    codeTime: 0,
+    topic: '',
   });
 
-  const [leets, setLeets] = useState([])
 
   const [expand, setExpand] = useState(false);
 
@@ -49,22 +46,16 @@ export default function InputForm() {
     setValues({...values, [name]: value})
   }
 
-  const handleCheckChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setLeets(
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
 
   const handleSubmit = (e, values) => {
     e.preventDefault();
     axios.post('/', {
       ...values,
+      'constraints': values.constraints.split(', '),
+      'solution': values.solution.split(', '),
       time: times,
       timeStamp: new Date().toISOString(),
-      timeStampInfo: {
+      timeStampinfo: {
         'month': new Date().getMonth() + 1,
         'day': new Date().getDate(),
         'year': new Date().getFullYear()
@@ -84,27 +75,21 @@ export default function InputForm() {
         whiteBoardTime: '',
         pseudocodeTime: '',
         codeTime: '',
+        topic: '',
       })
         setTimes(0)
       })
       .catch((err) => console.log('error submitting', err));
   };
 
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
 
   let leetTopics = ['Arrays', 'Maps', 'Linked Lists', 'Queues', 'Heaps', 'Stacks', 'Trees', 'Graphs', 'Breadth-First-Search', 'Depth-First-Search', 'Binary Search', 'Recursion', 'Backtracking', 'Dynamic Programming', 'Trie', 'Matrix', 'Sorting'];
 
   return (
-    <div className='beginning-inputs'>
+    <Stack
+     className='beginning-inputs'
+     sx={{width: 200}}
+     >
        <Stack
         sx={{width: 200, marginLeft: '20px'}}
         spacing={2}
@@ -148,7 +133,7 @@ export default function InputForm() {
                 value={values.programmingLanguage}
                 onChange={(e) => handleChange(e)}
               >
-                <MenuItem value='JavaScript'>JavaScript</MenuItem>
+                <MenuItem value='Javascript'>Javascript</MenuItem>
                 <MenuItem value='Python'>Python</MenuItem>
                 <MenuItem value='Java'>Java</MenuItem>
                 <MenuItem value='C++'>C++</MenuItem>
@@ -159,22 +144,18 @@ export default function InputForm() {
                 <MenuItem value='PHP'>PHP</MenuItem>
               </Select>
             </FormControl>
-            <FormControl size='small'>
-              <InputLabel id='leet-checkbox-label'>Topic</InputLabel>
+            <FormControl variant='outlined' size='small'>
+              <InputLabel id='demo-simple-select-label'>Topic</InputLabel>
               <Select
-              labelid='leet-checkbox-label'
-              id='leet-checkbox'
-              multiple
-              value={leets}
-              onChange={(e) => handleCheckChange(e)}
-              input={<OutlinedInput label='Tag' />}
-              renderValue={(selected) => selected.join(', ')}
-              MenuProps={MenuProps}
+              labelid='demo-simple-select-label'
+              id='demo-simple-select'
+              name='topic'
+              value={values.topic}
+              onChange={(e) => handleChange(e)}
               >
                 {leetTopics.map((topic) => (
                   <MenuItem key={topic} value={topic}>
-                    <Checkbox checked={leets.indexOf(topic) > -1} />
-                    <ListItemText primary={topic} />
+                    {topic}
                   </MenuItem>
                 ))}
               </Select>
@@ -184,7 +165,7 @@ export default function InputForm() {
               setTimes={setTimes}
             />
           {expand && (
-            <div>
+            <Stack spacing={1}>
               <Typography
                 variant='subtitle1'
               >
@@ -219,20 +200,20 @@ export default function InputForm() {
               value={values.constraints}
               onChange={(e) => handleChange(e)}
               />
-              <FormControl variant='outlined' size='small'>
-              <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
-              <Select
-              labelid='timecomplexity-label'
-                name="timeComplexity"
-                value={values.timeComplexity}
-                onChange={(e) => handleChange(e)}
-              >
-                <MenuItem value='O(1)'>O(1)</MenuItem>
-                <MenuItem value='O(log n)'>O(log n)</MenuItem>
-                <MenuItem value='O(n)'>O(n)</MenuItem>
-                <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
-                <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
-              </Select>
+              <FormControl variant='outlined'>
+                <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
+                <Select
+                  labelid='timecomplexity-label'
+                  name="timeComplexity"
+                  value={values.timeComplexity}
+                  onChange={(e) => handleChange(e)}
+                >
+                  <MenuItem value='O(1)'>O(1)</MenuItem>
+                  <MenuItem value='O(log n)'>O(log n)</MenuItem>
+                  <MenuItem value='O(n)'>O(n)</MenuItem>
+                  <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
+                  <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
+                </Select>
               </FormControl>
               <TextField
               size='small'
@@ -245,7 +226,7 @@ export default function InputForm() {
                 onChange={(e) => handleChange(e)}
                 />
 
-          </div>
+          </Stack>
           )}
           <Box
             sx={{
@@ -270,9 +251,8 @@ export default function InputForm() {
               Submit
             </Button>
           </Box>
-
       </Stack>
-    </div>
+    </Stack>
   );
 }
 

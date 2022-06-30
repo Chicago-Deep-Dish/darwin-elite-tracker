@@ -47,7 +47,6 @@ export default function ControlButtons({ handleStart, handleReset, handlePauseRe
 
   return (
       <div>
-        {/* {active ? ActiveButtons : StartButton} */}
         {(() => {
             if (active && !custom ) {
               return ActiveButtons;
