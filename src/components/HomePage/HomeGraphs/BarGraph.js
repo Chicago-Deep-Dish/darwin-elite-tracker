@@ -15,7 +15,7 @@ export default function Bar() {
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('week');
+  const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
 
   const handleTime = (event) => {
@@ -100,8 +100,8 @@ export default function Bar() {
 
   //filter total&subject
 if (graph==='totalQuantities'&&selection==='subject') {
+  var result=Array(subject.length).fill(0);
   for (let i=0; i<sampleUpdate.length; i++) {
-    var result=Array(subject.length).fill(0);
     var sub=sampleUpdate[i]['topics'];
     console.log('subbb', sub, result);
     var index=subject.indexOf(sub);
@@ -132,15 +132,14 @@ if (graph==='totalQuantities'&&selection==='difficulty') {
 
 if (graph==='totalTime'&&selection==='subject') {
  // axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
- var totalTime;
+ var totalTime=Array(subject.length).fill(0);
+ var count=Array(subject.length).fill(0);
  for (let i=0; i<sampleUpdate.length; i++) {
-  totalTime=Array(subject.length).fill(0);
-  var count=Array(subject.length).fill(0);
   var sub=sampleUpdate[i]['topics'];
   //console.log('subbb', sub, totalTime);
   var index=subject.indexOf(sub);
   if(index>=0) {
-  totalTime[index]=totalTime[index]+sampleUpdate[i]['totalTime'];
+  totalTime[index]=totalTime[index]+Number(sampleUpdate[i]['totalTime']);
   count[index]++;
   }
 }
@@ -166,13 +165,13 @@ if(graph==='totalTime'&&selection==='difficulty') {
   //axios.get('/total', { params:{"range":range,'language':language}})
   for ( let i=0; i<sampleUpdate.length; i++) {
     if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
-      easy = easy + sampleUpdate[i]["totalTime"];
+      easy = easy + Number(sampleUpdate[i]["totalTime"]);
       countE++;
     } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
-      medium = medium + sampleUpdate[i]["totalTime"];
+      medium = medium + Number(sampleUpdate[i]["totalTime"]);
       countM++;
     }else {
-      hard = hard + sampleUpdate[i]["totalTime"];
+      hard = hard + Number(sampleUpdate[i]["totalTime"]);
       countH++
     }
   }

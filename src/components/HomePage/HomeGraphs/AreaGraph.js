@@ -14,7 +14,7 @@ export default function Area() {
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('week');
+  const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
   const [legend, setLegend]=React.useState([]);
   const handleTime = (event: SelectChangeEvent) => {
@@ -89,6 +89,8 @@ export default function Area() {
 
 //filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
   if (graph==='totalQuantities'&&selection==='subject') {
+    setInput([]);
+
     var subjectTeam={};
     for(let i=0; i<sampleUpdate.length;i++) {
       var sub=sampleUpdate[i]['topics'];
@@ -99,10 +101,10 @@ export default function Area() {
         }else{
           subjectTeam[sub].push(sampleUpdate[i]);
         }
-    }else {
+     }else {
       continue;
+     }
     }
-  }
     var updateFormate={};
     for (var key in subjectTeam) {
       var timeAndValue=subjectTeam[key];
@@ -149,6 +151,8 @@ export default function Area() {
 
 
 if(graph==='totalQuantities'&&selection==='difficulty') {
+  setInput([]);
+
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
     var sub=sampleUpdate[i]['difficulty'];
@@ -192,7 +196,7 @@ for (let key in updateFormate) {
     data.push(updateFormate[key][value]);
     temp['data'].push(data);
  }
- finalResult.push(temp);
+ finalResultA.push(temp);
 }
 for (let i=0; i<finalResultA.length; i++) {
 
@@ -208,6 +212,8 @@ var containerA=[];
 
 
 if ( graph==='totalTime'&&selection==='subject') {
+  setInput([]);
+
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
     var sub=sampleUpdate[i]['topics'];
@@ -265,6 +271,8 @@ if ( graph==='totalTime'&&selection==='subject') {
 
 
 if ( graph==='totalTime'&&selection==='difficulty') {
+  setInput([]);
+
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
     var sub=sampleUpdate[i]['difficulty'];
@@ -320,7 +328,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   setInput(finalResultC);
 }
 
-  },  [graph, selection, subject,time, language,range])
+  },  [graph, selection, subject, time, language,range])
 
 
   const option = {
