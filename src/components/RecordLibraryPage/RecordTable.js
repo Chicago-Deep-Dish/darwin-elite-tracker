@@ -202,7 +202,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
               </TableCell>
               <TableCell>
                 <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">
-                  {row.promptLink.slice(8, 37)}...
+                  {row.promptLink.length > 25 ? `${row.promptLink.slice(0, 25)}...` : row.promptLink}
                 </a>
               </TableCell>
               <TableCell style={{ width: 90 }} align="right">

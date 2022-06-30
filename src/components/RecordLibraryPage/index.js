@@ -15,7 +15,6 @@ export default function RecordLibrary() {
     difficulty: 'all',
     timeFrame: 'all',
   });
-  console.log(userProblemArray)
 
   useEffect(() => {
     let newData = userProblemArray.filter((prompt) => (
@@ -28,10 +27,7 @@ export default function RecordLibrary() {
       (
         filters.timeFrame === 'all'
       )
-    ))
-      .sort((prompt1, prompt2) => (
-        -prompt1.timeStamp.localeCompare(prompt2.timeStamp)
-      ));
+    ));
     setShownData(newData);
   }, [search, filters, userProblemArray]);
 
