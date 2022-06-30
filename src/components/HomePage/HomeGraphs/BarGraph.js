@@ -9,7 +9,7 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
-
+ console.log( 'dattaaaaaa',userProblemArray);
 
   const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
@@ -60,23 +60,23 @@ export default function Bar() {
 
    //filter range
     if ( range==='week') {
-      for (let i=0; i< data.data.length; i++) {
-        if( data.data[i]['Time']>startDate&&data.data[i]["Time"]<lastDate) {
-          samples.push(data.data[i]);
+      for (let i=0; i< userProblemArray.length; i++) {
+        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+          samples.push(userProblemArray[i]);
         }
       }
     }else if ( range==='month') {
       startDate=getLastDate(29);
-      for (let i=0; i< data.data.length; i++) {
-        if( data.data[i]['Time']>startDate&&data.data[i]["Time"]<lastDate) {
-          samples.push(data.data[i]);
+      for (let i=0; i< userProblemArray.length; i++) {
+        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+          samples.push(userProblemArray[i]);
         }
       }
     }else if ( range === 'year') {
       startDate=getLastDate(364);
-      for (let i=0; i< data.data.length; i++) {
-        if( data.data[i]['Time']>startDate&&data.data[i]["Time"]<lastDate) {
-          samples.push(data.data[i]);
+      for (let i=0; i< userProblemArray.length; i++) {
+        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+          samples.push(userProblemArray[i]);
         }
       }
     }
@@ -85,73 +85,104 @@ export default function Bar() {
   //filter the language
   var sampleUpdate=[];
   for ( let i=0; i<samples.length; i++) {
-    if ( samples[i]['language']!==undefined) {
-      if(samples[i]['language'].toLowerCase()===language.toLowerCase()) {
+    if ( samples[i]['programmingLanguage']!==undefined) {
+      if(samples[i]['programmingLanguage'].toLowerCase()===language.toLowerCase()) {
       sampleUpdate.push(samples[i]);
     }
   }
 }
-  //console.log('updated', sampleUpdate)
+  console.log('updated', sampleUpdate)
 
-    if (graph==='totalQuantities'&&selection==='subject') {
-      for (let i=0; i<sampleUpdate.length; i++) {
-        var result=Array(subject.length).fill(0);
-        var sub=sampleUpdate[i]['Topic'];
-        console.log('subbb', sub, result);
-        var index=subject.indexOf(sub);
-        if(index>=0) {
-        result[index]++;
-        }
-      }
-        console.log( 'filter subject and total', result);
-        setInput(result);
-      }
-
-
-    if (graph==='totalQuantities'&&selection==='difficulty') {
-      axios.get('/total', { params:{"range":range,'language':language}})
-
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy++;
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium++;
-        }else {
-          hard++;
-        }
-      }
-
-
+  //filter total&subject
+if (graph==='totalQuantities'&&selection==='subject') {
+  for (let i=0; i<sampleUpdate.length; i++) {
+    var result=Array(subject.length).fill(0);
+    var sub=sampleUpdate[i]['topics'];
+    console.log('subbb', sub, result);
+    var index=subject.indexOf(sub);
+    if(index>=0) {
+    result[index]++;
     }
-    if (graph==='totalTime'&&selection==='subject') {
-      axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
+  }
+    console.log( 'filter subject and total', result);
+    setInput(result);
+} //working
 
+if (graph==='totalQuantities'&&selection==='difficulty') {
+  //axios.get('/total', { params:{"range":range,'language':language}})
 
-
-
-
+  for ( let i=0; i<sampleUpdate.length; i++) {
+    if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+      easy++;
+    } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+      medium++;
+    }else {
+      hard++;
     }
+  }
+  console.log('difficulty & total', [easy, medium, hard])
+  setInput([easy, medium, hard]);
 
-    if(graph==='totalTime'&&selection==='difficulty') {
-      axios.get('/total', { params:{"range":range,'language':language}})
+}//working
 
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy = easy + data.data[i]["Total Time"];
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium = medium + data.data[i]["Total Time"];
-        }else {
-          hard = hard + data.data[i]["Total Time"];
-        }
-      }
+if (graph==='totalTime'&&selection==='subject') {
+ // axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
 
+ for (let i=0; i<sampleUpdate.length; i++) {
+  var totalTime=Array(subject.length).fill(0);
+  var count=Array(subject.length).fill(0);
+  var sub=sampleUpdate[i]['topics'];
+  //console.log('subbb', sub, totalTime);
+  var index=subject.indexOf(sub);
+  if(index>=0) {
+  totalTime[index]=totalTime[index]+sampleUpdate[i]['totalTime'];
+  count[index]++;
+  }
+}
 
+for (let i=0; i<totalTime.length; i++) {
+  if (totalTime[i]!==0) {
+    totalTime[i]=totalTime[i]/count[index]
+  }
+}
+  console.log( 'filter subject and total', totalTime);
+  setInput(totalTime);
 
-    }
-    setInput([easy, medium, hard]);
-    // console.log('state', [easy, medium, hard]);
-    // console.log('testtt', state.speed)
-  }, [graph,selection, subject, time, language,range])
+}
+
+if(graph==='totalTime'&&selection==='difficulty') {
+  var countE=0;
+  var countM=0;
+  var countH=0;
+  //axios.get('/total', { params:{"range":range,'language':language}})
+for ( let i=0; i<sampleUpdate.length; i++) {
+  if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+    easy = easy + sampleUpdate[i]["totalTime"];
+    countE++;
+  } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+    medium = medium + sampleUpdate[i]["totalTime"];
+    countM++;
+  }else {
+    hard = hard + sampleUpdate[i]["totalTime"];
+    countH++
+  }
+}
+ if(countE!==0){
+   easy=easy/countE;
+ }
+ if(countM!==0){
+  medium=medium/countM;
+}
+if(countH!==0){
+  hard=hard/countH;
+}
+setInput([easy, medium, hard]);
+
+}//done but not checked
+
+// console.log('state', [easy, medium, hard]);
+// console.log('testtt', state.speed)
+}, [graph,selection, subject, time, language,range])
 
   const option = {
     title:{
