@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { toast } from "react-toastify";
-import firebaseErrorCodes from "./../helpers/firebaseErrorCodes";
+import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
-import dataDecipher from "./../helpers/dataDecipher";
+import dataDecipher from "../helpers/dataDecipher";
 
 const GlobalContext = createContext();
 
@@ -12,17 +12,12 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
-  const [userSettings, setUserSettings] = useState({
-    firstGraph: 'bar',
-    secondGraph: 'pie',
-  });
   const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
     position: "bottom-left",
   });
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
-
   //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
@@ -36,7 +31,6 @@ export function GlobalContextProvider({ children }) {
         })
         .then(({ data }) => {
           const setUserData = dataDecipher(data);
-
           setUserProfileData(setUserData[0]);
           setUserProblemArray(setUserData[1]);
 
@@ -55,12 +49,12 @@ export function GlobalContextProvider({ children }) {
   }, []);
 
   const value = {
-    userSettings,
-    setUserSettings,
     toastifyTheme,
     setToastifyTheme,
     userProblemArray,
-    userProfileData
+    setUserProblemArray,
+    userProfileData,
+    setUserProfileData,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

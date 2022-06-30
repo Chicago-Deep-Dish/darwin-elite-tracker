@@ -27,7 +27,7 @@ exports.addRecord = (req, res) => {
 
 exports.updateRecord = (req, res) => {
   models
-    .updateRecord(req.body, req.query.userID)
+    .updateRecord(req.body, req.query.userID, req.params.problem_id)
     .then((response) => {
       res.send(response);
     })
@@ -39,7 +39,7 @@ exports.updateRecord = (req, res) => {
 
 exports.removeRecord = (req, res) => {
   models
-    .removeRecord(req.body, req.query.userID, req.params.problem_id)
+    .removeRecord(req.query.userID, req.params.problem_id)
     .then((response) => {
       res.send(response);
     })
