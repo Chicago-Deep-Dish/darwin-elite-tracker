@@ -7,8 +7,6 @@ import dataDecipher from "./../helpers/dataDecipher";
 
 const GlobalContext = createContext();
 
-function objectToArray(objArray) {}
-
 export default function useGlobalContext() {
   return useContext(GlobalContext);
 }
@@ -38,6 +36,7 @@ export function GlobalContextProvider({ children }) {
         })
         .then(({ data }) => {
           const setUserData = dataDecipher(data);
+
           setUserProfileData(setUserData[0]);
           setUserProblemArray(setUserData[1]);
 
@@ -59,6 +58,8 @@ export function GlobalContextProvider({ children }) {
     exampleState,
     setExampleState,
     toastifyTheme,
+    userProblemArray,
+    userProfileData
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

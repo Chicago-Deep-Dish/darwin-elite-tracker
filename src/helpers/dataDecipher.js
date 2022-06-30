@@ -14,7 +14,24 @@ export default function dataDecipher(data) {
   firebaseArray.forEach((problemObject) => {
     problemArray.push(problemObject.mapValue.fields);
   });
+
   problemArray.forEach((problem) => {
+    console.log(problem);
+    let constraintsFilteredArray = [];
+    let topicsFilteredArray = [];
+    let solutionFilteredArray = [];
+    problem.constraints.arrayValue.values.forEach((constraint) => {
+      constraintsFilteredArray.push(constraint.stringValue);
+    });
+
+    problem.topics.arrayValue.values.forEach((constraint) => {
+      topicsFilteredArray.push(constraint.stringValue);
+    });
+
+    problem.solution.arrayValue.values.forEach((constraint) => {
+      solutionFilteredArray.push(constraint.stringValue);
+    });
+
     problemArrayFiltered.push({
       codeTime: problem.codeTime.integerValue,
       difficulty: problem.difficulty.stringValue,
@@ -29,14 +46,14 @@ export default function dataDecipher(data) {
       timeStamp: problem.timeStamp.stringValue,
       totalTime: problem.totalTime.integerValue,
       whiteBoardTime: problem.whiteBoardTime.integerValue,
-      constraints: problem.constraints.arrayValue.values,
-      solution: problem.solution.arrayValue.values,
+      constraints: constraintsFilteredArray,
+      solution: solutionFilteredArray,
       timeStampinfo: {
         month: problem.timeStampinfo.mapValue.fields.month.stringValue,
         day: problem.timeStampinfo.mapValue.fields.day.integerValue,
         year: problem.timeStampinfo.mapValue.fields.day.integerValue,
       },
-      topics: problem.topics.arrayValue.values,
+      topics: topicsFilteredArray,
     });
   });
 
