@@ -15,10 +15,11 @@ import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
-import sampleData, { createSamplePrompt } from "../../test/sampleData";
+import { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme } = useGlobalContext();
+  const { toastifyTheme, streakData } = useGlobalContext();
+
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -66,7 +67,7 @@ export default function NavBar({ setModal }) {
   };
 
   const handleInputData = (inputProblem) => {
-    console.log("inputProblem", inputProblem);
+    // console.log("inputPramas", inputProblem);
     axios
       .post("/records", inputProblem, {
         params: {
@@ -74,7 +75,7 @@ export default function NavBar({ setModal }) {
         },
       })
       .then(({ data }) => {
-        console.log("data", data);
+        // console.log("data", data);
         toast.success("Added Data Successfully", toastifyTheme);
       })
       .catch((error) => {
@@ -269,5 +270,3 @@ export default function NavBar({ setModal }) {
     </Box>
   );
 }
-
-
