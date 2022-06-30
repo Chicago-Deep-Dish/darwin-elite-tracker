@@ -3,8 +3,11 @@ import React, { useState, useContext, createContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import firebaseErrorCodes from "./../helpers/firebaseErrorCodes";
 import axios from "axios";
+import dataDecipher from "./../helpers/dataDecipher";
 
 const GlobalContext = createContext();
+
+function objectToArray(objArray) {}
 
 export default function useGlobalContext() {
   return useContext(GlobalContext);
@@ -34,25 +37,9 @@ export function GlobalContextProvider({ children }) {
           },
         })
         .then(({ data }) => {
-
-          const userObject = data._document.data.value.mapValue.fields;
-          const UserObjectData = {
-            firstName: Object.keys(userObject.firstName)[0],
-            lastName: Object.keys(userObject.lastName)[0],
-            problems: userObject.problems.mapValue.fields,
-            settings: userObject.settings.mapValue.fields,
-          };
-
-          const firebaseArray = Object.values(UserObjectData.problems);
-
-          let problemArray = [];
-          firebaseArray.forEach((problem) => {
-            problemArray.push(problem.mapValue.fields);
-          });
-          console.log("problemArray", problemArray);
-          console.log("userObject", UserObjectData);
-          setUserProblemArray(problemArray);
-          setUserProfileData(UserObjectData);
+          const setUserData = dataDecipher(data);
+          setUserProfileData(setUserData[0]);
+          setUserProblemArray(setUserData[1]);
 
           toast.success("Recieved Data Successfully", toastifyTheme);
         })

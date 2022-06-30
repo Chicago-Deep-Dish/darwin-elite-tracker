@@ -206,15 +206,15 @@ console.log(new Date(randomDate(new Date(2022, 1, 1), new Date())));
 
 function ISOtoDateMonthYear(date) {
   // date = new Date(date);
-  const year = date.getFullYear();
+  const year = date.getFullYear().toString();
   let month = date.getMonth() + 1;
-  let dt = date.getDate();
+  let dt = date.getDate().toString();
 
   if (dt < 10) {
     dt = "0" + dt;
   }
   if (month < 10) {
-    month = "0" + month;
+    month = month + "0";
   }
   return [year, month, dt];
 }
