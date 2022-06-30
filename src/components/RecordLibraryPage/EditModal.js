@@ -15,7 +15,6 @@ import { toast } from 'react-toastify';
 import dataDecipher from "../../helpers/dataDecipher";
 
 export default function EditModal({ setShowEditModal, row, setRow, tableData, setTableData }) {
-  console.log(row)
   const { setUserProblemArray, toastifyTheme } = useGlobalContext();
 
   function handleExitModal() {
@@ -69,11 +68,15 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
   }
 
   function handleDateChange(newDate) {
+    if (isNaN(newDate.getDate())) {
+      toast.error('Invalid Date', toastifyTheme);
+      return;
+    }
     const timeStamp = newDate.toISOString()
     const timeStampinfo = {
-      month: (newDate.getMonth() + 1).toString(),
-      day: (newDate.getDate()).toString(),
-      year: (newDate.getFullYear()).toString()
+      month: (newDate.getMonth() + 1),
+      day: (newDate.getDate()),
+      year: (newDate.getFullYear())
     }
     console.log(timeStampinfo);
     setRow({

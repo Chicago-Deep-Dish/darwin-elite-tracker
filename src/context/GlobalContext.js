@@ -37,7 +37,11 @@ export function GlobalContextProvider({ children }) {
         .then(({ data }) => {
           const setUserData = dataDecipher(data);
           setUserProfileData(setUserData[0]);
-          setUserProblemArray(setUserData[1]);
+          setUserProblemArray(
+            setUserData[1].sort((prompt1, prompt2) => (
+              prompt1.timeStamp.localeCompare(prompt2.timeStamp)
+            ))
+            );
           let dataArray = [];
           setUserData[1].forEach((problem) => {
             dataArray.push(new Date(problem.timeStamp));
