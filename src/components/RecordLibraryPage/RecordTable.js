@@ -105,7 +105,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
   };
 
   function handleEditClick(data, idx) {
-    setEditRow({ data, idx: idx + (page * rowsPerPage) })
+    setEditRow(data)
     setShowEditModal(true);
   };
 
