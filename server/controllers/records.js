@@ -2,7 +2,7 @@ const models = require("../models/records");
 
 exports.searchRecords = (req, res) => {
   models
-    .searchRecords(req.query)
+    .searchRecords(req.query, req.cookies.userId)
     .then((response) => {
       res.send(response);
     })
@@ -14,7 +14,7 @@ exports.searchRecords = (req, res) => {
 
 exports.addRecord = (req, res) => {
   models
-    .addRecord(req.body, req.query.userID)
+    .addRecord(req.body, req.cookies.userId)
     .then((response) => {
       // console.log("login response", response);
       res.send(response);
@@ -27,7 +27,7 @@ exports.addRecord = (req, res) => {
 
 exports.updateRecord = (req, res) => {
   models
-    .updateRecord(req.body)
+    .updateRecord(req.body, req.cookies.userId)
     .then((response) => {
       res.send(response);
     })
@@ -38,9 +38,8 @@ exports.updateRecord = (req, res) => {
 };
 
 exports.removeRecord = (req, res) => {
-  console.log('req.cookies', req.cookies.userId);
   models
-    .removeRecord(req.cookies.userId, req.params.problem_id ,req.body)
+    .removeRecord(req.body, req.cookies.userId, req.params.problem_id ,)
     .then((response) => {
       res.send(response);
     })
