@@ -1,15 +1,23 @@
 import React from 'react';
 // import styled from '@emotion/styled';
-import { PlayArrow, Pause, RestartAlt } from '@mui/icons-material'
+import { PlayArrow, Pause, RestartAlt, Edit, AddTask } from '@mui/icons-material'
 
-export default function ControlButtons({ handleStart, handleReset, handlePauseResume, active, isPaused }) {
+export default function ControlButtons({ handleStart, handleReset, handlePauseResume, active, isPaused, custom, handleCustom, handleConfirm }) {
 
 
-  const StartButton = (
+  const StartButtons = (
+    <div style={{display: 'flex', alignItems: 'center', justifyContent:'space-evenly'}}>
+     <div
+      onClick={handleCustom}>
+        {<Edit />}
+    </div>
     <div
-      onClick={handleStart}>
-        {<PlayArrow/>}
-      </div>
+      onClick={handleStart}
+      >
+        {<PlayArrow />}
+    </div>
+  </div>
+
   );
 
   const ActiveButtons = (
@@ -29,9 +37,26 @@ export default function ControlButtons({ handleStart, handleReset, handlePauseRe
     </div>
   );
 
+  const ConfirmClickButton = (
+    <div
+      onClick={handleConfirm}
+    >
+      {<AddTask />}
+    </div>
+  )
+
   return (
       <div>
-        {active ? ActiveButtons : StartButton}
+        {/* {active ? ActiveButtons : StartButton} */}
+        {(() => {
+            if (active && !custom ) {
+              return ActiveButtons;
+            } else if (!active && !custom) {
+              return StartButtons;
+            } else if (custom && !active){
+              return ConfirmClickButton;
+            }
+        })()}
       </div>
   );
 }
