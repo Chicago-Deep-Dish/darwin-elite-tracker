@@ -238,10 +238,10 @@ function ISOtoDateMonthYear(date) {
 }
 
 function getrandomDateIn2022() {
-  return new Date(randomDate(new Date(2022, 1, 1), new Date()));
+  return new Date(randomDate(new Date(2022, 1, 1), new Date(2022, 1, 7)));
 }
 
-//NOT USED YET
+//NOT USED YET l
 // function randomUserGenerator() {
 //   return {
 //     username: createRandomWordStringWithLength(5),

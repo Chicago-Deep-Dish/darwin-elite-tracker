@@ -12,9 +12,13 @@ import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import Stopwatch from './Stopwatch/Stopwatch';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import firebaseErrorCodes from '../../../helpers/firebaseErrorCodes';
+import useGlobalContext from '../../../context/GlobalContext';
 
 
 export default function InputForm() {
+  const { toastifyTheme } =  useGlobalContext();
 
   const [times, setTimes] = useState(0);
 
@@ -49,7 +53,7 @@ export default function InputForm() {
 
   const handleSubmit = (e, values) => {
     e.preventDefault();
-    axios.post('/', {
+    axios.post('/records', {
       ...values,
       'constraints': values.constraints.split(', '),
       'solution': values.solution.split(', '),
@@ -59,6 +63,10 @@ export default function InputForm() {
         'month': new Date().getMonth() + 1,
         'day': new Date().getDate(),
         'year': new Date().getFullYear()
+      }
+    }, {
+      params: {
+        userID: sessionStorage.getItem('UserID')
       }
     })
       .then(() => {
@@ -71,15 +79,18 @@ export default function InputForm() {
         timeComplexity: '',
         solution: '',
         programmingLanguage: '',
-        readTime: '',
-        whiteBoardTime: '',
-        pseudocodeTime: '',
-        codeTime: '',
+        readTime: 0,
+        whiteBoardTime: 0,
+        pseudocodeTime: 0,
+        codeTime: 0,
         topic: '',
       })
-        setTimes(0)
+        setTimes(0);
+        toast.success('Data submitted successfully', toastifyTheme);
       })
-      .catch((err) => console.log('error submitting', err));
+      .catch((err) => {
+        firebaseErrorCodes(err.response.data.code, toastifyTheme
+      )});
   };
 
 

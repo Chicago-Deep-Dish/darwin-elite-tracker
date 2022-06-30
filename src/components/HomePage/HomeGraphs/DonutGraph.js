@@ -4,15 +4,19 @@ import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import data from  './sampleData.js';
+import axios from 'axios';
+import useGlobalContext from '../../../context/GlobalContext.js'
+
 
 export default function Donut() {
 
-  const [graph, setGraph] = React.useState('speed');
+  const { userProblemArray } = useGlobalContext();
+  const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
-  const [input, setInput]=React.useState([0,0,0])
+  const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
@@ -37,43 +41,183 @@ export default function Donut() {
   const handleSubject= (event) => {
     setSubject(event.target.value);
   };
-  var easy = 0;
-  var medium = 0;
-  var hard = 0;
 
-  React.useEffect ( ()=>{
 
-    if (graph==='total') {
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy++;
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium++;
-        }else {
-          hard++;
-        }
+const getLastDate = (x)=> {
+  const now = new Date();
+  const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+  return result.toISOString();
+  }
+var easy = 0;
+var medium = 0;
+var hard = 0;
+var lastDate=getLastDate(0);
+var startDate=getLastDate(6);
+
+React.useEffect ( ()=>{
+  var samples=[];
+  console.log('easy,hard,medium', easy, medium, hard);
+  //send request during 'range' time with 'language' for  as data
+  // console.log('subject',subject);
+
+  //filter range
+  if ( range==='week') {
+    for (let i=0; i< userProblemArray.length; i++) {
+      if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+        samples.push(userProblemArray[i]);
       }
     }
-    if (graph==='speed') {
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy = easy + data.data[i]["Total Time"];
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium = medium + data.data[i]["Total Time"];
-        }else {
-          hard = hard + data.data[i]["Total Time"];
-        }
+  }else if ( range==='month') {
+    startDate=getLastDate(29);
+    for (let i=0; i< userProblemArray.length; i++) {
+      if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+        samples.push(userProblemArray[i]);
       }
     }
+  }else if ( range === 'year') {
+    startDate=getLastDate(364);
+    for (let i=0; i< userProblemArray.length; i++) {
+      if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+        samples.push(userProblemArray[i]);
+      }
+    }
+  }
+//console.log( 'rangggge' , range, samples);
 
-   setInput([easy, medium, hard]);
-    // console.log('state', language,range,time);
-    // console.log('testtt', state.speed)
-  }, [graph, selection, time, range, language])
+//filter the language
+var sampleUpdate=[];
+for ( let i=0; i<samples.length; i++) {
+  if ( samples[i]['programmingLanguage']!==undefined) {
+    if(samples[i]['programmingLanguage'].toLowerCase()===language.toLowerCase()) {
+    sampleUpdate.push(samples[i]);
+  }
+}
+}
+console.log('updated', sampleUpdate)
+
+//filter total&subject
+if (graph==='totalQuantities'&&selection==='subject') {
+for (let i=0; i<sampleUpdate.length; i++) {
+  var result=Array(subject.length).fill(0);
+  var sub=sampleUpdate[i]['topics'];
+  console.log('subbb', sub, result);
+  var index=subject.indexOf(sub);
+  if(index>=0) {
+  result[index]++;
+  }
+}
+  console.log( 'filter subject and total', result);
+//convert to [{},{}...]format for table
+var finalResult=[];
+for ( let i=0; i<subject.length; i++) {
+var temp={};
+temp['value']=result[i];
+temp['name']=subject[i];
+finalResult.push(temp);
+
+}
+setInput(finalResult);
+} //working
+
+if (graph==='totalQuantities'&&selection==='difficulty') {
+//axios.get('/total', { params:{"range":range,'language':language}})
+
+for ( let i=0; i<sampleUpdate.length; i++) {
+  if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+    easy++;
+  } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+    medium++;
+  }else {
+    hard++;
+  }
+}
+console.log('difficulty & total', [easy, medium, hard])
+
+setInput([{value:easy,name:'easy'},{value: medium,name:'medium'}, {value: hard,name:'hard'}]);
+
+}//working
+
+if (graph==='totalTime'&&selection==='subject') {
+// axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
+
+for (let i=0; i<sampleUpdate.length; i++) {
+var totalTime=Array(subject.length).fill(0);
+var count=Array(subject.length).fill(0);
+var sub=sampleUpdate[i]['topics'];
+//console.log('subbb', sub, totalTime);
+var index=subject.indexOf(sub);
+if(index>=0) {
+totalTime[index]=totalTime[index]+sampleUpdate[i]['totalTime'];
+count[index]++;
+}
+}
+
+if (totalTime) {
+for (let i=0; i<totalTime.length; i++) {
+if (totalTime[i]!==0) {
+  totalTime[i]=totalTime[i]/count[index];
+  totalTime[i]=totalTime[i]/1000/60;
+}
+}
+}
+console.log( 'filter subject and total', totalTime);
+//conver totaltime and subject to [{},{},{}....]
+var final=[]
+for ( let i=0; i<subject.length; i++) {
+  var temp={};
+  temp['value']=totalTime[i];
+  temp['name']=subject[i];
+  final.push(temp);
+}
+setInput(final);
+
+}
+
+if(graph==='totalTime'&&selection==='difficulty') {
+var countE=0;
+var countM=0;
+var countH=0;
+//axios.get('/total', { params:{"range":range,'language':language}})
+for ( let i=0; i<sampleUpdate.length; i++) {
+if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+  easy = easy + sampleUpdate[i]["totalTime"];
+  countE++;
+} else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+  medium = medium + sampleUpdate[i]["totalTime"];
+  countM++;
+}else {
+  hard = hard + sampleUpdate[i]["totalTime"];
+  countH++
+}
+}
+//get average and change to minus
+if(countE!==0){
+  easy=easy/countE;
+  easy=easy/1000/60;
+}
+if(countM!==0){
+medium=medium/countM;
+medium=medium/1000/60;
+}
+if(countH!==0){
+hard=hard/countH;
+hard=hard/1000/60;
+}
+//transfer to this format  [ { value: input[0], name: 'easy' },
+    //   { value: input[1], name: 'medium' },
+    //   { value: input[2], name: 'hard' },
+    // ],
+setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,name:'hard'}]);
+
+}//done but not checked
+
+// console.log('state', [easy, medium, hard]);
+// console.log('testtt', state.speed)
+}, [graph,selection, subject, time, language,range])
 
   const option = {
     title:{
-      text: graph==='speed'?'speed (mins)':graph==='total'?'total':null
+      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
     },
     tooltip: {
       trigger: 'item'
@@ -107,20 +251,23 @@ export default function Donut() {
         labelLine: {
           show: false
         },
-        data: [
-          { value: input[0], name: 'Easy' },
-          { value: input[1], name: 'Medium'},
-          { value: input[2], name: 'Hard' }
+        data: selection==='difficulty'?
+        [ { value: input[0], name: 'easy' },
+          { value: input[1], name: 'medium' },
+          { value: input[2], name: 'hard' },
+        ]:[
+          'subject'//neeed to update it
+
         ]
       }
     ]
   };
 return (
   <Stack>
-    <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
-    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', m:4, backgroundColor:'white'}}>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', ml:4, mr:4, mt:1, mb:2,backgroundColor:'black'}}>
       <ReactEcharts option={option} />
     </Box>
+    <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
   </Stack>
 )
 }
