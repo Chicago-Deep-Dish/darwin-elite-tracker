@@ -11,8 +11,7 @@ export default function Bar() {
   const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
-
-  const [input, setInput]=React.useState([0,0,0])
+  const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
@@ -38,24 +37,74 @@ export default function Bar() {
     setSubject(event.target.value);
   };
 
+ const getLastDate = (x)=> {
+    const now = new Date();
+    const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+    return result.toISOString();
+    }
 
   var easy = 0;
   var medium = 0;
   var hard = 0;
+  var lastDate=getLastDate(0);
+  var startDate=getLastDate(6);
 
   React.useEffect ( ()=>{
+    var samples=[];
 
     //send request during 'range' time with 'language' for  as data
-    console.log('subject',subject);
+   // console.log('subject',subject);
+
+   //filter range
+    if ( range==='week') {
+      for (let i=0; i< data.data.length; i++) {
+        if( data.data[i]['Time']>startDate&&data.data[i]["Time"]<lastDate) {
+          samples.push(data.data[i]);
+        }
+      }
+    }else if ( range==='month') {
+      startDate=getLastDate(29);
+      for (let i=0; i< data.data.length; i++) {
+        if( data.data[i]['Time']>startDate&&data.data[i]["Time"]<lastDate) {
+          samples.push(data.data[i]);
+        }
+      }
+    }else if ( range === 'year') {
+      startDate=getLastDate(364);
+      for (let i=0; i< data.data.length; i++) {
+        if( data.data[i]['Time']>startDate&&data.data[i]["Time"]<lastDate) {
+          samples.push(data.data[i]);
+        }
+      }
+    }
+  //console.log( 'rangggge' , range, samples);
+
+  //filter the language
+  var sampleUpdate=[];
+  for ( let i=0; i<samples.length; i++) {
+    if ( samples[i]['language']!==undefined) {
+      if(samples[i]['language'].toLowerCase()===language.toLowerCase()) {
+      sampleUpdate.push(samples[i]);
+    }
+  }
+}
+  //console.log('updated', sampleUpdate)
 
     if (graph==='totalQuantities'&&selection==='subject') {
-      //for total and subject
-      axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
-      //get
-     //const ranged= db.collection(tablename)
-     //ranged.where('timeStamp')
+      for (let i=0; i<sampleUpdate.length; i++) {
+        var result=Array(subject.length).fill(0);
+        var sub=sampleUpdate[i]['Topic'];
+        console.log('subbb', sub, result);
+        var index=subject.indexOf(sub);
+        if(index>=0) {
+        result[index]++;
+        }
+      }
+        console.log( 'filter subject and total', result);
+        setInput(result);
+      }
 
-    }
+
     if (graph==='totalQuantities'&&selection==='difficulty') {
       axios.get('/total', { params:{"range":range,'language':language}})
 
@@ -99,7 +148,7 @@ export default function Bar() {
     setInput([easy, medium, hard]);
     // console.log('state', [easy, medium, hard]);
     // console.log('testtt', state.speed)
-  }, [graph,selection, subject,time, language,range])
+  }, [graph,selection, subject, time, language,range])
 
   const option = {
     title:{
@@ -129,7 +178,7 @@ export default function Bar() {
   }
 return (
   <Stack >
-    <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#F9F6EE'}}>
+    <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: 'black'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar  graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

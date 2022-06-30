@@ -164,7 +164,7 @@ export default function Line() {
       type: 'value'
     },
     series: [ //need to update according to data
-      {
+      { // sample data firstly filter with range ; then filter with hardlevel;
         name: 'Easy',
         type: 'line',
         stack: 'Total',
@@ -186,7 +186,7 @@ export default function Line() {
   }
   return (
     <Stack>
-      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'white'}}>
+      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
