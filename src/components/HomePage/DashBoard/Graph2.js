@@ -6,11 +6,11 @@ export default function Graph2() {
     const [graph, setGraph] = React.useState('speed');
     const [selection, setSelection]=React.useState('');
     const [subject, setSubject] = React.useState([]);
-  
+
     const [time, setTime]=React.useState('whole process');
     const [range, setRange]=React.useState('week');
     const [language, setLanguage]=React.useState('Javascript');
-  
+
     const handleTime = (event: SelectChangeEvent) => {
       setTime(event.target.value);
     };
@@ -20,7 +20,7 @@ export default function Graph2() {
     const handleLanguage = (event: SelectChangeEvent) => {
       setLanguage(event.target.value);
     };
-  
+
     const handleGraph = (event) => {
       setGraph(event.target.value);
     };
@@ -32,16 +32,16 @@ export default function Graph2() {
       setSubject(event.target.value);
     };
     React.useEffect ( ()=>{
-      console.log('state', language,range,time);
+      // console.log('state', language,range,time);
       //console.log('testtt', state.speed)
     }, [graph, selection, time, range, language])
-  
+
     const option = {
         title: {
           text:graph==='speed'?'speed (mins)':graph==='total'?'total':null,
           padding:[20,10,10,10]
         },
-  
+
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -135,7 +135,7 @@ export default function Graph2() {
           }
         ]
       }
-  
+
   return (
     <Stack>
       <Box sx={{ '&:hover':{boxShadow:3}, width:'330px', height:'100px', m:4}}>

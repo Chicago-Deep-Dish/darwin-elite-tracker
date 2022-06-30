@@ -16,25 +16,10 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 import { createSamplePrompt } from "../../test/sampleData";
-import { summary } from "date-streaks";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme, userProblemArray } = useGlobalContext();
+  const { toastifyTheme, streakData } = useGlobalContext();
 
-  React.useEffect(() => {
-    let dataArray = [];
-
-    userProblemArray.forEach((problem) => {
-      // console.log("problem.timeStamp", new Date(problem.timeStamp));
-      dataArray.push(new Date(problem.timeStamp));
-    });
-
-    const streakSummary = summary(dataArray);
-
-    console.log("streakSummary", streakSummary);
-  }, [userProblemArray]);
-
-  // console.log('userProblemArray', userProblemArray);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -82,7 +67,7 @@ export default function NavBar({ setModal }) {
   };
 
   const handleInputData = (inputProblem) => {
-    console.log("inputPramas", inputProblem);
+    // console.log("inputPramas", inputProblem);
     axios
       .post("/records", inputProblem, {
         params: {
@@ -90,7 +75,7 @@ export default function NavBar({ setModal }) {
         },
       })
       .then(({ data }) => {
-        console.log("data", data);
+        // console.log("data", data);
         toast.success("Added Data Successfully", toastifyTheme);
       })
       .catch((error) => {

@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function EditModal({ setShowEditModal, row, setRow, tableData, setTableData }) {
   function handleExitModal() {
@@ -51,6 +52,16 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
     });
   }
 
+  function handleDifficultyChange(e) {
+    setRow({
+      idx: row.idx,
+      data: {
+        ...row.data,
+        difficulty: e.target.value
+      }
+    });
+  }
+
   return (
     <div className="modal-container" onClick={handleExitModal}>
       <section className="records-modal" onClick={e => e.stopPropagation()}>
@@ -64,11 +75,25 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
           <FormControl autoComplete="off" sx={{ '& > :not(style)': { m: 1 } }} component="form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
             <TextField id="promptName" label="Name" value={row.data.promptName}></TextField>
             <TextField id="promptLink" label="Link" value={row.data.promptLink}></TextField>
-            <TextField id="difficulty" label="Difficulty" value={row.data.difficulty}></TextField>
+            {/* <TextField id="difficulty" label="Difficulty" value={row.data.difficulty}></TextField> */}
+            <FormControl>
+              <InputLabel id="difficulty-select-label">Difficulty</InputLabel>
+              <Select
+                labelId="difficulty-select-label"
+                id="difficulty"
+                value={row.data.difficulty}
+                label="Difficulty"
+                onChange={handleDifficultyChange}
+              >
+                <MenuItem id="difficulty" value="easy">easy</MenuItem>
+                <MenuItem id="difficulty" value="medium">medium</MenuItem>
+                <MenuItem value="hard">hard</MenuItem>
+              </Select>
+            </FormControl>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="Date&Time picker"
-                value={row.data.timeStamp.date}
+                value={row.data.timeStamp}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
               />
@@ -78,7 +103,7 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <Button type="submit">Submit</Button>
           </FormControl>
         </div>
-      </section >
-    </div >
+      </section>
+    </div>
   );
 }

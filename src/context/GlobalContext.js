@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { toast } from "react-toastify";
-import firebaseErrorCodes from "./../helpers/firebaseErrorCodes";
+import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
-import dataDecipher from "./../helpers/dataDecipher";
+import dataDecipher from "../helpers/dataDecipher";
+import { summary } from "date-streaks";
 
 const GlobalContext = createContext();
 
@@ -12,20 +13,17 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
-  const [exampleState, setExampleState] = useState(
-    "Set state inside GlobalContext.js"
-  );
-  const [streakData, setStreakData] = React.useState([]);
-
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
 
-  //TODO: change theme to a state so it doesn't rerender every time
-  const toastifyTheme = {
+  const [streakSummary, setstreakSummary] = useState([]);
+
+  const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
     position: "bottom-left",
-  };
+  });
 
+  //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
       toast.success("Logged In", toastifyTheme);
@@ -33,15 +31,20 @@ export function GlobalContextProvider({ children }) {
       axios
         .get("/records", {
           params: {
-            userId: sessionStorage.getItem("UserID"),
+            userID: sessionStorage.getItem("UserID"),
           },
         })
         .then(({ data }) => {
           const setUserData = dataDecipher(data);
-
           setUserProfileData(setUserData[0]);
           setUserProblemArray(setUserData[1]);
+          let dataArray = [];
+          setUserData[1].forEach((problem) => {
+            dataArray.push(new Date(problem.timeStamp));
+          });
+          // console.log(dataArray)
 
+          setstreakSummary(summary(dataArray));
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
@@ -57,11 +60,13 @@ export function GlobalContextProvider({ children }) {
   }, []);
 
   const value = {
-    exampleState,
-    setExampleState,
     toastifyTheme,
+    setToastifyTheme,
     userProblemArray,
-    userProfileData
+    setUserProblemArray,
+    userProfileData,
+    setUserProfileData,
+    streakSummary,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
