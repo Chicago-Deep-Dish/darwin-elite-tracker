@@ -79,10 +79,10 @@ export default function InputForm() {
         timeComplexity: '',
         solution: '',
         programmingLanguage: '',
-        readTime: '',
-        whiteBoardTime: '',
-        pseudocodeTime: '',
-        codeTime: '',
+        readTime: 0,
+        whiteBoardTime: 0,
+        pseudocodeTime: 0,
+        codeTime: 0,
         topic: '',
       })
         setTimes(0);
