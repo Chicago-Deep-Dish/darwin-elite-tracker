@@ -3,6 +3,7 @@ exports.login = (req, res) => {
   models
     .login(req.query)
     .then((response) => {
+      res.cookie('userId', 'TEST_ID');
       res.send(response);
     })
     .catch((err) => {
@@ -15,6 +16,8 @@ exports.register = (req, res) => {
   models
     .register(req.query)
     .then((response) => {
+      console.log(response);
+      res.cookie('userId', 'TEST_ID');
       res.send(response);
     })
     .catch((err) => {

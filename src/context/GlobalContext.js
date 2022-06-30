@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { toast } from "react-toastify";
-import firebaseErrorCodes from "./../helpers/firebaseErrorCodes";
+import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
-import dataDecipher from "./../helpers/dataDecipher";
+import dataDecipher from "../helpers/dataDecipher";
 
 const GlobalContext = createContext();
 
@@ -12,18 +12,13 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
-  const [exampleState, setExampleState] = useState(
-    "Set state inside GlobalContext.js"
-  );
-  const [userProblemArray, setUserProblemArray] = useState([]);
-  const [userProfileData, setUserProfileData] = useState([]);
-
-  //TODO: change theme to a state so it doesn't rerender every time
-  const toastifyTheme = {
+  const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
     position: "bottom-left",
-  };
-
+  });
+  const [userProblemArray, setUserProblemArray] = useState([]);
+  const [userProfileData, setUserProfileData] = useState([]);
+  //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
       toast.success("Logged In", toastifyTheme);
@@ -31,12 +26,11 @@ export function GlobalContextProvider({ children }) {
       axios
         .get("/records", {
           params: {
-            userId: sessionStorage.getItem("UserID"),
+            userID: sessionStorage.getItem("UserID"),
           },
         })
         .then(({ data }) => {
           const setUserData = dataDecipher(data);
-
           setUserProfileData(setUserData[0]);
           setUserProblemArray(setUserData[1]);
 
@@ -55,11 +49,12 @@ export function GlobalContextProvider({ children }) {
   }, []);
 
   const value = {
-    exampleState,
-    setExampleState,
     toastifyTheme,
+    setToastifyTheme,
     userProblemArray,
-    userProfileData
+    setUserProblemArray,
+    userProfileData,
+    setUserProfileData,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

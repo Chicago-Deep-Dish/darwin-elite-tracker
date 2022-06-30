@@ -1,6 +1,6 @@
 export default function dataDecipher(data) {
   const userObject = data._document.data.value.mapValue.fields;
-  console.log("userObject", userObject);
+  // console.log("userObject", userObject);
   const UserObjectData = {
     firstName: Object.keys(userObject.firstName)[0],
     lastName: Object.keys(userObject.lastName)[0],
@@ -17,7 +17,7 @@ export default function dataDecipher(data) {
   });
 
   problemArray.forEach((problem) => {
-    console.log(problem);
+    // console.log(problem);
     let constraintsFilteredArray = [];
     let solutionFilteredArray = [];
     problem.constraints.arrayValue.values.forEach((constraint) => {

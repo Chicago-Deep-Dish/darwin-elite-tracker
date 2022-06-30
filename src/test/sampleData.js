@@ -81,7 +81,7 @@ export const registeredUser = {
 
 export function createSamplePrompt(userID) {
   const randomISODate = getrandomDateIn2022();
-  const randmDateArray = ISOtoDateMonthYear(randomISODate);
+  const randomDateArray = ISOtoDateMonthYear(randomISODate);
 
   return {
     id: uuidv4(),
@@ -123,22 +123,24 @@ export function createSamplePrompt(userID) {
 
     timeStamp: randomISODate,
     timeStampinfo: {
-      year: randmDateArray[0],
-      month: randmDateArray[1],
-      day: randmDateArray[2],
+      year: randomDateArray[0],
+      month: randomDateArray[1],
+      day: randomDateArray[2],
     },
   };
 }
 
 const difficultyArray = ["easy", "medium", "hard"];
 const timeComplexityArray = [
-  "O(n log(n))",
+  "O(n log n)",
+  "O(log n)",
   "O(n)",
   "O(n^2)",
   "O(1)",
   "O(n+k)",
   "O(nk)",
 ];
+
 const languagesArray = [
   "Javascript",
   "Java",
