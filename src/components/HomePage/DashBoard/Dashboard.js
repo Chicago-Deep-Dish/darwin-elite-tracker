@@ -32,14 +32,14 @@ const Item = styled(Paper)(({ theme }) => ({
     new Date('01/06/2018'),
     new Date('06/29/2022'),
   ];
-   
+
   console.log('summary', summary({ dates }))
 
 export default function DashBoard() {
     const [problemData, setProblemData] = React.useState([]);
     const [streakData, setStreakData] = React.useState([]);
 
-    
+
     React.useEffect (()=>{
         //futute API request for problemData
         setProblemData([
@@ -82,11 +82,11 @@ export default function DashBoard() {
             </Stack>
         </Stack>
         </Grid>
-        
-        
-        
-        
-        
+
+
+
+
+
     </>
 }
 

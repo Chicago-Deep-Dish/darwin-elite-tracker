@@ -4,17 +4,19 @@ import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import moment from 'moment';
+import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Area() {
 
+  const { userProblemArray } = useGlobalContext();
   const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
-
+  const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
-
+  const [legend, setLegend]=React.useState([]);
   const handleTime = (event: SelectChangeEvent) => {
     setTime(event.target.value);
   };
@@ -37,10 +39,287 @@ export default function Area() {
   };
 
 
+  const getLastDate = (x)=> {
+    const now = new Date();
+    const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+    return result.toISOString();
+    }
+
+  var lastDate=getLastDate(0);
+  var startDate=getLastDate(6);
+
   React.useEffect ( ()=>{
-    // console.log('state', language,range,time);
-    //console.log('testtt', state.speed)
-  },  [graph,selection, subject,time, language,range])
+    var samples=[];
+
+    // console.log('subject',subject);
+
+    //filter range
+    if ( range==='week') {
+      for (let i=0; i< userProblemArray.length; i++) {
+        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+          samples.push(userProblemArray[i]);
+        }
+      }
+    }else if ( range==='month') {
+      startDate=getLastDate(29);
+      for (let i=0; i< userProblemArray.length; i++) {
+        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+          samples.push(userProblemArray[i]);
+        }
+      }
+    }else if ( range === 'year') {
+      startDate=getLastDate(364);
+      for (let i=0; i< userProblemArray.length; i++) {
+        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+          samples.push(userProblemArray[i]);
+        }
+      }
+    }
+  //console.log( 'rangggge' , range, samples);
+  //filter the language
+  var sampleUpdate=[];
+  for ( let i=0; i<samples.length; i++) {
+    if ( samples[i]['programmingLanguage']!==undefined) {
+      if(samples[i]['programmingLanguage'].toLowerCase()===language.toLowerCase()) {
+      sampleUpdate.push(samples[i]);
+    }
+  }
+  }
+  console.log('updated', sampleUpdate);
+
+//filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
+  if (graph==='totalQuantities'&&selection==='subject') {
+    var subjectTeam={};
+    for(let i=0; i<sampleUpdate.length;i++) {
+      var sub=sampleUpdate[i]['topics'];
+      if(subject.includes(sub)) {
+        if(subjectTeam[sub]===undefined) {
+          subjectTeam[sub]=[];
+          subjectTeam[sub].push(sampleUpdate[i]);
+        }else{
+          subjectTeam[sub].push(sampleUpdate[i]);
+        }
+    }else {
+      continue;
+    }
+  }
+    var updateFormate={};
+    for (var key in subjectTeam) {
+      var timeAndValue=subjectTeam[key];
+      var temp={};
+      for (let i=0; i<timeAndValue.length; i++) {
+        var time=timeAndValue[i]['timeStamp'].slice(0,10);
+        if (temp[time]!==undefined) {
+          temp[time]++;
+        }else {
+          temp[time]=1;
+        }
+
+      }
+      updateFormate[key]=temp;
+    }
+//at this point the format is {topic:{timestamp:quantities, timestamps:quantities,...}, topic2:{....}};
+
+//convert format to fit graph
+ var finalResult=[];
+ for (let key in updateFormate) {
+   var temp={};
+   temp['name']=key;
+   temp['type']='line';
+   temp['areaStyle']={};
+   temp['stack']='Total';
+   temp['emphasis']={'focus':'series'};
+   temp['data']=[];
+   for (let value in updateFormate[key]) {
+      var data=[];
+      data.push(value);
+      data.push(updateFormate[key][value]);
+      temp['data'].push(data);
+   }
+   finalResult.push(temp);
+
+ }
+ var container=[];
+ for (let i=0; i<finalResult.length; i++) {
+  container.push(finalResult[i]['name']);
+ }
+ setLegend(container);
+ setInput(finalResult);
+}
+
+
+if(graph==='totalQuantities'&&selection==='difficulty') {
+  var subjectTeam={};
+  for(let i=0; i<sampleUpdate.length;i++) {
+    var sub=sampleUpdate[i]['difficulty'];
+    if(subjectTeam[sub]===undefined) {
+      subjectTeam[sub]=[];
+      subjectTeam[sub].push(sampleUpdate[i]);
+    }else{
+      subjectTeam[sub].push(sampleUpdate[i]);
+    }
+  }
+  var updateFormate={};
+  for (var key in subjectTeam) {
+    var timeAndValue=subjectTeam[key];
+    var temp={};
+    for (let i=0; i<timeAndValue.length; i++) {
+      var time=timeAndValue[i]['timeStamp'].slice(0,10);
+      if (temp[time]!==undefined) {
+        temp[time]++;
+      }else {
+        temp[time]=1;
+      }
+
+    }
+    updateFormate[key]=temp;
+  }
+//at this point the format is {topic:{timestamp:quantities, timestamps:quantities,...}, topic2:{....}};
+
+//convert format to fit graph
+var finalResultA=[];
+for (let key in updateFormate) {
+ var temp={};
+ temp['name']=key;
+ temp['type']='line';
+ temp['areaStyle']={};
+ temp['stack']='Total';
+ temp['emphasis']={'focus':'series'};
+ temp['data']=[];
+ for (let value in updateFormate[key]) {
+    var data=[];
+    data.push(value);
+    data.push(updateFormate[key][value]);
+    temp['data'].push(data);
+ }
+ finalResult.push(temp);
+}
+for (let i=0; i<finalResultA.length; i++) {
+
+}
+var containerA=[];
+ for (let i=0; i<finalResultA.length; i++) {
+  containerA.push(finalResultA[i]['name']);
+  console.log('container', containerA);
+ }
+ setLegend(containerA);
+ setInput(finalResultA);
+}
+
+
+if ( graph==='totalTime'&&selection==='subject') {
+  var subjectTeam={};
+  for(let i=0; i<sampleUpdate.length;i++) {
+    var sub=sampleUpdate[i]['topics'];
+    if( subject.includes(sub)) {
+      if(subjectTeam[sub]===undefined) {
+        subjectTeam[sub]=[];
+        subjectTeam[sub].push(sampleUpdate[i]);
+      }else{
+        subjectTeam[sub].push(sampleUpdate[i]);
+      }
+   }
+  }
+  //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
+  var updateFormate={};
+  for (var key in subjectTeam) {
+    var timeAndValue=subjectTeam[key];
+    var temp={};
+    for (let i=0; i<timeAndValue.length; i++) {
+      var time=timeAndValue[i]['timeStamp'].slice(0,10);
+      if (temp[time]!==undefined) {
+        temp[time]=(temp[time]+Number(timeAndValue[i]['totalTime'])/1000/60)/2;
+      }else {
+        temp[time]=Number(timeAndValue[i]['totalTime'])/1000/60;
+      }
+
+    }
+    updateFormate[key]=temp;
+  }
+
+  var finalResultB=[];
+  for (let key in updateFormate) {
+  var temp={};
+  temp['name']=key;
+  temp['type']='line';
+  temp['areaStyle']={};
+  temp['stack']='Total';
+  temp['emphasis']={'focus':'series'};
+  temp['data']=[];
+  for (let value in updateFormate[key]) {
+      var data=[];
+      data.push(value);
+      data.push(updateFormate[key][value]);
+      temp['data'].push(data);
+  }
+  finalResultB.push(temp);
+  }
+  var containerB=[];
+ for (let i=0; i<finalResultB.length; i++) {
+  containerB.push(finalResultB[i]['name']);
+  console.log('legend', containerB);
+ }
+  setLegend(containerB);
+  setInput(finalResultB);
+}
+
+
+if ( graph==='totalTime'&&selection==='difficulty') {
+  var subjectTeam={};
+  for(let i=0; i<sampleUpdate.length;i++) {
+    var sub=sampleUpdate[i]['difficulty'];
+      if(subjectTeam[sub]===undefined) {
+        subjectTeam[sub]=[];
+        subjectTeam[sub].push(sampleUpdate[i]);
+      }else{
+        subjectTeam[sub].push(sampleUpdate[i]);
+      }
+  }
+  //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
+  var updateFormate={};
+  for (var key in subjectTeam) {
+    var timeAndValue=subjectTeam[key];
+    var temp={};
+    for (let i=0; i<timeAndValue.length; i++) {
+      var time=timeAndValue[i]['timeStamp'].slice(0,10);
+      if (temp[time]!==undefined) {
+        temp[time]=(temp[time]+Number(timeAndValue[i]['totalTime'])/1000/60)/2;
+      }else {
+        temp[time]=Number(timeAndValue[i]['totalTime'])/1000/60;
+      }
+
+    }
+    updateFormate[key]=temp;
+  }
+
+  var finalResultC=[];
+  for (let key in updateFormate) {
+  var temp={};
+  temp['name']=key;
+  temp['type']='line';
+  temp['areaStyle']={};
+  temp['stack']='Total';
+  temp['emphasis']={'focus':'series'};
+  temp['data']=[];
+  for (let value in updateFormate[key]) {
+      var data=[];
+      data.push(value);
+      data.push(updateFormate[key][value]);
+      temp['data'].push(data);
+  }
+  finalResultC.push(temp);
+  }
+  console.log('areaaaa',finalResultC);
+  var containerC=[];
+ for (let i=0; i<finalResultC.length; i++) {
+  containerC.push(finalResultC[i]['name']);
+  console.log('container', containerC);
+ }
+ setLegend(containerC);
+  setInput(finalResultC);
+}
+
+  },  [graph, selection, subject,time, language,range])
 
 
   const option = {
@@ -59,7 +338,7 @@ export default function Area() {
         }
       },
       legend: {
-        data: selection==='difficulty'?['Easy', 'Medium', 'Hard']:subject
+        data: legend
       },
       toolbox: {
         feature: {
@@ -77,11 +356,7 @@ export default function Area() {
         {
           type: 'time',
           boundaryGap: false,
-          axisLabel: range==='year'?{
-            formatter: (function(value){
-                return moment(value).format('MM');
-            })
-          }:{
+          axisLabel: {
             formatter: (function(value){
                 return moment(value).format('MM/DD');
             })
@@ -93,39 +368,40 @@ export default function Area() {
           type: 'value'
         }
       ],
-      series: [
-        {
-          name: 'Hard',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series'
-          },
-          data: [["2022-06-25T14:35:45", 3], ["2022-06-27T14:35:45",132], ["2022-06-28T14:35:45",101]]
-        },
-        {
-          name: 'Medium',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series'
-          },
-          data: [["2022-06-25T14:34:45", 3], ["2022-06-27T14:30:45",132], ["2022-06-28T14:32:45",101]]
-        },
-        {
-          name: 'Easy',
-          type: 'line',
-          stack: 'Total',
-          areaStyle: {},
-          emphasis: {
-            focus: 'series'
-          },
-          data: [["2022-06-25T12:35:45", 3], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
-        }
+       series: input
+      //[
+      //   {
+      //     name: 'Hard',
+      //     type: 'line',
+      //     stack: 'Total',
+      //     areaStyle: {},
+      //     emphasis: {
+      //       focus: 'series'
+      //     },
+      //     data: [["2022-06-25", 3], ["2022-06-27",132], ["2022-06-28",101]]
+      //   },
+      //   {
+      //     name: 'Medium',
+      //     type: 'line',
+      //     stack: 'Total',
+      //     areaStyle: {},
+      //     emphasis: {
+      //       focus: 'series'
+      //     },
+      //     data: [["2022-06-25T14:34:45", 3], ["2022-06-27T14:30:45",132], ["2022-06-28T14:32:45",101]]
+      //   },
+      //   {
+      //     name: 'Easy',
+      //     type: 'line',
+      //     stack: 'Total',
+      //     areaStyle: {},
+      //     emphasis: {
+      //       focus: 'series'
+      //     },
+      //     data: [["2022-06-25T12:35:45", 3], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
+      //   }
 
-      ]
+      // ]
     }
 
 return (

@@ -5,15 +5,18 @@ import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import data from  './sampleData.js';
 import axios from 'axios';
+import useGlobalContext from '../../../context/GlobalContext.js'
+
 
 export default function Donut() {
 
+  const { userProblemArray } = useGlobalContext();
   const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
-  const [input, setInput]=React.useState([0,0,0])
+  const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
@@ -38,60 +41,179 @@ export default function Donut() {
   const handleSubject= (event) => {
     setSubject(event.target.value);
   };
-  var easy = 0;
-  var medium = 0;
-  var hard = 0;
-
-  React.useEffect ( ()=>{
-
-    if (graph==='totalQuantities'&&selection==='subject') {
-      //for total and subject
-      axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
 
 
-    }
-    if (graph==='totalQuantities'&&selection==='difficulty') {
-      axios.get('/total', { params:{"range":range,'language':language}})
+const getLastDate = (x)=> {
+  const now = new Date();
+  const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+  return result.toISOString();
+  }
+var easy = 0;
+var medium = 0;
+var hard = 0;
+var lastDate=getLastDate(0);
+var startDate=getLastDate(6);
 
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy++;
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium++;
-        }else {
-          hard++;
-        }
+React.useEffect ( ()=>{
+  var samples=[];
+  console.log('easy,hard,medium', easy, medium, hard);
+  //send request during 'range' time with 'language' for  as data
+  // console.log('subject',subject);
+
+  //filter range
+  if ( range==='week') {
+    for (let i=0; i< userProblemArray.length; i++) {
+      if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+        samples.push(userProblemArray[i]);
       }
     }
-
-
-    if (graph==='totalTime'&&selection==='subject') {
-      axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
-
-
-
-
-
-    }
-
-    if(graph==='totalTime'&&selection==='difficulty') {
-      axios.get('/total', { params:{"range":range,'language':language}})
-
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy = easy + data.data[i]["Total Time"];
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium = medium + data.data[i]["Total Time"];
-        }else {
-          hard = hard + data.data[i]["Total Time"];
-        }
+  }else if ( range==='month') {
+    startDate=getLastDate(29);
+    for (let i=0; i< userProblemArray.length; i++) {
+      if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+        samples.push(userProblemArray[i]);
       }
     }
+  }else if ( range === 'year') {
+    startDate=getLastDate(364);
+    for (let i=0; i< userProblemArray.length; i++) {
+      if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
+        samples.push(userProblemArray[i]);
+      }
+    }
+  }
+//console.log( 'rangggge' , range, samples);
 
-   setInput([easy, medium, hard]);
-    // console.log('state', language,range,time);
-    // console.log('testtt', state.speed)
-  },  [graph,selection, subject,time, language,range])
+//filter the language
+var sampleUpdate=[];
+for ( let i=0; i<samples.length; i++) {
+  if ( samples[i]['programmingLanguage']!==undefined) {
+    if(samples[i]['programmingLanguage'].toLowerCase()===language.toLowerCase()) {
+    sampleUpdate.push(samples[i]);
+  }
+}
+}
+console.log('updated', sampleUpdate)
+
+//filter total&subject
+if (graph==='totalQuantities'&&selection==='subject') {
+for (let i=0; i<sampleUpdate.length; i++) {
+  var result=Array(subject.length).fill(0);
+  var sub=sampleUpdate[i]['topics'];
+  console.log('subbb', sub, result);
+  var index=subject.indexOf(sub);
+  if(index>=0) {
+  result[index]++;
+  }
+}
+  console.log( 'filter subject and total', result);
+//convert to [{},{}...]format for table
+var finalResult=[];
+for ( let i=0; i<subject.length; i++) {
+var temp={};
+temp['value']=result[i];
+temp['name']=subject[i];
+finalResult.push(temp);
+
+}
+setInput(finalResult);
+} //working
+
+if (graph==='totalQuantities'&&selection==='difficulty') {
+//axios.get('/total', { params:{"range":range,'language':language}})
+
+for ( let i=0; i<sampleUpdate.length; i++) {
+  if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+    easy++;
+  } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+    medium++;
+  }else {
+    hard++;
+  }
+}
+console.log('difficulty & total', [easy, medium, hard])
+
+setInput([{value:easy,name:'easy'},{value: medium,name:'medium'}, {value: hard,name:'hard'}]);
+
+}//working
+
+if (graph==='totalTime'&&selection==='subject') {
+// axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
+
+for (let i=0; i<sampleUpdate.length; i++) {
+var totalTime=Array(subject.length).fill(0);
+var count=Array(subject.length).fill(0);
+var sub=sampleUpdate[i]['topics'];
+//console.log('subbb', sub, totalTime);
+var index=subject.indexOf(sub);
+if(index>=0) {
+totalTime[index]=totalTime[index]+sampleUpdate[i]['totalTime'];
+count[index]++;
+}
+}
+
+if (totalTime) {
+for (let i=0; i<totalTime.length; i++) {
+if (totalTime[i]!==0) {
+  totalTime[i]=totalTime[i]/count[index];
+  totalTime[i]=totalTime[i]/1000/60;
+}
+}
+}
+console.log( 'filter subject and total', totalTime);
+//conver totaltime and subject to [{},{},{}....]
+var final=[]
+for ( let i=0; i<subject.length; i++) {
+  var temp={};
+  temp['value']=totalTime[i];
+  temp['name']=subject[i];
+  final.push(temp);
+}
+setInput(final);
+
+}
+
+if(graph==='totalTime'&&selection==='difficulty') {
+var countE=0;
+var countM=0;
+var countH=0;
+//axios.get('/total', { params:{"range":range,'language':language}})
+for ( let i=0; i<sampleUpdate.length; i++) {
+if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+  easy = easy + sampleUpdate[i]["totalTime"];
+  countE++;
+} else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+  medium = medium + sampleUpdate[i]["totalTime"];
+  countM++;
+}else {
+  hard = hard + sampleUpdate[i]["totalTime"];
+  countH++
+}
+}
+//get average and change to minus
+if(countE!==0){
+  easy=easy/countE;
+  easy=easy/1000/60;
+}
+if(countM!==0){
+medium=medium/countM;
+medium=medium/1000/60;
+}
+if(countH!==0){
+hard=hard/countH;
+hard=hard/1000/60;
+}
+//transfer to this format  [ { value: input[0], name: 'easy' },
+    //   { value: input[1], name: 'medium' },
+    //   { value: input[2], name: 'hard' },
+    // ],
+setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,name:'hard'}]);
+
+}//done but not checked
+
+// console.log('state', [easy, medium, hard]);
+// console.log('testtt', state.speed)
+}, [graph,selection, subject, time, language,range])
 
   const option = {
     title:{

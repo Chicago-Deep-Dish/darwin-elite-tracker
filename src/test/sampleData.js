@@ -236,7 +236,7 @@ function ISOtoDateMonthYear(date) {
 }
 
 function getrandomDateIn2022() {
-  return new Date(randomDate(new Date(2022, 1, 1), new Date()));
+  return new Date(randomDate(new Date(2022, 5, 1), new Date()));
 }
 
 //NOT USED YET

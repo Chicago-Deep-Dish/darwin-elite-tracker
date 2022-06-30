@@ -10,7 +10,6 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
  console.log( 'dattaaaaaa',userProblemArray);
-
   const [graph, setGraph] = React.useState('totalTime');
   const [selection, setSelection]=React.useState('');
   const [subject, setSubject] = React.useState([]);
@@ -20,23 +19,29 @@ export default function Bar() {
   const [language, setLanguage]=React.useState('Javascript');
 
   const handleTime = (event) => {
+    console.log('hit1', event.target.value);
     setTime(event.target.value);
   };
   const handleRange= (event) => {
+    console.log('hit2',event.target.value);
     setRange(event.target.value);
   };
   const handleLanguage = (event) => {
+    console.log('hit3',event.target.value);
     setLanguage(event.target.value);
   };
 
   const handleGraph = (event) => {
+    console.log('hit4',event.target.value);
     setGraph(event.target.value);
   };
   const handleSelection= (event) => {
+    console.log('hit5',event.target.value);
     setSelection(event.target.value);
     setSubject([]);
   };
   const handleSubject= (event) => {
+    console.log('hit6',event.target.value);
     setSubject(event.target.value);
   };
 
@@ -54,7 +59,7 @@ export default function Bar() {
 
   React.useEffect ( ()=>{
     var samples=[];
-
+    console.log('easy,hard,medium', easy, medium, hard);
     //send request during 'range' time with 'language' for  as data
    // console.log('subject',subject);
 
@@ -81,7 +86,7 @@ export default function Bar() {
       }
     }
   //console.log( 'rangggge' , range, samples);
-
+  console.log('SAAAAAAMples', samples)
   //filter the language
   var sampleUpdate=[];
   for ( let i=0; i<samples.length; i++) {
@@ -127,9 +132,9 @@ if (graph==='totalQuantities'&&selection==='difficulty') {
 
 if (graph==='totalTime'&&selection==='subject') {
  // axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
-
+ var totalTime;
  for (let i=0; i<sampleUpdate.length; i++) {
-  var totalTime=Array(subject.length).fill(0);
+  totalTime=Array(subject.length).fill(0);
   var count=Array(subject.length).fill(0);
   var sub=sampleUpdate[i]['topics'];
   //console.log('subbb', sub, totalTime);
@@ -139,11 +144,15 @@ if (graph==='totalTime'&&selection==='subject') {
   count[index]++;
   }
 }
-
+console.log('hit7', sampleUpdate);
+console.log('hit6', totalTime)
+if (totalTime) {
 for (let i=0; i<totalTime.length; i++) {
   if (totalTime[i]!==0) {
-    totalTime[i]=totalTime[i]/count[index]
+    totalTime[i]=totalTime[i]/count[index];
+    totalTime[i]=totalTime[i]/1000/60;
   }
+}
 }
   console.log( 'filter subject and total', totalTime);
   setInput(totalTime);
@@ -155,28 +164,33 @@ if(graph==='totalTime'&&selection==='difficulty') {
   var countM=0;
   var countH=0;
   //axios.get('/total', { params:{"range":range,'language':language}})
-for ( let i=0; i<sampleUpdate.length; i++) {
-  if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
-    easy = easy + sampleUpdate[i]["totalTime"];
-    countE++;
-  } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
-    medium = medium + sampleUpdate[i]["totalTime"];
-    countM++;
-  }else {
-    hard = hard + sampleUpdate[i]["totalTime"];
-    countH++
+  for ( let i=0; i<sampleUpdate.length; i++) {
+    if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
+      easy = easy + sampleUpdate[i]["totalTime"];
+      countE++;
+    } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
+      medium = medium + sampleUpdate[i]["totalTime"];
+      countM++;
+    }else {
+      hard = hard + sampleUpdate[i]["totalTime"];
+      countH++
+    }
   }
-}
- if(countE!==0){
-   easy=easy/countE;
- }
- if(countM!==0){
-  medium=medium/countM;
-}
-if(countH!==0){
-  hard=hard/countH;
-}
-setInput([easy, medium, hard]);
+//get average and change to minus
+  if(countE!==0){
+    easy=easy/countE;
+    easy=easy/1000/60;
+  }
+  if(countM!==0){
+    medium=medium/countM;
+    medium=medium/1000/60;
+  }
+  if(countH!==0){
+    hard=hard/countH;
+    hard=hard/1000/60;
+  }
+
+  setInput([easy, medium, hard]);
 
 }//done but not checked
 
