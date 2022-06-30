@@ -29,7 +29,7 @@ export default function ImportForm() {
     constraints: '',
     timeComplexity: '',
     solution: '',
-    programmingLanguage: '',
+    programmingLanguage: 'JavaScript',
     readTime: '',
     whiteBoardTime: '',
     pseudocodeTime: '',
@@ -62,9 +62,9 @@ export default function ImportForm() {
     e.preventDefault();
     axios.post('/', {
       ...values,
-      ['time']: times,
-      ['timeStamp']: {
-        'date': new Date().toISOString(),
+      time: times,
+      timeStamp: new Date().toISOString(),
+      timeStampInfo: {
         'month': new Date().getMonth() + 1,
         'day': new Date().getDate(),
         'year': new Date().getFullYear()
@@ -126,28 +126,25 @@ export default function ImportForm() {
             value={values.promptName}
             onChange={(e) => handleChange(e)}
             />
-            <FormControl variant='filled'>
-              <InputLabel id='difficulty-label'>Difficulty</InputLabel>
+            <FormControl variant='outlined'>
+              <InputLabel id='language-label'>Programming Language</InputLabel>
               <Select
-              labelid='difficulty-label'
-                name="difficulty"
-                value={values.difficulty}
+              labelid='language-label'
+                name="programmingLanguage"
+                value={values.programmingLanguage}
                 onChange={(e) => handleChange(e)}
               >
-                <MenuItem value='easy'>Easy</MenuItem>
-                <MenuItem value='medium'>Medium</MenuItem>
-                <MenuItem value='hard'>Hard</MenuItem>
+                <MenuItem value='JavaScript'>JavaScript</MenuItem>
+                <MenuItem value='Python'>Python</MenuItem>
+                <MenuItem value='Java'>Java</MenuItem>
+                <MenuItem value='C++'>C++</MenuItem>
+                <MenuItem value='Kotlin'>Kotlin</MenuItem>
+                <MenuItem value='C'>C</MenuItem>
+                <MenuItem value='Swift'>Swift</MenuItem>
+                <MenuItem value='C#'>C#</MenuItem>
+                <MenuItem value='PHP'>PHP</MenuItem>
               </Select>
             </FormControl>
-            <TextField
-            required
-            type='text'
-            id="outlined-basic"
-            label="Prompt Link"
-            name='promptLink'
-            value={values.promptLink}
-            onChange={(e) => handleChange(e)}
-            />
             <FormControl>
               <InputLabel id='leet-checkbox-label'>Topic</InputLabel>
               <Select
@@ -168,6 +165,21 @@ export default function ImportForm() {
                 ))}
               </Select>
             </FormControl>
+            <FormControl >
+              <InputLabel id='demo-simple-select-label'>Difficulty</InputLabel>
+              <Select
+              labelid='demo-simple-select-label'
+              id='demo-simple-select'
+                name="difficulty"
+                value={values.difficulty}
+                onChange={(e) => handleChange(e)}
+              >
+                <MenuItem value='easy'>Easy</MenuItem>
+                <MenuItem value='medium'>Medium</MenuItem>
+                <MenuItem value='hard'>Hard</MenuItem>
+              </Select>
+            </FormControl>
+
             <Stopwatch
               times={times}
               setTimes={setTimes}
@@ -179,6 +191,15 @@ export default function ImportForm() {
               >
                 Additional Fields
               </Typography>
+              <TextField
+                required
+                type='text'
+                id="outlined-basic"
+                label="Prompt Link"
+                name='promptLink'
+                value={values.promptLink}
+                onChange={(e) => handleChange(e)}
+              />
               <TextField
               label="Prompt Text"
               multiline
@@ -197,7 +218,7 @@ export default function ImportForm() {
               value={values.constraints}
               onChange={(e) => handleChange(e)}
               />
-              <FormControl variant='filled'>
+              <FormControl >
               <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
               <Select
               labelid='timecomplexity-label'
@@ -221,25 +242,6 @@ export default function ImportForm() {
                 value={values.solution}
                 onChange={(e) => handleChange(e)}
                 />
-              <FormControl variant='filled'>
-              <InputLabel id='language-label'>Programming Language</InputLabel>
-              <Select
-              labelid='language-label'
-                name="programmingLanguage"
-                value={values.programmingLanguage}
-                onChange={(e) => handleChange(e)}
-              >
-                <MenuItem value='JavaScript'>JavaScript</MenuItem>
-                <MenuItem value='Python'>Python</MenuItem>
-                <MenuItem value='Java'>Java</MenuItem>
-                <MenuItem value='C++'>C++</MenuItem>
-                <MenuItem value='Kotlin'>Kotlin</MenuItem>
-                <MenuItem value='C'>C</MenuItem>
-                <MenuItem value='Swift'>Swift</MenuItem>
-                <MenuItem value='C#'>C#</MenuItem>
-                <MenuItem value='PHP'>PHP</MenuItem>
-              </Select>
-            </FormControl>
           </>
           )}
           <Box
