@@ -5,9 +5,9 @@ const { doc, getDoc, setDoc, updateDoc, deleteField } = require("firebase/firest
 
 exports.addRecord = async (data, userID) => {
   // Junsu: uncomment for demonstration, have Firestore oepn to see real time change
-  return setDoc(doc(db, 'users', '8It7dKjfVVzy0AvTLbEP'), {
+  return setDoc(doc(db, 'users', 'kVZzjxSp3DOoL4c1Bcq97pmZ1uT2'), {
     problems: {
-      jklmaorofl: data
+      [`${data.id}`]: data
     }
   }, { merge: true });
 
@@ -21,7 +21,7 @@ exports.addRecord = async (data, userID) => {
 
 exports.searchRecords = (data) => {
   // Junsu: uncomment for demonstration
-  const demo = doc(db, 'users', '8It7dKjfVVzy0AvTLbEP');
+  const demo = doc(db, 'users', 'kVZzjxSp3DOoL4c1Bcq97pmZ1uT2');
   return getDoc(demo);
   //Junsu TODO: Replace all INSERTS
   // const problems = doc(db, 'users', `${INSERT_USER_ID_HERE}`);
@@ -30,7 +30,7 @@ exports.searchRecords = (data) => {
 
 exports.updateRecord = (data) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
-  const demo = doc(db, 'users', '8It7dKjfVVzy0AvTLbEP');
+  const demo = doc(db, 'users', 'kVZzjxSp3DOoL4c1Bcq97pmZ1uT2');
   return updateDoc(demo, {
     "problems.abcd1234": data
   });
@@ -44,7 +44,7 @@ exports.updateRecord = (data) => {
 
 exports.removeRecord = (userId, problemId, data) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
-  const demo = doc(db, 'users', '8It7dKjfVVzy0AvTLbEP');
+  const demo = doc(db, 'users', 'kVZzjxSp3DOoL4c1Bcq97pmZ1uT2');
   return updateDoc(demo, {
     "problems.abcd1234": deleteField()
   });

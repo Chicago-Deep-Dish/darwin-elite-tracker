@@ -15,7 +15,7 @@ import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
-import sampleData, { createSampleDataRow } from "../../test/sampleData";
+import sampleData, { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
   const { toastifyTheme } = useGlobalContext();
@@ -63,24 +63,6 @@ export default function NavBar({ setModal }) {
     sessionStorage.removeItem("UserID");
 
     toast.success("Logged Out", toastifyTheme);
-  };
-
-  const handleGettingData = () => {
-    console.log(sampleData(5));
-    sessionStorage.getItem("UserID");
-    axios
-      .get("/records", {
-        params: {
-          userId: sessionStorage.getItem("UserID"),
-        },
-      })
-      .then(({ data }) => {
-        console.log("data", data);
-        toast.success("Recieved Data Successfully", toastifyTheme);
-      })
-      .catch((error) => {
-        firebaseErrorCodes(error.response.data.code, toastifyTheme);
-      });
   };
 
   const handleInputData = (inputProblem) => {
@@ -197,20 +179,12 @@ export default function NavBar({ setModal }) {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Button
               onClick={() => {
-                handleInputData(createSampleDataRow(1));
+                handleInputData(createSamplePrompt());
               }}
               style={{ textDecoration: "inherit", color: "inherit" }}
             >
-              SubmitInput
+              Submit ONE Input for USER
             </Button>{" "}
-            <Button
-              onClick={() => {
-                handleGettingData();
-              }}
-              style={{ textDecoration: "inherit", color: "inherit" }}
-            >
-              getData
-            </Button>
             <Button
               size="large"
               edge="start"
@@ -296,42 +270,4 @@ export default function NavBar({ setModal }) {
   );
 }
 
-// const Search = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   "&:hover": {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginRight: theme.spacing(2),
-//   marginLeft: 0,
-//   width: "100%",
-//   [theme.breakpoints.up("sm")]: {
-//     marginLeft: theme.spacing(3),
-//     width: "auto",
-//   },
-// }));
 
-// const SearchIconWrapper = styled("div")(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: "100%",
-//   position: "absolute",
-//   pointerEvents: "none",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-// }));
-
-// const StyledInputBase = styled(InputBase)(({ theme }) => ({
-//   color: "inherit",
-//   "& .MuiInputBase-input": {
-//     padding: theme.spacing(1, 1, 1, 0),
-//     // vertical padding + font size from searchIcon
-//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-//     transition: theme.transitions.create("width"),
-//     width: "100%",
-//     [theme.breakpoints.up("md")]: {
-//       width: "20ch",
-//     },
-//   },
-// }));
