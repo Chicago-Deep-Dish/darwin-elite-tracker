@@ -11,10 +11,10 @@ export default function Graphs() {
   return (
     <Stack direction='row' sx={{flexWrap:'wrap', justifyContent:'center'}}>
       <BarGraph />
-      <LineGraph />
+      {/* <LineGraph />
       <Pie />
       <AreaGraph />
-      <Donut />
+      <Donut /> */}
     </Stack>
   )
 

@@ -3,7 +3,7 @@ import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
-import data from  './sampleData.js';
+import {data} from  './sampleData.js';
 
 export default function Donut() {
 

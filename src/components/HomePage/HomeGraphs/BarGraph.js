@@ -1,9 +1,8 @@
-
 import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
-import data from  './sampleData.js';
+import {data} from  './sampleData.js';
 
 
 export default function Bar() {
@@ -17,55 +16,31 @@ export default function Bar() {
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
 
-  const handleTime = (event) => {
-    setTime(event.target.value);
-  };
-  const handleRange= (event) => {
-    setRange(event.target.value);
-  };
-  const handleLanguage = (event) => {
-    setLanguage(event.target.value);
-  };
 
-  const handleGraph = (event) => {
-    setGraph(event.target.value);
-  };
-  const handleSelection= (event) => {
-    setSelection(event.target.value);
-    setSubject([]);
-  };
-  const handleSubject= (event) => {
-    setSubject(event.target.value);
-  };
-
-
-  var easy = 0;
-  var medium = 0;
-  var hard = 0;
-
-  React.useEffect ( ()=>{
-
+  React.useEffect(() => {
+    var easy = 0;
+    var medium = 0;
+    var hard = 0;
     //send request during 'range' time with 'language' for  as data
     // console.log('subject',subject);
     if (graph==='totalQuantities') {
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy++;
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium++;
-        }else {
-          hard++;
-        }
+      for (let problem in data) {
+        const difficulty = data[problem].mapValue.fields.difficulty.stringValue.toLowerCase();
+        if (difficulty === 'easy') easy++;
+        else if (difficulty === 'medium') medium++;
+        else hard++;
       }
     }
     if (graph==='totalTime') {
-      for ( let i=0; i<data.data.length; i++) {
-        if (data.data[i].Difficulty.toLowerCase()==='easy') {
-          easy = easy + data.data[i]["Total Time"];
-        } else if ( data.data[i].Difficulty.toLowerCase()==='medium') {
-          medium = medium + data.data[i]["Total Time"];
-        }else {
-          hard = hard + data.data[i]["Total Time"];
+      for (let problem in data) {
+        const difficulty = data[problem].mapValue.fields.difficulty.stringValue.toLowerCase();
+        const totalTime = data[problem].mapValue.fields.totalTime.integerValue;
+        if (difficulty === 'easy') {
+          easy += totalTime;
+        } else if (difficulty === 'medium') {
+          medium += totalTime;
+        } else {
+          hard += totalTime;
         }
       }
     }
@@ -100,12 +75,30 @@ export default function Bar() {
       }
     ]
   }
-return (
-  <Stack >
-    <MenuBar  graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
-    <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
-      <ReactEcharts option={option} />
-    </Box>
-  </Stack>
-)
+  return (
+    <Stack >
+      <MenuBar
+        graph={graph}
+        subject={subject}
+        selection={selection}
+        time={time}
+        range={range}
+        language={language}
+        setSelection={setSelection}
+        setGraph={setGraph}
+        handleSubject={(e) => setSubject(e.target.value)}
+        handleRange={(e) => setRange(e.target.value)}
+        handleLanguage={(e) => setLanguage(e.target.value)}
+        handleTime={(e) => setTime(e.target.value)}
+        handleGraph={(e) => setGraph(e.target.value)}
+        handleSelection={(e) => {
+          setSelection(e.target.value);
+          setSubject([]);
+        }}
+      />
+      <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', m:4, backgroundColor:'white'}}>
+        <ReactEcharts option={option} />
+      </Box>
+    </Stack>
+  )
 }
