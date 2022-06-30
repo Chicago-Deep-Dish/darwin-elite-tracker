@@ -1,18 +1,22 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import React, { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js'
-import InputForm from '../../components/HomePage/InputForm/InputForm.js'
+import React from "react";
+import DashBoard from './DashBoard/Dashboard.js';
+import InputForm from './InputForm/InputForm.js';
+// import DashBoard from './TestDash/Dashboard.js';
+import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js';
 
 export default function HomePage() {
   return (
-  <div>
-    <h1>HomePage</h1>
-    <InputForm/>
-    <Graphs/>
-  </div>
-
-  )
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div>
+          <InputForm></InputForm>
+        </div>
+        <div>
+          <DashBoard />
+          {/* <Dash/> */}
+          <Graphs />
+        </div>
+      </div>
+    </div>
+  );
 }
