@@ -9,7 +9,6 @@ export default function RecordLibrary() {
   const { userProblemArray } = useGlobalContext();
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRow, setEditRow] = useState({});
-  // const [tableData, setTableData] = useState(createSampleData(54));
   const [shownData, setShownData] = useState(userProblemArray);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState({
@@ -28,11 +27,7 @@ export default function RecordLibrary() {
       (
         filters.timeFrame === 'all'
       )
-    ))
-      .sort((prompt1, prompt2) => (
-        -prompt1.timeStamp.localeCompare(prompt2.timeStamp)
-      ));
-      console.log(newData)
+    ));
     setShownData(newData);
   }, [search, filters, userProblemArray]);
 

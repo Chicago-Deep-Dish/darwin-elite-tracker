@@ -9,8 +9,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { InputLabel, MenuItem, Select } from "@mui/material";
+import useGlobalContext from "../../context/GlobalContext";
+import axios from "axios";
+import { toast } from 'react-toastify';
+import dataDecipher from "../../helpers/dataDecipher";
 
 export default function EditModal({ setShowEditModal, row, setRow, tableData, setTableData }) {
+  const { setUserProblemArray, toastifyTheme } = useGlobalContext();
+
   function handleExitModal() {
     setShowEditModal(false);
     setRow({});
@@ -18,47 +24,79 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
 
   function handleFormSubmit(e) {
     e.preventDefault();
-    if (isNaN(row.data.timeStamp.day)) {
+    console.log(row.id)
+    if (isNaN(row.timeStampinfo.day)) {
+      console.log('invalid date')
       return;
     }
-    tableData.splice(row.idx, 1, row.data);
-    setTableData(tableData);
-    handleExitModal();
+    axios.put(
+      `/records/${row.id}`,
+      {
+        ...row,
+        codeTime: parseInt(row.codeTime),
+        pseudocodeTime: parseInt(row.pseudocodeTime),
+        readTime: parseInt(row.readTime),
+        totalTime: parseInt(row.totalTime),
+        whiteBoardTime: parseInt(row.whiteBoardTime),
+      },
+      {
+        params: {
+          userID: sessionStorage.getItem("UserID"),
+        }
+      })
+      .then(() => {
+        axios.get("/records", {
+          params: {
+            userID: sessionStorage.getItem("UserID"),
+          },
+        })
+          .then(({ data }) => {
+            const setUserData = dataDecipher(data);
+            setUserProblemArray(setUserData[1]);
+            toast.success("Problem Changed", toastifyTheme);
+            handleExitModal();
+          })
+      })
+      .catch(err => console.log(err))
   }
 
   function handleFormChange(e) {
     setRow({
-      idx: row.idx,
-      data: {
-        ...row.data,
-        [e.target.id]: e.target.value
-      }
+      ...row,
+      [e.target.id]: e.target.value
     });
   }
 
   function handleDateChange(newDate) {
-    const timeStamp = {
-      date: newDate,
-      month: new Date(newDate).getMonth() + 1,
-      day: new Date(newDate).getDate(),
-      year: new Date(newDate).getFullYear()
+    if (isNaN(newDate.getDate())) {
+      toast.error('Invalid Date', toastifyTheme);
+      return;
     }
+    const timeStamp = newDate.toISOString()
+    const timeStampinfo = {
+      month: (newDate.getMonth() + 1),
+      day: (newDate.getDate()),
+      year: (newDate.getFullYear())
+    }
+    console.log(timeStampinfo);
     setRow({
-      idx: row.idx,
-      data: {
-        ...row.data,
-        timeStamp
-      }
+      ...row,
+      timeStamp,
+      timeStampinfo
     });
   }
 
   function handleDifficultyChange(e) {
     setRow({
-      idx: row.idx,
-      data: {
-        ...row.data,
-        difficulty: e.target.value
-      }
+      ...row,
+      difficulty: e.target.value
+    });
+  }
+
+  function handleLanguageChange(e) {
+    setRow({
+      ...row,
+      programmingLanguage: e.target.value
     });
   }
 
@@ -73,15 +111,14 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
         </header>
         <div className="modal-content">
           <FormControl autoComplete="off" sx={{ '& > :not(style)': { m: 1 } }} component="form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
-            <TextField id="promptName" label="Name" value={row.data.promptName}></TextField>
-            <TextField id="promptLink" label="Link" value={row.data.promptLink}></TextField>
-            {/* <TextField id="difficulty" label="Difficulty" value={row.data.difficulty}></TextField> */}
+            <TextField id="promptName" label="Name" value={row.promptName}></TextField>
+            <TextField id="promptLink" label="Link" value={row.promptLink}></TextField>
             <FormControl>
               <InputLabel id="difficulty-select-label">Difficulty</InputLabel>
               <Select
                 labelId="difficulty-select-label"
                 id="difficulty"
-                value={row.data.difficulty}
+                value={row.difficulty}
                 label="Difficulty"
                 onChange={handleDifficultyChange}
               >
@@ -93,13 +130,33 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 label="Date&Time picker"
-                value={row.data.timeStamp}
+                value={row.timeStamp}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
-            <TextField id="totalTime" label="Total Time" value={row.data.totalTime}></TextField>
-            <TextField id="topic" label="Topic" value={row.data.topic}></TextField>
+            <TextField id="codeTime" type="number" label="Code Time" value={row.codeTime}></TextField>
+            <TextField id="topics" label="Topics" value={row.topics}></TextField>
+            <FormControl>
+              <InputLabel id="language-select-label">Language</InputLabel>
+              <Select
+                labelId="language-select-label"
+                id="programmingLanguage"
+                value={row.programmingLanguage}
+                label="Language"
+                onChange={handleLanguageChange}
+              >
+                <MenuItem value='Javascript'>Javascript</MenuItem>
+                <MenuItem value='Python'>Python</MenuItem>
+                <MenuItem value='Java'>Java</MenuItem>
+                <MenuItem value='C++'>C++</MenuItem>
+                <MenuItem value='Kotlin'>Kotlin</MenuItem>
+                <MenuItem value='C'>C</MenuItem>
+                <MenuItem value='Swift'>Swift</MenuItem>
+                <MenuItem value='C#'>C#</MenuItem>
+                <MenuItem value='PHP'>PHP</MenuItem>
+              </Select>
+            </FormControl>
             <Button type="submit">Submit</Button>
           </FormControl>
         </div>
