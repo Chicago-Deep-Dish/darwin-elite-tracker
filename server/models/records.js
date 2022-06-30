@@ -32,7 +32,7 @@ exports.updateRecord = (data, userId) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
   const demo = doc(db, 'users', userId);
   return updateDoc(demo, {
-    "problems.abcd1234": data
+    [data.id]: data
   });
   //Junsu TODO: replace all INSERTS
   // const problemRef = doc(db, 'users', `${INSERT_USER_ID_HERE}`);
@@ -46,7 +46,7 @@ exports.removeRecord = (data, userId, problemId) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
   const demo = doc(db, 'users', userId);
   return updateDoc(demo, {
-    "problems.abcd1234": deleteField()
+    [data.id]: deleteField()
   });
   //Junsu TODO: replace all INSERTS
   // const problemRef = doc(db, 'users', `${INSERT_USER_ID_HERE}`);
