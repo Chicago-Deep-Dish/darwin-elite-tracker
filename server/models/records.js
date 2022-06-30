@@ -1,5 +1,11 @@
 const { db } = require("../db/firebase-config");
-const { doc, getDoc, setDoc, updateDoc, deleteField } = require("firebase/firestore");
+const {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  deleteField,
+} = require("firebase/firestore");
 
 // Junsu: it's up to you how you want to provide userID, problemID, and problem data - cookies, req.query, req.params, req.body
 
@@ -46,7 +52,7 @@ exports.removeRecord = (data, userId) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
   const demo = doc(db, 'users', userId);
   return updateDoc(demo, {
-    [data.id]: deleteField()
+    [data.id]: deleteField(),
   });
   //Junsu TODO: replace all INSERTS
   // const problemRef = doc(db, 'users', `${INSERT_USER_ID_HERE}`);
