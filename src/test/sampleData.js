@@ -132,13 +132,15 @@ export function createSamplePrompt(userID) {
 
 const difficultyArray = ["easy", "medium", "hard"];
 const timeComplexityArray = [
-  "O(n log(n))",
+  "O(n log n)",
+  "O(log n)",
   "O(n)",
   "O(n^2)",
   "O(1)",
   "O(n+k)",
   "O(nk)",
 ];
+
 const languagesArray = [
   "Javascript",
   "Java",
@@ -236,7 +238,7 @@ function ISOtoDateMonthYear(date) {
 }
 
 function getrandomDateIn2022() {
-  return new Date(randomDate(new Date(2022, 1, 1), new Date()));
+  return new Date(randomDate(new Date(2022, 1, 1), new Date(2022, 2, 1)));
 }
 
 //NOT USED YET
