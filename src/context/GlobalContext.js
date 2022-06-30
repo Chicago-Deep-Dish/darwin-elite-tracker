@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
 import dataDecipher from "../helpers/dataDecipher";
+import { summary } from "date-streaks";
 
 const GlobalContext = createContext();
 
@@ -12,12 +13,16 @@ export default function useGlobalContext() {
 }
 
 export function GlobalContextProvider({ children }) {
+  const [userProblemArray, setUserProblemArray] = useState([]);
+  const [userProfileData, setUserProfileData] = useState([]);
+
+  const [streakSummary, setstreakSummary] = useState([]);
+
   const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
     position: "bottom-left",
   });
-  const [userProblemArray, setUserProblemArray] = useState([]);
-  const [userProfileData, setUserProfileData] = useState([]);
+
   //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
@@ -33,7 +38,13 @@ export function GlobalContextProvider({ children }) {
           const setUserData = dataDecipher(data);
           setUserProfileData(setUserData[0]);
           setUserProblemArray(setUserData[1]);
+          let dataArray = [];
+          setUserData[1].forEach((problem) => {
+            dataArray.push(new Date(problem.timeStamp));
+          });
+          // console.log(dataArray)
 
+          setstreakSummary(summary(dataArray));
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
@@ -55,6 +66,7 @@ export function GlobalContextProvider({ children }) {
     setUserProblemArray,
     userProfileData,
     setUserProfileData,
+    streakSummary,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

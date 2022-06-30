@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 
-import { registeredUser } from "../../test/sampleData";
+import createSampleData, { registeredUser } from "../../test/sampleData";
 //Styling
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -29,6 +29,8 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     showPassword: false,
     userLoggedIn: false,
   });
+
+    // console.log(createSampleData(1));
 
   const handleClickSubmit = () => {
     if (modalName === "LOGIN") {
