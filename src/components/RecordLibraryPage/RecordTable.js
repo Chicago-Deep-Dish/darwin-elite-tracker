@@ -105,7 +105,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
   };
 
   function handleDeleteClick(row) {
-    axios.delete(`/records/`)
+    axios.delete(`/records/testProblemId`)
   }
 
   function millisToMinutesAndSeconds(millis) {

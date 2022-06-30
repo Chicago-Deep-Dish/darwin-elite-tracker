@@ -38,9 +38,9 @@ exports.updateRecord = (req, res) => {
 };
 
 exports.removeRecord = (req, res) => {
-  console.log('req.cookies', req.cookies);
+  console.log('req.cookies', req.cookies.userId);
   models
-    .removeRecord('cookie', req.params.problem_id ,req.body)
+    .removeRecord(req.cookies.userId, req.params.problem_id ,req.body)
     .then((response) => {
       res.send(response);
     })
