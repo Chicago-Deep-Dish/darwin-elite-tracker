@@ -31,7 +31,7 @@ export function GlobalContextProvider({ children }) {
       axios
         .get("/records", {
           params: {
-            userId: sessionStorage.getItem("UserID"),
+            userID: sessionStorage.getItem("UserID"),
           },
         })
         .then(({ data }) => {
