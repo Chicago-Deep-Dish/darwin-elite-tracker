@@ -315,7 +315,8 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   containerC.push(finalResultC[i]['name']);
   console.log('container', containerC);
  }
- setLegend(containerC);
+  console.log('total, subject', finalResultC);
+  setLegend(containerC);
   setInput(finalResultC);
 }
 
