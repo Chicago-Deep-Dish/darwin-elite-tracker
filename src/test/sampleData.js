@@ -25,7 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 // };
 
 export const sampleClass = {
-  userId: "RWppECpthsW2ZQPudWkostZ8aHX2", //single user to populate database
+  userId: "kVZzjxSp3DOoL4c1Bcq97pmZ1uT2", //single user to populate database
   settings: { defaultGraph: ["bar", "line"] }, //object with properties
   firstName: null, //string
   lastName: null, //string
@@ -87,11 +87,7 @@ export function createSamplePrompt(userID) {
     id: uuidv4(),
     promptName: createRandomParagraph(2),
     difficulty: randomizeFromArray(difficultyArray),
-    topics: [
-      createRandomParagraph(2),
-      createRandomParagraph(2),
-      createRandomParagraph(2),
-    ],
+    topics: randomizeFromArray(leetTopics),
     promptLink: `https://leetcode.com/problems/${createRandomWordStringWithLength(
       10
     )}`,
@@ -155,6 +151,26 @@ const languagesArray = [
   "PHP",
 ];
 
+let leetTopics = [
+  "Arrays",
+  "Maps",
+  "Linked Lists",
+  "Queues",
+  "Heaps",
+  "Stacks",
+  "Trees",
+  "Graphs",
+  "Breadth-First-Search",
+  "Depth-First-Search",
+  "Binary Search",
+  "Recursion",
+  "Backtracking",
+  "Dynamic Programming",
+  "Trie",
+  "Matrix",
+  "Sorting",
+];
+
 function randomizeFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
@@ -214,9 +230,9 @@ function ISOtoDateMonthYear(date) {
     dt = "0" + dt;
   }
   if (month < 10) {
-    month = month + "0";
+    month = "0" + month;
   }
-  return [year, month, dt];
+  return [Number(year), Number(month), Number(dt)];
 }
 
 function getrandomDateIn2022() {

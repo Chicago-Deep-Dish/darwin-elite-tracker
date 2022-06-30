@@ -1,5 +1,6 @@
 export default function dataDecipher(data) {
   const userObject = data._document.data.value.mapValue.fields;
+  console.log("userObject", userObject);
   const UserObjectData = {
     firstName: Object.keys(userObject.firstName)[0],
     lastName: Object.keys(userObject.lastName)[0],
@@ -18,15 +19,11 @@ export default function dataDecipher(data) {
   problemArray.forEach((problem) => {
     console.log(problem);
     let constraintsFilteredArray = [];
-    let topicsFilteredArray = [];
     let solutionFilteredArray = [];
     problem.constraints.arrayValue.values.forEach((constraint) => {
       constraintsFilteredArray.push(constraint.stringValue);
     });
 
-    problem.topics.arrayValue.values.forEach((constraint) => {
-      topicsFilteredArray.push(constraint.stringValue);
-    });
 
     problem.solution.arrayValue.values.forEach((constraint) => {
       solutionFilteredArray.push(constraint.stringValue);
@@ -49,11 +46,11 @@ export default function dataDecipher(data) {
       constraints: constraintsFilteredArray,
       solution: solutionFilteredArray,
       timeStampinfo: {
-        month: problem.timeStampinfo.mapValue.fields.month.stringValue,
+        month: problem.timeStampinfo.mapValue.fields.month.integerValue,
         day: problem.timeStampinfo.mapValue.fields.day.integerValue,
         year: problem.timeStampinfo.mapValue.fields.day.integerValue,
       },
-      topics: topicsFilteredArray,
+      topics: problem.topics.stringValue,
     });
   });
 
