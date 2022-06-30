@@ -15,6 +15,8 @@ export function GlobalContextProvider({ children }) {
   const [exampleState, setExampleState] = useState(
     "Set state inside GlobalContext.js"
   );
+  const [streakData, setStreakData] = React.useState([]);
+
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
 

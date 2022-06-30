@@ -15,10 +15,26 @@ import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
-import sampleData, { createSamplePrompt } from "../../test/sampleData";
+import { createSamplePrompt } from "../../test/sampleData";
+import { summary } from "date-streaks";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme } = useGlobalContext();
+  const { toastifyTheme, userProblemArray } = useGlobalContext();
+
+  React.useEffect(() => {
+    let dataArray = [];
+
+    userProblemArray.forEach((problem) => {
+      // console.log("problem.timeStamp", new Date(problem.timeStamp));
+      dataArray.push(new Date(problem.timeStamp));
+    });
+
+    const streakSummary = summary(dataArray);
+
+    console.log("streakSummary", streakSummary);
+  }, [userProblemArray]);
+
+  // console.log('userProblemArray', userProblemArray);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -269,5 +285,3 @@ export default function NavBar({ setModal }) {
     </Box>
   );
 }
-
-
