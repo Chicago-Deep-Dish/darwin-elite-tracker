@@ -7,7 +7,7 @@ import ReactECharts from 'echarts-for-react';
 
 
 export default function TotalProblems({problemData}) {
-    
+
     const option = {
         title: {
           left: 'center'
@@ -21,7 +21,7 @@ export default function TotalProblems({problemData}) {
           textStyle: {
               color: '#fff'
           }
-        
+
         },
         series: [
           {
@@ -60,6 +60,6 @@ export default function TotalProblems({problemData}) {
     <ReactECharts option={option} style={{ height: "100%"}}/>
     </div>
     </>
-    // 
+    //
 }
 
