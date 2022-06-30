@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 
-import { sampleClass } from "../../test/sampleData";
+import { registeredUser } from "../../test/sampleData";
 //Styling
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -65,7 +65,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           sessionStorage.setItem("AuthToken", data._tokenResponse.refreshToken);
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
-          const userData = { ...sampleClass, userId: data.user.uid };
+          const userData = { ...registeredUser, userId: data.user.uid };
           axios.post("/users/userData", userData).then((data) => {
             // console.log(data);
             toast.success(`Created Successfully`, toastifyTheme);
