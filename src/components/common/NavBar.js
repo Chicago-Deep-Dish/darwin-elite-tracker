@@ -25,7 +25,7 @@ import grindStreak from "./../../helpers/grindStreak";
 import { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme, problemDatesArray, setUserLoggedIn } =
+  const { toastifyTheme, problemDatesArray, setUserLoggedIn, aboutToggle, setAboutToggle } =
     useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -221,6 +221,16 @@ export default function NavBar({ setModal }) {
             >
               Submit ONE Input for USER
             </Button>{" "}
+            <Button
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="about button"
+              sx={{ mr: 2 }}
+              onClick={() => setAboutToggle(!aboutToggle)}
+            >
+                ABOUT
+            </Button>
             <Button
               size="large"
               edge="start"
