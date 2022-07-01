@@ -16,9 +16,9 @@ export function GlobalContextProvider({ children }) {
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
 
+  const [userLoggedIn, setUserLoggedIn] = useState(true);
   const [problemDatesArray, setProblemDatesArray] = useState([]);
   const [streakSummary, setstreakSummary] = useState([]);
-
   const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
     position: "bottom-left",
@@ -36,24 +36,36 @@ export function GlobalContextProvider({ children }) {
           },
         })
         .then(({ data }) => {
-          const setUserData = dataDecipher(data);
-          setUserProfileData(setUserData[0]);
-          setUserProblemArray(setUserData[1]);
+          const userData = dataDecipher(data);
+          setUserProfileData(userData[0]);
+          setUserProblemArray(
+            userData[1].sort((prompt1, prompt2) =>
+              prompt1.timeStamp.localeCompare(prompt2.timeStamp)
+            )
+          );
+
           let dataArray = [];
-          setUserData[1].forEach((problem) => {
+          userData[1].forEach((problem) => {
             dataArray.push(new Date(problem.timeStamp));
           });
-          // console.log("dataArray", dataArray);
           let dates = [
-            new Date("06/27/2022"),
-            new Date("06/28/2022"),
-            new Date("06/28/2022"),
-            new Date("06/29/2022"),
-            new Date("06/29/2022"),
-            new Date("06/29/2022"),
+            new Date("06/20/2021"),
+            new Date("06/21/2021"),
+            new Date("06/22/2021"),
+            new Date("06/24/2021"),
+            new Date("06/26/2021"),
+            new Date("06/27/2021"),
+            new Date("06/28/2021"),
           ];
-          setProblemDatesArray([...dataArray, ...dates]);
-          setstreakSummary(summary([...dataArray, ...dates]));
+          setProblemDatesArray([ ...dates, ...dataArray,]); //adding dummy data array to make dashboard have current/max streak
+          setstreakSummary(summary([...dates, ...dataArray]));
+
+
+          // setProblemDatesArray(dataArray); //adding dummy data array to make dashboard have current/max streak
+          // setstreakSummary(summary(dataArray));
+
+
+          setUserLoggedIn(true);
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
@@ -61,14 +73,14 @@ export function GlobalContextProvider({ children }) {
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
+      // setUserProblemArray(dummy data)
       toast.error(
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme
       );
     }
-  }, []);
+  }, [userLoggedIn]);
 
-  console.log(streakSummary);
 
   const value = {
     toastifyTheme,
@@ -79,6 +91,8 @@ export function GlobalContextProvider({ children }) {
     setUserProfileData,
     streakSummary,
     problemDatesArray,
+    userLoggedIn,
+    setUserLoggedIn,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

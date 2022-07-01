@@ -31,7 +31,12 @@ const images = importAll(
 );
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme, problemDatesArray } = useGlobalContext();
+  const {
+    toastifyTheme,
+    problemDatesArray,
+    setUserLoggedIn,
+    userProblemArray,
+  } = useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -40,7 +45,7 @@ export default function NavBar({ setModal }) {
     text: "Welcome newComer. Get two 3-day streaks to earn a new badge",
   });
 
-  // console.log('streakCount', streakCount);
+  // console.log('userProblemArray', userProblemArray);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -80,7 +85,7 @@ export default function NavBar({ setModal }) {
   const handleLogout = () => {
     sessionStorage.removeItem("AuthToken");
     sessionStorage.removeItem("UserID");
-
+    setUserLoggedIn(false);
     toast.success("Logged Out", toastifyTheme);
   };
 
@@ -103,10 +108,8 @@ export default function NavBar({ setModal }) {
 
   //conditional render badge
   React.useEffect(() => {
-    let grindCount = grindStreak(problemDatesArray);
-    // let grindCount = 3;
-
-    console.log("grindCount", grindCount);
+    let grindCount = 0;
+    grindCount = grindStreak(problemDatesArray);
 
     if (grindCount < 5 && grindCount >= 2) {
       setBadge({
