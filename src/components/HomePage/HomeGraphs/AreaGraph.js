@@ -89,7 +89,7 @@ export default function Area() {
 
 //filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
   if (graph==='totalQuantities'&&selection==='subject') {
-    setInput([]);
+    //setInput([]);
 
     var subjectTeam={};
     for(let i=0; i<sampleUpdate.length;i++) {
@@ -151,7 +151,7 @@ export default function Area() {
 
 
 if(graph==='totalQuantities'&&selection==='difficulty') {
-  setInput([]);
+  //setInput([]);
 
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
@@ -212,7 +212,7 @@ var containerA=[];
 
 
 if ( graph==='totalTime'&&selection==='subject') {
-  setInput([]);
+  //setInput([]);
 
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
@@ -271,7 +271,7 @@ if ( graph==='totalTime'&&selection==='subject') {
 
 
 if ( graph==='totalTime'&&selection==='difficulty') {
-  setInput([]);
+  //setInput([]);
 
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
