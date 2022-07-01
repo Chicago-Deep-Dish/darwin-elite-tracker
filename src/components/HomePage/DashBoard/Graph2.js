@@ -337,7 +337,8 @@ if ( graph==='totalTime'&&selection==='difficulty') {
       axisLabel: {
         formatter: (function(value){
             return moment(value).format('MM/DD');
-        })
+        }),
+        hideOverlap: true
       }
     },
     yAxis: {
@@ -348,16 +349,13 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   return (
       <Stack   sx={{ alignItems: "start" }} direction="row" onMouseLeave={()=>{setSettingsVisible(false)}} onMouseEnter={()=>{setSettingsVisible(true)}}>
     {!settingsView?
-      <Box sx={{ '&:hover':{boxShadow:3},  width:'270px', height:'200px', ml:4, mr:4, mt:1,mb:2}}  onMouseEnter={()=>{setSettingsVisible(true)}}>
-        <ReactEcharts sx={{ '&:hover':{boxShadow:3},   width:'270px', height:'200px', ml:4, mr:4, mt:1,mb:2}} option={option} />
+      <Box sx={{ '&:hover':{boxShadow:3},  width:'270px', height:'300px', ml:4, mr:4, mt:1,mb:2}}  onMouseEnter={()=>{setSettingsVisible(true)}}>
+        <ReactEcharts sx={{ '&:hover':{boxShadow:3},   width:'270px', height:'300px', ml:4, mr:4, mt:1,mb:2}} option={option} />
       </Box>
       :
       <MenuBar  pagraph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
     }
-    {settingsVisible?
-      <Settings setSettingsView={setSettingsView} settingsView={settingsView} ></Settings>:
-      null
-    }
+    <Settings setSettingsView={setSettingsView} settingsView={settingsView} settingsVisible={settingsVisible} ></Settings>
   </Stack>
   )
 };
