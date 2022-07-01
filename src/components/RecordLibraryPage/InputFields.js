@@ -60,8 +60,8 @@ export default function InputFields({ search, setSearch, filters, setFilters }) 
         >
           <MenuItem value="all">All Time</MenuItem>
           <MenuItem value="daily">Past Day</MenuItem>
-          <MenuItem value="weekly">Past Week</MenuItem>
           <MenuItem value="monthly">Past Month</MenuItem>
+          <MenuItem value="yearly">Past Year</MenuItem>
         </Select>
       </FormControl>
     </Paper>
