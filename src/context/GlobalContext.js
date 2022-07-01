@@ -59,10 +59,13 @@ export function GlobalContextProvider({ children }) {
         })
         .catch((error) => {
           console.log(error);
+
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
       // setUserProblemArray(dummy data)
+      setUserLoggedIn(false);
+
       toast.error(
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme

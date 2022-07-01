@@ -17,13 +17,13 @@ import Graph2 from "./Graph2";
 import HeatMap from "./HeatMap";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor:  "#1A2027",
+  backgroundColor: "#1A2027",
   textAlign: "center",
 }));
 
 export default function DashBoard() {
   const [problemData, setProblemData] = useState([]);
-  const { streakSummary, userProblemArray} = useGlobalContext();
+  const { streakSummary, userProblemArray } = useGlobalContext();
   const [streakData, setStreakData] = useState([]);
 
   // console.log(userProblemArray.group(({difficulty})=> 'difficulty'));
@@ -39,14 +39,14 @@ export default function DashBoard() {
   // });
   useEffect(() => {
     //futute API request for problemData
-    let difficulties = {'easy':0, 'medium':0, 'hard':0}
+    let difficulties = { easy: 0, medium: 0, hard: 0 };
     for (const item of userProblemArray) {
-      if (item.difficulty === 'easy') {
-        difficulties.easy++
-      } else if (item.difficulty === 'medium'){
-        difficulties.medium++
+      if (item.difficulty === "easy") {
+        difficulties.easy++;
+      } else if (item.difficulty === "medium") {
+        difficulties.medium++;
       } else {
-        difficulties.hard++
+        difficulties.hard++;
       }
     }
     console.log(difficulties);
@@ -71,41 +71,42 @@ export default function DashBoard() {
 
   return (
     <>
-        <Stack
-          backgroundColor="#1A2027"
-          direction="row"
-          sx={{ justifyContent: "center" }}
-          spacing={2}
-          padding = "10px"
-          marginLeft= "30px"
-          marginTop="10px"
-        >
-          <Stack spacing={2}>
-            <h3> Dashboard </h3>
+      <Stack
+        backgroundColor="#1A2027"
+        direction="row"
+        sx={{ justifyContent: "center" }}
+        spacing={2}
+        padding="30px"
+        marginLeft="30px"
+        marginTop="10px"
+        borderRadius='10px'
+      >
+        <Stack spacing={2}>
+          <h3> Dashboard </h3>
+          <Item>
+            <Streak streakData={streakData}></Streak>
+          </Item>
+        </Stack>
+        <Stack spacing={2}>
+          <Item>
+            <TotalProblems problemData={problemData}></TotalProblems>
+          </Item>
+          <Item style={{ padding: "10px" }}>
+            <h4> Total Problems </h4>
+            <h2> {problemTotal} </h2>
+          </Item>
+        </Stack>
+        <Stack spacing={2}>
+          <Stack direction="row" spacing={2}>
             <Item>
-              <Streak streakData={streakData}></Streak>
+              <Graph1></Graph1>
             </Item>
-          </Stack>
-          <Stack spacing={2}>
             <Item>
-              <TotalProblems problemData={problemData}></TotalProblems>
+              <Graph2></Graph2>
             </Item>
-            <Item style={{padding: '10px'}}>
-              <h4> Total Problems </h4>
-              <h2> {problemTotal} </h2>
-            </Item>
-          </Stack>
-          <Stack spacing={2}>
-            <Stack direction="row" spacing={2}>
-              <Item>
-                <Graph1></Graph1>
-              </Item>
-              <Item>
-                <Graph2></Graph2>
-              </Item>
-            </Stack>
           </Stack>
         </Stack>
+      </Stack>
     </>
   );
 }
