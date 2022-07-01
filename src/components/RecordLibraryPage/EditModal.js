@@ -30,6 +30,12 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
 
   function handleFormSubmit(e) {
     e.preventDefault();
+    // if no session storage then toastify return
+    if (!sessionStorage.getItem('UserID')) {
+      toast.error('Not Logged in', toastifyTheme);
+      handleExitModal();
+      return;
+    }
     console.log('putting data:', row)
     axios.put(
       `/records/${row.id}`,
