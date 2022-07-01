@@ -18,7 +18,7 @@ import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 import { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme, streakData } = useGlobalContext();
+  const { toastifyTheme, streakData, setUserLoggedIn } = useGlobalContext();
 
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,7 +62,7 @@ export default function NavBar({ setModal }) {
   const handleLogout = () => {
     sessionStorage.removeItem("AuthToken");
     sessionStorage.removeItem("UserID");
-
+    setUserLoggedIn(false);
     toast.success("Logged Out", toastifyTheme);
   };
 

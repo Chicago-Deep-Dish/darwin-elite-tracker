@@ -123,7 +123,10 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
         })
           .then(({ data }) => {
             const setUserData = dataDecipher(data);
-            setUserProblemArray(setUserData[1]);
+            setUserProblemArray(
+              setUserData[1].sort((prompt1, prompt2) => (
+                prompt1.timeStamp.localeCompare(prompt2.timeStamp)
+              )));
             toast.success("Problem Removed", toastifyTheme);
           })
 
