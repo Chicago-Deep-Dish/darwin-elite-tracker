@@ -40,7 +40,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
 
   return (
 
-      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'500px', ml:4, mr:4, mt:0.1}}>
+      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:5 },width:'500px', ml:4, mr:4, mt:0.1}}>
         <FormControl sx={{mt:3, width:'140px'}} component="fieldset" variant="standard">
           <RadioGroup
             aria-label ledby="demo-radio-buttons-group-label"
