@@ -333,10 +333,18 @@ if ( graph==='totalTime'&&selection==='difficulty') {
 
   const option = {
       title: {
-        text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null,
-        padding:[20,10,10,10]
+        text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
+        padding:[20,10,10,10],
+        textStyle:{
+          color:'white'
+        }
       },
-
+      textStyle: {
+        color:function(value, index) {
+          return 'white';
+        },
+        fontWeight:'bold'
+      },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -347,7 +355,8 @@ if ( graph==='totalTime'&&selection==='difficulty') {
         }
       },
       legend: {
-        data: legend
+        data: legend,
+        textStyle :{color:'white'}
       },
       toolbox: {
         feature: {
@@ -415,7 +424,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
 
 return (
   <Stack>
-     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
+     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
