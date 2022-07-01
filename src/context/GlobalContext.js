@@ -48,22 +48,9 @@ export function GlobalContextProvider({ children }) {
           userData[1].forEach((problem) => {
             dataArray.push(new Date(problem.timeStamp));
           });
-          let dates = [
-            new Date("06/20/2021"),
-            new Date("06/21/2021"),
-            new Date("06/22/2021"),
-            new Date("06/24/2021"),
-            new Date("06/26/2021"),
-            new Date("06/27/2021"),
-            new Date("06/28/2021"),
-          ];
-          setProblemDatesArray([ ...dates, ...dataArray,]); //adding dummy data array to make dashboard have current/max streak
-          setstreakSummary(summary([...dates, ...dataArray]));
 
-
-          // setProblemDatesArray(dataArray); //adding dummy data array to make dashboard have current/max streak
-          // setstreakSummary(summary(dataArray));
-
+          setProblemDatesArray(dataArray);
+          setstreakSummary(summary(dataArray));
 
           setUserLoggedIn(true);
           toast.success("Recieved Data Successfully", toastifyTheme);
@@ -80,7 +67,6 @@ export function GlobalContextProvider({ children }) {
       );
     }
   }, [userLoggedIn]);
-
 
   const value = {
     toastifyTheme,
