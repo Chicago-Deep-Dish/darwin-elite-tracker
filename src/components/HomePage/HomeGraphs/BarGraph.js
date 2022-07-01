@@ -9,14 +9,9 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
-<<<<<<< HEAD
  console.log( 'dattaaaaaa',userProblemArray);
   const [graph, setGraph] = React.useState('totalQuantities');
   const [selection, setSelection]=React.useState('difficulty');
-=======
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
->>>>>>> fafab43d748aba509678acf6a5927f0fa4ea81cf
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
