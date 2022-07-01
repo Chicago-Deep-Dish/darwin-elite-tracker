@@ -9,7 +9,7 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 export default function Line() {
 
   const { userProblemArray } = useGlobalContext();
-  const [graph, setGraph] = React.useState('totalTime');
+  const [graph, setGraph] = React.useState('totalQuantities');
   const [selection, setSelection]=React.useState('dificulty');
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([]);

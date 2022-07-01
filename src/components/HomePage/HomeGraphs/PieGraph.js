@@ -9,8 +9,8 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Pie() {
   const { userProblemArray } = useGlobalContext();
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
+  const [graph, setGraph] = React.useState('totalQuantities');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
   //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([])

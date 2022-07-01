@@ -10,8 +10,8 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
  console.log( 'dattaaaaaa',userProblemArray);
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
+  const [graph, setGraph] = React.useState('totalQuantities');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
@@ -212,7 +212,7 @@ if(graph==='totalTime'&&selection==='difficulty') {
       type: 'value'
     },
     series: [
-      {
+      { title:{color:'red'},
         data: input,
         type: 'bar',
         emphasis: {
