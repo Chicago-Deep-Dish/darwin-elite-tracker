@@ -388,6 +388,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
       ],
        series: input
     }
+  // change input
 return (
   <Stack sx={{ alignItems: "start" }} direction="row" onMouseLeave={()=>{setSettingsVisible(false)}} onMouseEnter={()=>{setSettingsVisible(true)}}>
     {!settingsView?
