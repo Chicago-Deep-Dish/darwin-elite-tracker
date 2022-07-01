@@ -1,6 +1,11 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import companyLogo from "../../assets/Darwin_Logo_transparent.png";
+import companyLogo from "./../../assets/Darwin_Logo_transparent.png";
+import badgeLow from "./../../assets/badge_low.png";
+import badgeMed from "./../../assets/badge_med.png";
+import badgeHigh from "./../../assets/badge_high.png";
+import badgeNew from "./../../assets/badge_new.png";
+
 import {
   Button,
   IconButton,
@@ -9,20 +14,26 @@ import {
   AppBar,
   Box,
   Toolbar,
+  Tooltip,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import useGlobalContext from "../../context/GlobalContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
+import grindStreak from "./../../helpers/grindStreak";
 import { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme, streakData } = useGlobalContext();
-
+  const { toastifyTheme, problemDatesArray, setUserLoggedIn } =
+    useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [badge, setBadge] = React.useState({
+    icon: badgeNew,
+    text: "Welcome newComer. Get two 3-day streaks to earn a new badge",
+  });
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -62,7 +73,7 @@ export default function NavBar({ setModal }) {
   const handleLogout = () => {
     sessionStorage.removeItem("AuthToken");
     sessionStorage.removeItem("UserID");
-
+    setUserLoggedIn(false);
     toast.success("Logged Out", toastifyTheme);
   };
 
@@ -83,6 +94,30 @@ export default function NavBar({ setModal }) {
       });
   };
 
+  //conditional render badge
+  React.useEffect(() => {
+    let grindCount = 0;
+    grindCount = grindStreak(problemDatesArray);
+
+    if (grindCount < 5 && grindCount >= 2) {
+      setBadge({
+        icon: badgeLow,
+        text: `Woah, impressive! You got (${grindCount}) 3-day streaks!`,
+      });
+    } else if (grindCount < 10 && grindCount >= 5) {
+      setBadge({
+        icon: badgeMed,
+        text: `Now that's groovy! You got (${grindCount}) 3-day streaks!`,
+      });
+    } else if (grindCount >= 10) {
+      setBadge({
+        icon: badgeHigh,
+        text: `Ok now that's Huge! You got (${grindCount}) 3-day streaks!`,
+      });
+    }
+  }, [problemDatesArray]);
+
+  //menu items
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -224,6 +259,13 @@ export default function NavBar({ setModal }) {
             >
               REGISTER
             </Button>
+            <Tooltip title={badge.text}>
+              <img
+                src={badge.icon}
+                alt="logo"
+                style={{ maxWidth: 45, marginRight: 15 }}
+              />
+            </Tooltip>
             <IconButton
               size="large"
               edge="end"

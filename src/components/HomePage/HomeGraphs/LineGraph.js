@@ -9,12 +9,13 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 export default function Line() {
 
   const { userProblemArray } = useGlobalContext();
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('dificulty');
+  const [graph, setGraph] = React.useState('totalQuantities');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([]);
+  const [legend, setLegend]=React.useState([]);
   const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('week');
+  const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
 
   const handleTime = (event: SelectChangeEvent) => {
@@ -85,9 +86,10 @@ export default function Line() {
   }
   }
   console.log('updated', sampleUpdate);
-
+ console.log('waht is select', graph, selection);
 //filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
   if (graph==='totalQuantities'&&selection==='subject') {
+
     var subjectTeam={};
     for(let i=0; i<sampleUpdate.length;i++) {
       var sub=sampleUpdate[i]['topics'];
@@ -102,6 +104,7 @@ export default function Line() {
       continue;
     }
   }
+  console.log('anything',subjectTeam);
     var updateFormate={};
     for (var key in subjectTeam) {
       var timeAndValue=subjectTeam[key];
@@ -125,7 +128,7 @@ export default function Line() {
    var temp={};
    temp['name']=key;
    temp['type']='line';
-   temp['stack']='Total';
+   //temp['stack']='Total';
    temp['data']=[];
    for (let value in updateFormate[key]) {
       var data=[];
@@ -136,6 +139,11 @@ export default function Line() {
    finalResult.push(temp);
 
  }
+ var container=[];
+ for (let i=0; i<finalResult.length; i++) {
+  container.push(finalResult[i]['name']);
+ }
+ setLegend(container);
  setInput(finalResult);
 }
 
@@ -174,7 +182,7 @@ for (let key in updateFormate) {
  var temp={};
  temp['name']=key;
  temp['type']='line';
- temp['stack']='Total';
+ //temp['stack']='Total';
  temp['data']=[];
  for (let value in updateFormate[key]) {
     var data=[];
@@ -184,6 +192,11 @@ for (let key in updateFormate) {
  }
  finalResult.push(temp);
 }
+var containerB=[];
+ for (let i=0; i<finalResult.length; i++) {
+  containerB.push(finalResult[i]['name']);
+ }
+ setLegend(containerB);
 setInput(finalResult);
 }
 
@@ -223,7 +236,7 @@ if ( graph==='totalTime'&&selection==='subject') {
   var temp={};
   temp['name']=key;
   temp['type']='line';
-  temp['stack']='Total';
+  //temp['stack']='Total';
   temp['data']=[];
   for (let value in updateFormate[key]) {
       var data=[];
@@ -233,6 +246,12 @@ if ( graph==='totalTime'&&selection==='subject') {
   }
   finalResult.push(temp);
   }
+  console.log('total time and subject', finalResult);
+  var containerC=[];
+ for (let i=0; i<finalResult.length; i++) {
+  containerC.push(finalResult[i]['name']);
+ }
+ setLegend(containerC);
   setInput(finalResult);
 }
 
@@ -270,7 +289,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   var temp={};
   temp['name']=key;
   temp['type']='line';
-  temp['stack']='Total';
+  //temp['stack']='Total';
   temp['data']=[];
   for (let value in updateFormate[key]) {
       var data=[];
@@ -280,22 +299,37 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   }
   finalResult.push(temp);
   }
+  var containerD=[];
+ for (let i=0; i<finalResult.length; i++) {
+  containerD.push(finalResult[i]['name']);
+ }
+ setLegend(containerD);
   setInput(finalResult);
 }
 
-  },  [graph,selection, subject,time, language,range])
+},  [graph,selection, subject,time, language,range])
 
 
   const option = {
     title: {
-      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null,
+      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
       padding:[20,5,5,5],
+      textStyle:{
+        color:'white'
+      }
+    },
+    textStyle: {
+      color:function(value, index) {
+        return 'white';
+      },
+      fontWeight:'bold'
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: selection==='difficulty'?['easy', 'medium', 'hard']:subject
+      data: legend,
+      textStyle :{color:'white'}
     },
     grid: {
       left: '3%',
@@ -327,7 +361,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
     //     name: 'Hard',
     //     type: 'line',
     //     stack: 'Total',
-    //     data: [["2022-06-27T12:35:45", 33], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
+    //     data: [["2022-06-27", 33], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
     //   },
     //   {
     //     name: 'Medium',
@@ -345,7 +379,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   }
   return (
     <Stack>
-      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
+      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027'}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

@@ -241,7 +241,7 @@ function getrandomDateIn2022() {
   return new Date(randomDate(new Date(2022, 1, 1), new Date(2022, 1, 7)));
 }
 
-//NOT USED YET l
+//NOT USED YET
 // function randomUserGenerator() {
 //   return {
 //     username: createRandomWordStringWithLength(5),

@@ -123,7 +123,10 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
         })
           .then(({ data }) => {
             const setUserData = dataDecipher(data);
-            setUserProblemArray(setUserData[1]);
+            setUserProblemArray(
+              setUserData[1].sort((prompt1, prompt2) => (
+                prompt1.timeStamp.localeCompare(prompt2.timeStamp)
+              )));
             toast.success("Problem Removed", toastifyTheme);
           })
 
@@ -184,6 +187,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
         <TableHead>
           <TableRow>
             <TableCell>Prompt Name</TableCell>
+            <TableCell>Date Submitted</TableCell>
             <TableCell>Prompt Link</TableCell>
             <TableCell align="right">Difficulty</TableCell>
             <TableCell align="right">Time to Complete (mm:ss)</TableCell>
@@ -200,9 +204,12 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
               <TableCell style={{ width: 200 }}>
                 {row.promptName}
               </TableCell>
+              <TableCell style={{ width: 200 }}>
+                {`${new Date(row.timeStamp).getMonth()}/${new Date(row.timeStamp).getDate()}/${new Date(row.timeStamp).getFullYear()}`}
+              </TableCell>
               <TableCell>
                 <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">
-                  {row.promptLink.slice(8, 37)}...
+                  {row.promptLink.length > 25 ? `${row.promptLink.slice(0, 25)}...` : row.promptLink}
                 </a>
               </TableCell>
               <TableCell style={{ width: 90 }} align="right">
