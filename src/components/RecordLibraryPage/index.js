@@ -15,7 +15,6 @@ export default function RecordLibrary() {
     difficulty: 'all',
     timeFrame: 'all',
   });
-  console.log(filters.timeFrame)
   useEffect(() => {
     let newData = userProblemArray.filter((prompt) => (
       (prompt.promptName.includes(search) ||
