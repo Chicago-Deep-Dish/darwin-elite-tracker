@@ -15,6 +15,20 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import firebaseErrorCodes from '../../../helpers/firebaseErrorCodes';
 import useGlobalContext from '../../../context/GlobalContext';
+import Collapse from '@mui/material/Collapse';
+import styled from 'styled-components';
+
+
+const StyledInput = styled(TextField)`
+width: 100%;
+& .MuiOutlinedInput-notchedOutline {
+  border-color: #eab464;
+
+}
+& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: white;
+  color:red
+}`;
 
 
 export default function InputForm() {
@@ -99,10 +113,10 @@ export default function InputForm() {
   return (
     <Stack
      className='beginning-inputs'
-     sx={{width: 200}}
+     sx={{width: 175, mt: 5, mx: '10px'}}
      >
        <Stack
-        sx={{width: 200, marginLeft: '20px'}}
+        sx={{width: 175}}
         spacing={2}
         component={'form'}
         onSubmit={(e) => handleSubmit(e, values)}
@@ -112,7 +126,19 @@ export default function InputForm() {
             >
               Begin your journey here!
             </Typography>
-            <TextField
+            <StyledInput
+              size='small'
+              variant='outlined'
+              color='success'
+              required
+              type='text'
+              label='Prompt Name'
+              id='outlined-basic'
+              name="promptName"
+              value={values.promptName}
+              onChange={(e) => handleChange(e)}
+            />
+            {/* <TextField
             size='small'
             variant='outlined'
             required
@@ -122,27 +148,54 @@ export default function InputForm() {
             name='promptName'
             value={values.promptName}
             onChange={(e) => handleChange(e)}
-            />
-            <FormControl variant='outlined' size='small' >
-              <InputLabel id='difficulty-label'>Difficulty</InputLabel>
-              <Select
+            /> */}
+            <FormControl
+              variant='outlined'
+              size='small'
+              required
+              >
+              {/* <InputLabel id='difficulty-label'>Difficulty*</InputLabel> */}
+              {/* <Select
                 labelid='difficulty-label'
                 name="difficulty"
                 value={values.difficulty}
                 onChange={(e) => handleChange(e)}
+              > */}
+              <StyledInput
+                select
+                color='success'
+                labelId='difficulty-label'
+                label='Difficulty*'
+                name='difficulty'
+                value={values.difficulty}
+                variant='outlined'
+                onChange={(e) => handleChange(e)}
+                size='small'
               >
                 <MenuItem value='easy'>Easy</MenuItem>
                 <MenuItem value='medium'>Medium</MenuItem>
                 <MenuItem value='hard'>Hard</MenuItem>
-              </Select>
+              {/* </Select> */}
+              </StyledInput>
             </FormControl>
             <FormControl variant='outlined' size='small'>
-              <InputLabel id='language-label'>Programming Language</InputLabel>
-              <Select
+              {/* <InputLabel id='language-label'>Programming Language</InputLabel> */}
+              {/* <Select
               labelid='language-label'
                 name="programmingLanguage"
                 value={values.programmingLanguage}
                 onChange={(e) => handleChange(e)}
+              > */}
+              <StyledInput
+                select
+                color='success'
+                labelId='language-label'
+                label='Programmming Language*'
+                name='programmingLanguage'
+                value={values.programmingLanguage}
+                variant='outlined'
+                onChange={(e) => handleChange(e)}
+                size='small'
               >
                 <MenuItem value='Javascript'>Javascript</MenuItem>
                 <MenuItem value='Python'>Python</MenuItem>
@@ -153,36 +206,52 @@ export default function InputForm() {
                 <MenuItem value='Swift'>Swift</MenuItem>
                 <MenuItem value='C#'>C#</MenuItem>
                 <MenuItem value='PHP'>PHP</MenuItem>
-              </Select>
+              {/* </Select> */}
+              </StyledInput>
             </FormControl>
             <FormControl variant='outlined' size='small'>
-              <InputLabel id='demo-simple-select-label'>Topic</InputLabel>
-              <Select
+              {/* <InputLabel id='demo-simple-select-label'>Topic</InputLabel> */}
+              {/* <Select
               labelid='demo-simple-select-label'
               id='demo-simple-select'
               name='topic'
               value={values.topic}
               onChange={(e) => handleChange(e)}
+              > */}
+              <StyledInput
+                select
+                color='success'
+                labelId='topic-label'
+                label='Topic*'
+                name='topic'
+                value={values.topic}
+                variant='outlined'
+                onChange={(e) => handleChange(e)}
+                size='small'
               >
                 {leetTopics.map((topic) => (
                   <MenuItem key={topic} value={topic}>
                     {topic}
                   </MenuItem>
                 ))}
-              </Select>
+              {/* </Select> */}
+              </StyledInput>
             </FormControl>
             <Stopwatch
               times={times}
               setTimes={setTimes}
             />
-          {expand && (
-            <Stack spacing={1}>
+          {/* {expand && ( */}
+          <Collapse
+            in={expand}
+            >
+            <Stack spacing={1} sx={{maxHeight: '25vh', overflowY: 'auto'}}>
               <Typography
                 variant='subtitle1'
               >
                 Additional Fields
               </Typography>
-              <TextField
+              {/* <TextField
                 size='small'
                 type='text'
                 id="outlined-basic"
@@ -190,8 +259,19 @@ export default function InputForm() {
                 name='promptLink'
                 value={values.promptLink}
                 onChange={(e) => handleChange(e)}
-              />
-              <TextField
+              /> */}
+              <StyledInput
+              size='small'
+              variant='outlined'
+              color='success'
+              type='text'
+              label='Prompt Link'
+              id='outlined-basic'
+              name="promptLink"
+              value={values.promptLink}
+              onChange={(e) => handleChange(e)}
+            />
+              {/* <TextField
               size='small'
               label="Prompt Text"
               multiline
@@ -200,8 +280,21 @@ export default function InputForm() {
               name='promptText'
               value={values.promptText}
               onChange={(e) => handleChange(e)}
-              />
-              <TextField
+              /> */}
+              <StyledInput
+              size='small'
+              variant='outlined'
+              color='success'
+              type='text'
+              multiline
+              rows={4}
+              label='Prompt Text'
+              id='outlined-basic'
+              name="promptText"
+              value={values.promptText}
+              onChange={(e) => handleChange(e)}
+            />
+              {/* <TextField
               size='small'
               label="Constraints"
               multiline
@@ -210,23 +303,48 @@ export default function InputForm() {
               name='constraints'
               value={values.constraints}
               onChange={(e) => handleChange(e)}
-              />
+              /> */}
+              <StyledInput
+              size='small'
+              variant='outlined'
+              color='success'
+              type='text'
+              multiline
+              rows={4}
+              label='Constraints'
+              id='outlined-basic'
+              name="constraints"
+              value={values.constraints}
+              onChange={(e) => handleChange(e)}
+            />
               <FormControl variant='outlined'>
-                <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
-                <Select
+                {/* <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel> */}
+                {/* <Select
                   labelid='timecomplexity-label'
                   name="timeComplexity"
                   value={values.timeComplexity}
                   onChange={(e) => handleChange(e)}
-                >
+                > */}
+                <StyledInput
+                  select
+                  color='success'
+                  labelId='language-label'
+                  label='Time Complexity'
+                  name='timeComplexity'
+                  value={values.timeComplexity}
+                  variant='outlined'
+                  onChange={(e) => handleChange(e)}
+                  size='small'
+              >
                   <MenuItem value='O(1)'>O(1)</MenuItem>
                   <MenuItem value='O(log n)'>O(log n)</MenuItem>
                   <MenuItem value='O(n)'>O(n)</MenuItem>
                   <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
                   <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
-                </Select>
+                {/* </Select> */}
+                </StyledInput>
               </FormControl>
-              <TextField
+              {/* <TextField
               size='small'
                 label="Solution"
                 multiline
@@ -235,10 +353,24 @@ export default function InputForm() {
                 name='solution'
                 value={values.solution}
                 onChange={(e) => handleChange(e)}
-                />
+                /> */}
+              <StyledInput
+                size='small'
+                variant='outlined'
+                color='success'
+                type='text'
+                multiline
+                rows={4}
+                label='Solution'
+                id='outlined-basic'
+                name="solution"
+                value={values.solution}
+                onChange={(e) => handleChange(e)}
+            />
 
           </Stack>
-          )}
+          {/* )} */}
+          </Collapse>
           <Box
             sx={{
               display: 'flex',
@@ -246,6 +378,7 @@ export default function InputForm() {
             }}
           >
            <Button
+            sx={{backgroundColor: '#272727' }}
               variant='contained'
               type='button'
               size='large'
@@ -254,6 +387,7 @@ export default function InputForm() {
               { expand ? (<ArrowDropUp/>) : (<ArrowDropDown/>) }
             </Button>
             <Button
+              sx={{backgroundColor: '#272727' }}
               variant='contained'
               type='submit'
               size='large'

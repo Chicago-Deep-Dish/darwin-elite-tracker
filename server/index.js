@@ -1,11 +1,13 @@
 const express = require("express");
 const cookieParser = require('cookie-parser');
-const {usersRouter, recordsRouter} = require("./routes");
+const {usersRouter, recordsRouter, quotesRouter} = require("./routes");
+const cors = require('cors');
 
 // initialize app
 const app = express();
 
 // middleware
+// app.use(cors({ origin: ['http://localhost:3000']}))
 app.use(express.json());
 app.use(cookieParser());
 
@@ -17,6 +19,7 @@ app.get('/', (req, res) => {
 // routes
 app.use("/users", usersRouter);
 app.use("/records", recordsRouter);
+app.use('/quotes', cors(), quotesRouter);
 // app.use("/graphs", graphsRouter);
 
 
