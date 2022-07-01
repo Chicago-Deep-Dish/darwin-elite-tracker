@@ -125,11 +125,11 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
         </header>
         <div className="modal-content">
           <FormControl autoComplete="off" sx={{ '& > :not(style)': { m: 1 } }} component="form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
-            <TextField id="promptName" label="Name" value={row.promptName}></TextField>
-            <TextField id="promptLink" label="Link" value={row.promptLink}></TextField>
+            <TextField size="small" id="promptName" label="Name" value={row.promptName} />
             <FormControl>
               <InputLabel id="difficulty-select-label">Difficulty</InputLabel>
               <Select
+                size="small"
                 labelId="difficulty-select-label"
                 id="difficulty"
                 value={row.difficulty}
@@ -141,18 +141,25 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
                 <MenuItem value="hard">hard</MenuItem>
               </Select>
             </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="Date&Time picker"
-                value={row.timeStamp}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <TextField id="codeTime" type="number" label="Code Time" value={row.codeTime}></TextField>
+            <FormControl>
+              <InputLabel id="language-select-label">Language</InputLabel>
+              <Select
+                size="small"
+                labelId="language-select-label"
+                id="programmingLanguage"
+                value={row.programmingLanguage}
+                label="Language"
+                onChange={handleLanguageChange}
+              >
+                {languages.map((language) => (
+                  <MenuItem key={language} value={language}>{language}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl>
               <InputLabel id="topics-select-label">Topic</InputLabel>
               <Select
+                size="small"
                 labelId="topics-select-label"
                 id="topics"
                 value={row.topics}
@@ -166,21 +173,17 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
                 ))}
               </Select>
             </FormControl>
-            <FormControl>
-              <InputLabel id="language-select-label">Language</InputLabel>
-              <Select
-                labelId="language-select-label"
-                id="programmingLanguage"
-                value={row.programmingLanguage}
-                label="Language"
-                onChange={handleLanguageChange}
-              >
-                {languages.map((language) => (
-                  <MenuItem key={language} value={language}>{language}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Button type="submit">Submit</Button>
+            <TextField size="small" id="codeTime" type="number" label="Code Time" value={row.codeTime} />
+            <TextField size="small" id="promptLink" label="Link" value={row.promptLink} />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                label="Date&Time picker"
+                value={row.timeStamp}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <Button size="small" type="submit">Submit</Button>
           </FormControl>
         </div>
       </section>
