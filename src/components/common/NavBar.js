@@ -15,6 +15,7 @@ import {
   Box,
   Toolbar,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import useGlobalContext from "../../context/GlobalContext";
@@ -25,14 +26,22 @@ import grindStreak from "./../../helpers/grindStreak";
 import { createSamplePrompt } from "../../test/sampleData";
 
 export default function NavBar({ setModal }) {
-  const { toastifyTheme, problemDatesArray, setUserLoggedIn, aboutToggle, setAboutToggle } =
-    useGlobalContext();
+  const {
+    toastifyTheme,
+    problemDatesArray,
+    setUserLoggedIn,
+    userLoggedIn,
+    aboutToggle,
+    setAboutToggle,
+  } = useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [grindCount, setGrindCount] = React.useState(0);
   const [badge, setBadge] = React.useState({
     icon: badgeNew,
     text: "Welcome newComer. Get two 3-day streaks to earn a new badge",
+    color: "white",
   });
 
   const isMenuOpen = Boolean(anchorEl);
@@ -96,25 +105,34 @@ export default function NavBar({ setModal }) {
 
   //conditional render badge
   React.useEffect(() => {
-    let grindCount = 0;
-    grindCount = grindStreak(problemDatesArray);
+    let grindResult = grindStreak(problemDatesArray);
 
-    if (grindCount < 5 && grindCount >= 2) {
+    if (grindResult < 5 && grindResult >= 2) {
       setBadge({
         icon: badgeLow,
-        text: `Woah, impressive! You got (${grindCount}) 3-day streaks!`,
+        text: `Woah, impressive! You got (${grindResult}) 3-day streaks!`,
+        color: "green",
       });
-    } else if (grindCount < 10 && grindCount >= 5) {
+    } else if (grindResult < 10 && grindResult >= 5) {
       setBadge({
         icon: badgeMed,
-        text: `Now that's groovy! You got (${grindCount}) 3-day streaks!`,
+        text: `Now that's groovy! You got (${grindResult}) 3-day streaks!`,
+        color: "yellow",
       });
-    } else if (grindCount >= 10) {
+    } else if (grindResult >= 10) {
       setBadge({
         icon: badgeHigh,
-        text: `Ok now that's Huge! You got (${grindCount}) 3-day streaks!`,
+        text: `Ok now that's Huge! You got (${grindResult}) 3-day streaks!`,
+        color: "red",
+      });
+    } else {
+      setBadge({
+        icon: badgeNew,
+        text: "Welcome newComer. Get two 3-day streaks to earn a new badge",
+        color: "white",
       });
     }
+    setGrindCount(grindResult);
   }, [problemDatesArray]);
 
   //menu items
@@ -213,14 +231,14 @@ export default function NavBar({ setModal }) {
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Button
+            {/* <Button
               onClick={() => {
                 handleInputData(createSamplePrompt());
               }}
               style={{ textDecoration: "inherit", color: "inherit" }}
             >
               Submit ONE Input for USER
-            </Button>{" "}
+            </Button>{" "} */}
             <Button
               size="large"
               edge="start"
@@ -229,7 +247,7 @@ export default function NavBar({ setModal }) {
               sx={{ mr: 2 }}
               onClick={() => setAboutToggle(!aboutToggle)}
             >
-                ABOUT
+              ABOUT
             </Button>
             <Button
               size="large"
@@ -245,36 +263,57 @@ export default function NavBar({ setModal }) {
                 Records
               </Link>
             </Button>
-            <Button
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="login button"
-              sx={{ mr: 2 }}
-              onClick={() => {
-                handleLoginButton("LOGIN");
-              }}
-            >
-              LOGIN
-            </Button>
-            <Button
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="register button"
-              sx={{ mr: 2 }}
-              onClick={() => {
-                handleLoginButton("REGISTER");
-              }}
-            >
-              REGISTER
-            </Button>
+            {!userLoggedIn && (
+              <>
+                <Button
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="login button"
+                  sx={{ mr: 2 }}
+                  onClick={() => {
+                    handleLoginButton("LOGIN");
+                  }}
+                >
+                  LOGIN
+                </Button>
+                <Button
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="register button"
+                  sx={{ mr: 2 }}
+                  onClick={() => {
+                    handleLoginButton("REGISTER");
+                  }}
+                >
+                  REGISTER
+                </Button>
+              </>
+            )}{" "}
             <Tooltip title={badge.text}>
-              <img
-                src={badge.icon}
-                alt="logo"
-                style={{ maxWidth: 45, marginRight: 15 }}
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  borderRadius: "25px",
+                  padding: "11px",
+                  border: 2,
+                  borderColor: "rgba(130, 130, 130, .4)",
+                }}
+              >
+                <img
+                  src={badge.icon}
+                  alt="logo"
+                  style={{ maxWidth: 45, marginRight: 15 }}
+                />
+                <Button
+                  size="large"
+                  edge="start"
+                  style={{ maxWidth: 30, minWidth: 0, color: badge.color }}
+                >
+                  {grindCount}
+                </Button>
+              </Box>
             </Tooltip>
             <IconButton
               size="large"
