@@ -40,7 +40,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
 
   return (
 
-      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'270px', ml:4, mr:4, mt:0.1}}>
+      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'270px', paddingTop:'20px', paddingBottom:'20px', ml:4, mr:4, mt:0.1}}>
         <FormControl sx={{mt:3, width:'140px'}} component="fieldset" variant="standard">
           <RadioGroup aria-label ledby="demo-radio-buttons-group-label" defaultValue="speed" name="radio-buttons-group">
             <FormControlLabel value="totalTime"  control={<Radio color='success'/>} label="speed" onChange={handleGraph} />

@@ -72,10 +72,13 @@ export default function DashBoard() {
   return (
     <>
         <Stack
+          backgroundColor="#1A2027"
           direction="row"
           sx={{ justifyContent: "center" }}
           spacing={2}
-          padding = "20px"
+          padding = "10px"
+          marginLeft= "30px"
+          marginTop="10px"
         >
           <Stack spacing={2}>
             <h3> Dashboard </h3>

@@ -346,17 +346,17 @@ if ( graph==='totalTime'&&selection==='difficulty') {
      series: input
   }
   return (
-      <Stack  onMouseLeave={()=>{setSettingsVisible(false)}} onMouseEnter={()=>{setSettingsVisible(true)}}>
-    {settingsVisible?
-      <Settings setSettingsView={setSettingsView} settingsView={settingsView} ></Settings>:
-      null
-    }
+      <Stack   sx={{ alignItems: "start" }} direction="row" onMouseLeave={()=>{setSettingsVisible(false)}} onMouseEnter={()=>{setSettingsVisible(true)}}>
     {!settingsView?
       <Box sx={{ '&:hover':{boxShadow:3},  width:'270px', height:'200px', ml:4, mr:4, mt:1,mb:2}}  onMouseEnter={()=>{setSettingsVisible(true)}}>
         <ReactEcharts sx={{ '&:hover':{boxShadow:3},   width:'270px', height:'200px', ml:4, mr:4, mt:1,mb:2}} option={option} />
       </Box>
       :
-      <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+      <MenuBar  pagraph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+    }
+    {settingsVisible?
+      <Settings setSettingsView={setSettingsView} settingsView={settingsView} ></Settings>:
+      null
     }
   </Stack>
   )

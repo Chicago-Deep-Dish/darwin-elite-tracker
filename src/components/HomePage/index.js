@@ -1,7 +1,6 @@
 import React from "react";
 import DashBoard from './DashBoard/Dashboard.js';
 import InputForm from './InputForm/InputForm.js';
-// import DashBoard from './TestDash/Dashboard.js';
 import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js';
 
 export default function HomePage() {
@@ -12,8 +11,7 @@ export default function HomePage() {
           <InputForm></InputForm>
         </div>
         <div>
-          <DashBoard />
-          {/* <Dash/> */}
+          <DashBoard/>
           <Graphs />
         </div>
       </div>
