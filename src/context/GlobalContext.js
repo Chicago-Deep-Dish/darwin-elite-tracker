@@ -16,6 +16,7 @@ export function GlobalContextProvider({ children }) {
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
 
+  const [problemDatesArray, setProblemDatesArray] = useState([]);
   const [streakSummary, setstreakSummary] = useState([]);
 
   const [toastifyTheme, setToastifyTheme] = useState({
@@ -42,9 +43,17 @@ export function GlobalContextProvider({ children }) {
           setUserData[1].forEach((problem) => {
             dataArray.push(new Date(problem.timeStamp));
           });
-          // console.log(dataArray)
-
-          setstreakSummary(summary(dataArray));
+          // console.log("dataArray", dataArray);
+          let dates = [
+            new Date("06/27/2022"),
+            new Date("06/28/2022"),
+            new Date("06/28/2022"),
+            new Date("06/29/2022"),
+            new Date("06/29/2022"),
+            new Date("06/29/2022"),
+          ];
+          setProblemDatesArray([...dataArray, ...dates]);
+          setstreakSummary(summary([...dataArray, ...dates]));
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
@@ -59,6 +68,8 @@ export function GlobalContextProvider({ children }) {
     }
   }, []);
 
+  console.log(streakSummary);
+
   const value = {
     toastifyTheme,
     setToastifyTheme,
@@ -67,6 +78,7 @@ export function GlobalContextProvider({ children }) {
     userProfileData,
     setUserProfileData,
     streakSummary,
+    problemDatesArray,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
