@@ -18,7 +18,11 @@ export default function HomePage() {
       </Collapse>
       <div
         className="main-layout"
-        style={{ display: "flex", justifyContent: "center" }}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
       >
         {/* <div className='side-bar'> */}
         <InputForm />
@@ -27,10 +31,8 @@ export default function HomePage() {
           <DashBoard />
           <Graphs />
         </div>
-
-      </div>
-      {" "}
-        <Footer />
+      </div>{" "}
+      <Footer />
     </div>
   );
 }
