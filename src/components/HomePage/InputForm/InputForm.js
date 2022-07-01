@@ -22,7 +22,7 @@ import styled from 'styled-components';
 const StyledInput = styled(TextField)`
 width: 100%;
 & .MuiOutlinedInput-notchedOutline {
-  border-color: #eab464;
+  border-color: #f3ab40;
 
 }
 & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
@@ -113,10 +113,13 @@ export default function InputForm() {
   return (
     <Stack
      className='beginning-inputs'
-     sx={{width: 175, mt: 5, mx: '10px'}}
+     sx={{width: 200, mt: '10px', mx: '10px', minWidth: 18}}
      >
+      {/* padding: 10px;
+    border-radius: 10px;
+    background-color: #1A2027; */}
        <Stack
-        sx={{width: 175}}
+        sx={{width: 200, mt: 0, mx: '10px',  padding: '25px', borderRadius: '10px', backgroundColor: '#1A2027', minWidth:17}}
         spacing={2}
         component={'form'}
         onSubmit={(e) => handleSubmit(e, values)}
@@ -378,26 +381,26 @@ export default function InputForm() {
             }}
           >
            <Button
-            sx={{backgroundColor: '#272727' }}
+            sx={{backgroundColor: '#f3ab40', marginRight: '1px' }}
               variant='contained'
               type='button'
-              size='large'
+              size='medium'
               onClick={(e) => toggleExpand(e)}
             >
               { expand ? (<ArrowDropUp/>) : (<ArrowDropDown/>) }
             </Button>
             <Button
-              sx={{backgroundColor: '#272727' }}
-              variant='contained'
+              sx={{backgroundColor: '#f3ab40', marginLeft: '1px' }}
+              variant='outlined'
               type='submit'
-              size='large'
+              size='medium'
               onClick={(e) => handleSubmit(e, values)}
             >
               Submit
             </Button>
           </Box>
       </Stack>
-    </Stack>
+     </Stack>
   );
 }
 

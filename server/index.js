@@ -1,7 +1,7 @@
 const express = require("express");
 const cookieParser = require('cookie-parser');
 const {usersRouter, recordsRouter, quotesRouter} = require("./routes");
-const cors = require('cors');
+// const cors = require('cors');
 
 // initialize app
 const app = express();
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 // routes
 app.use("/users", usersRouter);
 app.use("/records", recordsRouter);
-app.use('/quotes', cors(), quotesRouter);
+app.use('/quotes', quotesRouter);
 // app.use("/graphs", graphsRouter);
 
 

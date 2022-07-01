@@ -22,7 +22,7 @@ export default function Footer() {
 
   useEffect(getInpsirationalQuote, [quotes])
   return (
-    <footer style={{width: '100%', backgroundColor: '#272727', marginBottom: 0, position: 'absolute'}}>
+    <footer style={{width: '100%', backgroundColor: '#272727', bottom: 0, marginTop: '40px', padding: '0.1vh'}}>
       <div>
       <blockquote>{wordOfTheDay}</blockquote>
       <footer>{wordOfTheDay}</footer>

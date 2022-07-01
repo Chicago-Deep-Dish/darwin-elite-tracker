@@ -9,13 +9,13 @@ import Box from '@mui/material/Box';
 export default function About () {
   const { aboutToggle, setAboutToggle } = useGlobalContext();
   return(
-    <div className='about'>
+    <Box className='about'>
       <h1>About</h1>
       <div style={{marginRight: '5%', marginLeft: '5%'}}>
         <p>
           Darwin&trade;'s history can be dated back to the late 19th Century, to our CEO Leon Must&trade;'s great-great-great-great grandfather, Charles Darwin. Since then, the tradition of greatness has been incultated with each generation - and this is where you come in. Leon Must&trade; believes in the potential of each and every one of you. Darwin&trade; is in the business of pushing humanity together to reach an intellectual higher ground, together.
         </p>
-        </div>
+      </div>
       <Button
         sx={{backgroundColor: '#272727'}}
           variant='contained'
@@ -25,6 +25,6 @@ export default function About () {
         >
           { aboutToggle ? (<ArrowDropUp/>) : (<ArrowDropDown/>) }
       </Button>
-    </div>
+    </Box>
   );
 }
