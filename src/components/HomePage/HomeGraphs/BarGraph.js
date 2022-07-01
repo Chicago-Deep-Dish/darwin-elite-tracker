@@ -27,8 +27,8 @@ export default function Bar() {
     var easy = 0;
     var medium = 0;
     var hard = 0;
-    var lastDate=getLastDate(0);
-    var startDate=getLastDate(6);
+    var lastDate = getLastDate(0);
+    var startDate = getLastDate(6);
     if (range === 'month') {
       startDate = getLastDate(29);
     } else if (range === 'year') {

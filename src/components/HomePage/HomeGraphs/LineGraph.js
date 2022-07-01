@@ -17,77 +17,28 @@ export default function Line() {
   const [range, setRange]=React.useState('week');
   const [language, setLanguage]=React.useState('Javascript');
 
-  const handleTime = (event: SelectChangeEvent) => {
-    setTime(event.target.value);
-  };
-  const handleRange= (event: SelectChangeEvent) => {
-    setRange(event.target.value);
-  };
-  const handleLanguage = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value);
-  };
-
-  const handleGraph = (event) => {
-    setGraph(event.target.value);
-  };
-  const handleSelection= (event) => {
-    setSelection(event.target.value);
-    setSubject([]);
-  };
-
-  const handleSubject= (event) => {
-    setSubject(event.target.value);
-  };
-
   const getLastDate = (x)=> {
-  const now = new Date();
-  const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
-  return result.toISOString();
+    const now = new Date();
+    const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+    return result.toISOString();
   }
 
-  var lastDate=getLastDate(0);
-  var startDate=getLastDate(6);
-
-  React.useEffect ( ()=>{
-
-    var samples=[];
-
-    //filter range
-    if ( range==='week') {
-      for (let i=0; i< userProblemArray.length; i++) {
-        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
-          samples.push(userProblemArray[i]);
-        }
-      }
-    }else if ( range==='month') {
-      startDate=getLastDate(29);
-      for (let i=0; i< userProblemArray.length; i++) {
-        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
-          samples.push(userProblemArray[i]);
-        }
-      }
-    }else if ( range === 'year') {
-      startDate=getLastDate(364);
-      for (let i=0; i< userProblemArray.length; i++) {
-        if( userProblemArray[i]['timeStamp']>startDate&&userProblemArray[i]["timeStamp"]<lastDate) {
-          samples.push(userProblemArray[i]);
-        }
-      }
+  React.useEffect (() => {
+    var easy = 0;
+    var medium = 0;
+    var hard = 0;
+    var lastDate = getLastDate(0);
+    var startDate = getLastDate(6);
+    if (range === 'month') {
+      startDate = getLastDate(29);
+    } else if (range === 'year') {
+      startDate = getLastDate(364);
     }
-  //console.log( 'rangggge' , range, samples);
-  //filter the language
-  var sampleUpdate=[];
-  for ( let i=0; i<samples.length; i++) {
-    if ( samples[i]['programmingLanguage']!==undefined) {
-      if(samples[i]['programmingLanguage'].toLowerCase()===language.toLowerCase()) {
-      sampleUpdate.push(samples[i]);
-    }
-  }
-  }
-  console.log('updated', sampleUpdate);
+    const timeFiltered = userProblemArray.filter(problem => (problem.timeStamp > startDate && problem.timeStamp < lastDate));
+    const timeAndLangFiltered = timeFiltered.filter(sample => sample["programmingLanguage"] === language);
 
 //filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
-  if (graph==='totalQuantities'&&selection==='subject') {
+  if (graph === 'totalQuantities' && selection==='subject') {
     var subjectTeam={};
     for(let i=0; i<sampleUpdate.length;i++) {
       var sub=sampleUpdate[i]['topics'];
@@ -98,9 +49,18 @@ export default function Line() {
         }else{
           subjectTeam[sub].push(sampleUpdate[i]);
         }
-    }else {
+    } else {
       continue;
     }
+    timeAndLangFiltered.forEach(problem => {
+      if (subject.includes(problem.topics)) {
+        if (subjectTeam[problem.topics] === undefined) {
+          subjectTeam[problem.topics] = [];
+        } else {
+
+        }
+      }
+    })
   }
     var updateFormate={};
     for (var key in subjectTeam) {
@@ -348,8 +308,25 @@ if ( graph==='totalTime'&&selection==='difficulty') {
       <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
         <ReactEcharts option={option} />
       </Box>
-      <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
-
+      <MenuBar
+        graph={graph}
+        setGraph={setGraph}
+        subject= {subject}
+        selection={selection}
+        setSelection={setSelection}
+        time={time}
+        range={range}
+        language={language}
+        handleSubject={(e) => setSubject(e.target.value)}
+        handleRange={(e) => setRange(e.target.value)}
+        handleLanguage={(e) => setLanguage(e.target.value)}
+        handleTime={(e) => setTime(e.target.value)}
+        handleGraph={(e) => setGraph(e.target.value)}
+        handleSelection={(e) => {
+          setSelection(e.target.value);
+          setSubject([]);
+        }}
+      />
   </Stack>
   )
 };
