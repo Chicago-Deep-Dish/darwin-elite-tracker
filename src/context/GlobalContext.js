@@ -61,6 +61,7 @@ export function GlobalContextProvider({ children }) {
         })
         .catch((error) => {
           console.log(error);
+
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
@@ -75,7 +76,10 @@ export function GlobalContextProvider({ children }) {
       });
 
       setProblemDatesArray(dataArray);
+            setUserLoggedIn(false);
+
       setstreakSummary(summary(dataArray));
+
       toast.error(
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme
