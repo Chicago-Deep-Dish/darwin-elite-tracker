@@ -1,7 +1,6 @@
 import React from "react";
 import DashBoard from './DashBoard/Dashboard.js';
 import InputForm from './InputForm/InputForm.js';
-// import DashBoard from './TestDash/Dashboard.js';
 import Graphs from '../../components/HomePage/HomeGraphs/Graphs.js';
 import pageLayout from '../../styles/pageLayout.css';
 import Footer from './Footer/Footer';
@@ -26,10 +25,9 @@ export default function HomePage() {
         <div className='side-bar'>
           <InputForm />
         </div>
-        <div >
+        <div>
           <DashBoard/>
-          {/* <Dash/> */}
-          <Graphs/>
+          <Graphs />
         </div>
 
         <Footer/>

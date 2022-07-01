@@ -3,13 +3,10 @@ import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
-import data from  './sampleData.js';
-import axios from 'axios';
 import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
- console.log( 'dattaaaaaa',userProblemArray);
   const [graph, setGraph] = React.useState('totalQuantities');
   const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
@@ -28,8 +25,8 @@ export default function Bar() {
     var easy = 0;
     var medium = 0;
     var hard = 0;
-    var lastDate=getLastDate(0);
-    var startDate=getLastDate(6);
+    var lastDate = getLastDate(0);
+    var startDate = getLastDate(6);
     if (range === 'month') {
       startDate = getLastDate(29);
     } else if (range === 'year') {
@@ -95,17 +92,17 @@ export default function Bar() {
         }
       });
     //get average and change to minus
-      if(countE!==0){
+      if(countE !== 0){
         easy /= countE;
         easy /= 1000;
         easy /= 60;
       }
-      if(countM!==0){
+      if(countM !== 0){
         medium /= countM;
         medium /= 1000;
         medium /= 60;
       }
-      if(countH!==0){
+      if(countH !== 0){
         hard /= countH;
         hard /= 1000;
         hard /= 60;
@@ -116,7 +113,16 @@ export default function Bar() {
 
   const option = {
     title:{
-      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
+      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
+      textStyle:{
+        color:'white'
+      }
+    },
+    textStyle: {
+      color:function(value, index) {
+        return 'white';
+      },
+      fontWeight:'bold'
     },
     tooltip: {
       trigger: 'item'
@@ -124,12 +130,13 @@ export default function Bar() {
     xAxis: {
       type: 'category',
       data: selection==='difficulty'?['easy', 'medium', 'hard']:subject
-    },
+
+   },
     yAxis: {
       type: 'value'
     },
     series: [
-      { title:{color:'red'},
+      {
         data: input,
         type: 'bar',
         emphasis: {
@@ -142,7 +149,7 @@ export default function Bar() {
   }
   return (
     <Stack >
-      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: 'black'}}>
+      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027"}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar
