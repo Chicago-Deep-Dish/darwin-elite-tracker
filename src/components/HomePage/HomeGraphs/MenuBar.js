@@ -63,7 +63,7 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
               defaultValue="difficulity"
               name="radio-buttons"
             >
-              <FormControlLabel value="difficulty"   control={<Radio color='success'/>} label="difficulty" onChange={handleSelection} />
+              <FormControlLabel value="difficulty" control={<Radio color='success'/>} label="difficulty" onChange={handleSelection} />
 
             <FormControlLabel value="subject"   control={<Radio color='success'/>} label="subject" onChange={handleSelection} />
             </RadioGroup>
