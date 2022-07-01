@@ -205,7 +205,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
                 {row.promptName}
               </TableCell>
               <TableCell style={{ width: 200 }}>
-                {`${new Date(row.timeStamp).getMonth()}/${new Date(row.timeStamp).getDate()}/${new Date(row.timeStamp).getFullYear()}`}
+                {`${new Date(row.timeStamp).getMonth() + 1}/${new Date(row.timeStamp).getDate()}/${new Date(row.timeStamp).getFullYear()}`}
               </TableCell>
               <TableCell>
                 <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">
