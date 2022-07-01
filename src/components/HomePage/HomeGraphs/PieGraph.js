@@ -9,13 +9,13 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Pie() {
   const { userProblemArray } = useGlobalContext();
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
+  const [graph, setGraph] = React.useState('totalQuantities');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
   //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('week');
+  const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
 
   const handleTime = (event: SelectChangeEvent) => {
@@ -93,8 +93,8 @@ export default function Pie() {
 
   //filter total&subject
 if (graph==='totalQuantities'&&selection==='subject') {
+   var result=Array(subject.length).fill(0);
   for (let i=0; i<sampleUpdate.length; i++) {
-    var result=Array(subject.length).fill(0);
     var sub=sampleUpdate[i]['topics'];
     console.log('subbb', sub, result);
     var index=subject.indexOf(sub);
@@ -135,15 +135,14 @@ if (graph==='totalQuantities'&&selection==='difficulty') {
 
 if (graph==='totalTime'&&selection==='subject') {
  // axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
-
- for (let i=0; i<sampleUpdate.length; i++) {
   var totalTime=Array(subject.length).fill(0);
   var count=Array(subject.length).fill(0);
+ for (let i=0; i<sampleUpdate.length; i++) {
   var sub=sampleUpdate[i]['topics'];
   //console.log('subbb', sub, totalTime);
   var index=subject.indexOf(sub);
   if(index>=0) {
-  totalTime[index]=totalTime[index]+sampleUpdate[i]['totalTime'];
+  totalTime[index]=totalTime[index]+Number(sampleUpdate[i]['totalTime']);
   count[index]++;
   }
 }
@@ -176,13 +175,13 @@ if(graph==='totalTime'&&selection==='difficulty') {
   //axios.get('/total', { params:{"range":range,'language':language}})
 for ( let i=0; i<sampleUpdate.length; i++) {
   if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
-    easy = easy + sampleUpdate[i]["totalTime"];
+    easy = easy + Number(sampleUpdate[i]["totalTime"]);
     countE++;
   } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
-    medium = medium + sampleUpdate[i]["totalTime"];
+    medium = medium + Number(sampleUpdate[i]["totalTime"]);
     countM++;
   }else {
-    hard = hard + sampleUpdate[i]["totalTime"];
+    hard = hard + Number(sampleUpdate[i]["totalTime"]);
     countH++
   }
 }
@@ -213,15 +212,21 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
 
 const option = {
   title:{
-    text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
+    text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
+    textStyle:{
+      color:'white'
+    }
   },
+
   tooltip: {
     trigger: 'item',
     formatter: '{a} <br/>{b} : {c} ({d}%)'
   },
   legend: {
     top:'bottom',
-    left: '80%'
+    left: '80%',
+    textStyle :{color:'white'}
+
   },
   toolbox: {
     show: true,
@@ -242,7 +247,11 @@ const option = {
       itemStyle: {
         borderRadius: 8
       },
-      data: input
+      data: input,
+      label:{
+        color:'white',
+        fontSize:15
+      }
       //selection==='difficulty'?
       // [ { value: input[0], name: 'easy' },
       //   { value: input[1], name: 'medium' },
@@ -257,7 +266,7 @@ const option = {
 };
 return (
   <Stack>
-    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px',  ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px',  ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

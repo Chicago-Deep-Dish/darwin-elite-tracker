@@ -11,14 +11,14 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 export default function Donut() {
 
   const { userProblemArray } = useGlobalContext();
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
+  const [graph, setGraph] = React.useState('totalQuantities');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
 
   //const { speed, frequency, total, difficulty, name, subject} = state;
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('week');
+  const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
 
   const handleTime = (event: SelectChangeEvent) => {
@@ -97,14 +97,14 @@ console.log('updated', sampleUpdate)
 
 //filter total&subject
 if (graph==='totalQuantities'&&selection==='subject') {
-for (let i=0; i<sampleUpdate.length; i++) {
   var result=Array(subject.length).fill(0);
-  var sub=sampleUpdate[i]['topics'];
-  console.log('subbb', sub, result);
-  var index=subject.indexOf(sub);
-  if(index>=0) {
-  result[index]++;
-  }
+  for (let i=0; i<sampleUpdate.length; i++) {
+    var sub=sampleUpdate[i]['topics'];
+    console.log('subbb', sub, result);
+    var index=subject.indexOf(sub);
+    if(index>=0) {
+    result[index]++;
+    }
 }
   console.log( 'filter subject and total', result);
 //convert to [{},{}...]format for table
@@ -140,36 +140,36 @@ setInput([{value:easy,name:'easy'},{value: medium,name:'medium'}, {value: hard,n
 if (graph==='totalTime'&&selection==='subject') {
 // axios.get('/total', { params:{'selection':subject, "range":range,'language':language}})
 
-for (let i=0; i<sampleUpdate.length; i++) {
-var totalTime=Array(subject.length).fill(0);
-var count=Array(subject.length).fill(0);
-var sub=sampleUpdate[i]['topics'];
-//console.log('subbb', sub, totalTime);
-var index=subject.indexOf(sub);
-if(index>=0) {
-totalTime[index]=totalTime[index]+sampleUpdate[i]['totalTime'];
-count[index]++;
-}
-}
+  var totalTime=Array(subject.length).fill(0);
+  var count=Array(subject.length).fill(0);
+  for (let i=0; i<sampleUpdate.length; i++) {
+    var sub=sampleUpdate[i]['topics'];
+    //console.log('subbb', sub, totalTime);
+    var index=subject.indexOf(sub);
+    if(index>=0) {
+    totalTime[index]=totalTime[index]+Number(sampleUpdate[i]['totalTime']);
+    count[index]++;
+    }
+  }
 
-if (totalTime) {
-for (let i=0; i<totalTime.length; i++) {
-if (totalTime[i]!==0) {
-  totalTime[i]=totalTime[i]/count[index];
-  totalTime[i]=totalTime[i]/1000/60;
-}
-}
-}
-console.log( 'filter subject and total', totalTime);
-//conver totaltime and subject to [{},{},{}....]
-var final=[]
-for ( let i=0; i<subject.length; i++) {
-  var temp={};
-  temp['value']=totalTime[i];
-  temp['name']=subject[i];
-  final.push(temp);
-}
-setInput(final);
+  if (totalTime) {
+  for (let i=0; i<totalTime.length; i++) {
+  if (totalTime[i]!==0) {
+    totalTime[i]=totalTime[i]/count[index];
+    totalTime[i]=totalTime[i]/1000/60;
+  }
+  }
+  }
+  console.log( 'filter subject and total', totalTime);
+  //conver totaltime and subject to [{},{},{}....]
+  var final=[]
+  for ( let i=0; i<subject.length; i++) {
+    var temp={};
+    temp['value']=totalTime[i];
+    temp['name']=subject[i];
+    final.push(temp);
+  }
+  setInput(final);
 
 }
 
@@ -180,13 +180,13 @@ var countH=0;
 //axios.get('/total', { params:{"range":range,'language':language}})
 for ( let i=0; i<sampleUpdate.length; i++) {
 if (sampleUpdate[i].difficulty.toLowerCase()==='easy') {
-  easy = easy + sampleUpdate[i]["totalTime"];
+  easy = easy + Number(sampleUpdate[i]["totalTime"]);
   countE++;
 } else if ( sampleUpdate[i].difficulty.toLowerCase()==='medium') {
-  medium = medium + sampleUpdate[i]["totalTime"];
+  medium = medium + Number(sampleUpdate[i]["totalTime"]);
   countM++;
 }else {
-  hard = hard + sampleUpdate[i]["totalTime"];
+  hard = hard + Number(sampleUpdate[i]["totalTime"]);
   countH++
 }
 }
@@ -217,14 +217,19 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
 
   const option = {
     title:{
-      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
+      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
+      padding:[20,5,5,5],
+      textStyle:{
+        color:'white'
+      }
     },
     tooltip: {
       trigger: 'item'
     },
     legend: {
      top:'bottom',
-     left: '80%'
+     left: '80%',
+     textStyle :{color:'white'}
     },
     series: [
       {
@@ -239,7 +244,8 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
         },
         label: {
           show: false,
-          position: 'center'
+          position: 'center',
+          color:'white'
         },
         emphasis: {
           label: {
@@ -251,20 +257,21 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
         labelLine: {
           show: false
         },
-        data: selection==='difficulty'?
-        [ { value: input[0], name: 'easy' },
-          { value: input[1], name: 'medium' },
-          { value: input[2], name: 'hard' },
-        ]:[
-          'subject'//neeed to update it
+        data: input
+        // selection==='difficulty'?
+        // [ { value: input[0], name: 'easy' },
+        //   { value: input[1], name: 'medium' },
+        //   { value: input[2], name: 'hard' },
+        // ]:[
+        //   'subject'//neeed to update it
 
-        ]
+        // ]
       }
     ]
   };
 return (
   <Stack>
-    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', ml:4, mr:4, mt:1, mb:2,backgroundColor:'black'}}>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', ml:4, mr:4, mt:1, mb:2,backgroundColor:'#1A2027'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

@@ -23,9 +23,9 @@ width: 100%;
 
 export default function Graphs() {
 
-  const [first, setFirst]=React.useState('bar');
-  const [second, setSecond]=React.useState('line');
-
+  const [first, setFirst]=React.useState('Bar');
+  const [second, setSecond]=React.useState('Line');
+  const graphs=['Bar', 'Pie', 'Donut', 'Line', 'Area'];
   const handleFirst= (event) => {
      setFirst(event.target.value)
   };
@@ -53,12 +53,15 @@ export default function Graphs() {
             size="small"
             select
           >
-            <MenuItem value={'bar'} >Bar</MenuItem>
-            <MenuItem value={'pie'} >Pie</MenuItem>
-            <MenuItem value={'donut'} >Donut</MenuItem>
+            {graphs.map((graph) => {
+                return (
+                <MenuItem key={graph} value={graph}>
+                  {graph}
+                </MenuItem>)
+              })}
           </StyledInput>
       </FormControl>
-      {first==='bar'? <BarGraph />:first==='pie'?<Pie/>:first==='donut'?<Donut/>:null}
+      {first==='Bar'? <BarGraph />:first==='Pie'?<Pie/>:first==='Donut'?<Donut/>:first==='Line'?<LineGraph />:first==='Area'?<AreaGraph />:null}
     </Box>
 
     <Box >
@@ -79,11 +82,15 @@ export default function Graphs() {
             size="small"
             select
           >
-            <MenuItem value={'line'} >Line</MenuItem>
-            <MenuItem value={'area'} >area</MenuItem>
+             {graphs.map((graph) => {
+                return (
+                <MenuItem key={graph} value={graph}>
+                  {graph}
+                </MenuItem>)
+              })}
           </StyledInput>
       </FormControl>
-      {second==='line'? <LineGraph />:second==='area'?<AreaGraph/>:null}
+      {second==='Bar'? <BarGraph />:second==='Pie'?<Pie/>:second==='Donut'?<Donut/>:second==='Line'?<LineGraph />:second==='Area'?<AreaGraph />:null}
     </Box>
       </Stack>
   )
