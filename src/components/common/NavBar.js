@@ -106,7 +106,6 @@ export default function NavBar({ setModal }) {
   //conditional render badge
   React.useEffect(() => {
     let grindResult = grindStreak(problemDatesArray);
-    setGrindCount(grindResult);
 
     if (grindResult < 5 && grindResult >= 2) {
       setBadge({
@@ -126,7 +125,14 @@ export default function NavBar({ setModal }) {
         text: `Ok now that's Huge! You got (${grindResult}) 3-day streaks!`,
         color: "red",
       });
+    } else {
+      setBadge({
+        icon: badgeNew,
+        text: "Welcome newComer. Get two 3-day streaks to earn a new badge",
+        color: "white",
+      });
     }
+    setGrindCount(grindResult);
   }, [problemDatesArray]);
 
   //menu items
