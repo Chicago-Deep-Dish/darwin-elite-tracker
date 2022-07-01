@@ -187,6 +187,7 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
         <TableHead>
           <TableRow>
             <TableCell>Prompt Name</TableCell>
+            <TableCell>Date Submitted</TableCell>
             <TableCell>Prompt Link</TableCell>
             <TableCell align="right">Difficulty</TableCell>
             <TableCell align="right">Time to Complete (mm:ss)</TableCell>
@@ -202,6 +203,9 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
             <TableRow id={idx} key={idx}>
               <TableCell style={{ width: 200 }}>
                 {row.promptName}
+              </TableCell>
+              <TableCell style={{ width: 200 }}>
+                {`${new Date(row.timeStamp).getMonth()}/${new Date(row.timeStamp).getDate()}/${new Date(row.timeStamp).getFullYear()}`}
               </TableCell>
               <TableCell>
                 <a href={row.promptLink} rel="noopener noreferrer" target="_blank" className="prompt-link">

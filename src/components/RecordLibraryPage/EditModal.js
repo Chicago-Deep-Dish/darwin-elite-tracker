@@ -150,7 +150,6 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
               />
             </LocalizationProvider>
             <TextField id="codeTime" type="number" label="Code Time" value={row.codeTime}></TextField>
-            {/* <TextField id="topics" label="Topics" value={row.topics}></TextField> */}
             <FormControl>
               <InputLabel id="topics-select-label">Topic</InputLabel>
               <Select

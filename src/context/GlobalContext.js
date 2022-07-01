@@ -15,7 +15,7 @@ export default function useGlobalContext() {
 export function GlobalContextProvider({ children }) {
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [userLoggedIn, setUserLoggedIn] = useState(true);
   const [streakSummary, setstreakSummary] = useState([]);
   const [toastifyTheme, setToastifyTheme] = useState({
     hideProgressBar: false,
