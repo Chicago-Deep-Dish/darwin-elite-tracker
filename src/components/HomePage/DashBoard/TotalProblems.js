@@ -47,8 +47,8 @@ export default function TotalProblems({problemData}) {
     // console.log(problemData)
 
     return <>
-    <h4> Problem Difficulty</h4>
-    <div style={{height: "140px"}}>
+    <h4> Problems</h4>
+    <div style={{height: "98px"}}>
     <ReactECharts option={option} style={{ height: "100%"}}/>
     </div>
     </>

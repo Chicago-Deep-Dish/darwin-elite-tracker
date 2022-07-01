@@ -11,20 +11,20 @@ export default function Streak({streakData}) {
           value: streakData.current,
           name: 'Current\nStreak',
           title: {
-            offsetCenter: ['-45%', '100%']
+            offsetCenter: ['-45%', '110%']
           },
           detail: {
-            offsetCenter: ['-45%', '150%']
+            offsetCenter: ['-45%', '170%']
           }
         },
         {
           value: streakData.max,
           name: 'Max\nStreak',
           title: {
-            offsetCenter: ['45%', '100%']
+            offsetCenter: ['45%', '110%']
           },
           detail: {
-            offsetCenter: ['45%', '150%']
+            offsetCenter: ['45%', '170%']
           }
         }
       ];
@@ -89,7 +89,7 @@ export default function Streak({streakData}) {
       };
       // console.log(streakData.max)
     return <>
-        <Box sx={{height: "200px", width: "180px"}}>
+        <Box sx={{height: "242px", width: "180px"}}>
         <ReactECharts option={option} style={{height: "100%" }}/>
         </Box>
     </>

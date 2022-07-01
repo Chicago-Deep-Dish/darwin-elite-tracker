@@ -18,7 +18,7 @@ import HeatMap from "./HeatMap";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor:  "#1A2027",
-  textAlign: "left",
+  textAlign: "center",
 }));
 
 export default function DashBoard() {
@@ -27,7 +27,7 @@ export default function DashBoard() {
   const [streakData, setStreakData] = useState([]);
 
   // console.log(userProblemArray.group(({difficulty})=> 'difficulty'));
-
+  const problemTotal = userProblemArray.length;
   // setProblemData([
   //   { value: 100, name: "Easy" },
   //   { value: 35, name: "Medium" },
@@ -87,8 +87,9 @@ export default function DashBoard() {
             <Item>
               <TotalProblems problemData={problemData}></TotalProblems>
             </Item>
-            <Item>
-              TotalProblems
+            <Item style={{padding: '10px'}}>
+              <h4> Total Problems </h4>
+              <h2> {problemTotal} </h2>
             </Item>
           </Stack>
           <Stack spacing={2}>
