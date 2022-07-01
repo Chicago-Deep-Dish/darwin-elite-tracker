@@ -5,7 +5,12 @@ import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import data from  './sampleData.js';
 import axios from 'axios';
-import useGlobalContext from '../../../context/GlobalContext.js'
+import useGlobalContext from '../../../context/GlobalContext.js';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
 
 
 export default function Donut() {
@@ -20,6 +25,7 @@ export default function Donut() {
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
+  const [toggleGraphMenu, setToggleGraphMenu] = React.useState(false);
 
   const handleTime = (event: SelectChangeEvent) => {
     setTime(event.target.value);
@@ -270,11 +276,30 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
     ]
   };
 return (
-  <Stack>
-    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', ml:4, mr:4, mt:1, mb:2,backgroundColor:'#1A2027', borderRadius: 4, padding: 3}}>
-      <ReactEcharts option={option} />
-    </Box>
-    <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
-  </Stack>
+  // <Stack>
+  //   <Box sx={{ '&:hover':{boxShadow:3}, width:'500px', ml:4, mr:4, mt:1, mb:2,backgroundColor:'#1A2027', borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
+  //     <ReactEcharts option={option} />
+  //   </Box>
+  //   <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+  // </Stack>
+  <Stack style={{height: '605px'}}>
+  <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027', borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
+   <ReactEcharts option={option} />
+ </Box>
+ <Container sx={{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
+     <div style={{display: 'flex', justifyContent: 'center'}}>
+     <IconButton sx={{right: '30%'}} onClick={() => setToggleGraphMenu(!toggleGraphMenu)}>
+     {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
+     </IconButton>
+     <Typography style={{marginRight: '1%'}}>Hide Graph Menu</Typography>
+     </div>
+   </Container>
+ <Collapse in={toggleGraphMenu}>
+
+ <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
+ </Collapse>
+
+</Stack>
+
 )
 }

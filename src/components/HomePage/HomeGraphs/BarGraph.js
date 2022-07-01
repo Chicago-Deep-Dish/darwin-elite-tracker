@@ -3,7 +3,14 @@ import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
-import useGlobalContext from '../../../context/GlobalContext.js'
+import useGlobalContext from '../../../context/GlobalContext.js';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+
+
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
@@ -15,6 +22,7 @@ export default function Bar() {
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
+  const [toggleGraphMenu, setToggleGraphMenu] = React.useState(false);
 
   const getLastDate = (x)=> {
     const now = new Date();
@@ -149,29 +157,39 @@ export default function Bar() {
     ]
   }
   return (
-    <Stack >
-      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027", borderRadius: 4, padding: 3}}>
+    <Stack style={{height: '605px'}}>
+      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027", borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
         <ReactEcharts option={option} />
       </Box>
-      <MenuBar
-        graph={graph}
-        subject= {subject}
-        selection={selection}
-        time={time}
-        range={range}
-        language={language}
-        setGraph={setGraph}
-        setSelection={setSelection}
-        handleSubject={(e) => setSubject(e.target.value)}
-        handleRange={(e) => setRange(e.target.value)}
-        handleLanguage={(e) => setLanguage(e.target.value)}
-        handleTime={(e) => setTime(e.target.value)}
-        handleGraph={(e) => setGraph(e.target.value)}
-        handleSelection={(e) => {
-          setSelection(e.target.value);
-          setSubject([]);
-        }}
-      />
+      <Container sx={{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+         <IconButton sx={{right: '30%'}} onClick={() => setToggleGraphMenu(!toggleGraphMenu)}>
+        {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
+        </IconButton>
+        <Typography style={{marginRight: '1%'}}>Hide Graph Menu</Typography>
+     </div>
+      </Container>
+      <Collapse in={toggleGraphMenu}>
+        <MenuBar
+          graph={graph}
+          subject= {subject}
+          selection={selection}
+          time={time}
+          range={range}
+          language={language}
+          setGraph={setGraph}
+          setSelection={setSelection}
+          handleSubject={(e) => setSubject(e.target.value)}
+          handleRange={(e) => setRange(e.target.value)}
+          handleLanguage={(e) => setLanguage(e.target.value)}
+          handleTime={(e) => setTime(e.target.value)}
+          handleGraph={(e) => setGraph(e.target.value)}
+          handleSelection={(e) => {
+            setSelection(e.target.value);
+            setSubject([]);
+          }}
+        />
+      </Collapse>
     </Stack>
   )
 }

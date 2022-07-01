@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import styled from "styled-components";
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
 
 const StyledInput = styled(TextField)`
 width: 100%;
@@ -39,7 +40,7 @@ export default function Graphs() {
       <FormControl
         required
         size="small"
-        sx={{ m:1, mt:3, ml:45, width:'140px'}}
+        sx={{ m:1, mt:10, ml:45, width:'140px'}}
       >
           <StyledInput
             color="success"
@@ -68,7 +69,7 @@ export default function Graphs() {
       <FormControl
         required
         size="small"
-        sx={{ m:1, mt:3, ml:45, width:'140px'}}
+        sx={{ m:1, mt:10, ml:45, width:'140px'}}
       >
           <StyledInput
             color="success"

@@ -11,7 +11,8 @@ import styled from "styled-components";
 import RadioGroup from '@mui/material/RadioGroup';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
-
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
 const StyledInput = styled(TextField)`
 width: 100%;
@@ -41,6 +42,9 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
   return (
 
       <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', borderRadius: '5px', '&:hover':{boxShadow:5 },width:'500px', ml:4, mr:4, mt:0.1}}>
+        {/* <Container>
+         <Typography>Hi</Typography>
+        </Container> */}
         <FormControl sx={{mt:3, width:'140px'}} component="fieldset" variant="standard">
           <RadioGroup
             aria-label ledby="demo-radio-buttons-group-label"
@@ -112,10 +116,10 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
               size="small"
               select
             >
-              <MenuItem value={'read prompt'} >read prompt</MenuItem>
-              <MenuItem value={'whiteboard'} >whiteboard</MenuItem>
-              <MenuItem value={'pseudocode'} >pseudocode</MenuItem>
-              <MenuItem value={'write code'} >write code</MenuItem>
+              <MenuItem value={'read prompt'} disabled>read prompt</MenuItem>
+              <MenuItem value={'whiteboard'} disabled>whiteboard</MenuItem>
+              <MenuItem value={'pseudocode'} disabled>pseudocode</MenuItem>
+              <MenuItem value={'write code'} disabled>write code</MenuItem>
               <MenuItem value={'whole process'} >whole process</MenuItem>
             </StyledInput>
           </FormControl>
