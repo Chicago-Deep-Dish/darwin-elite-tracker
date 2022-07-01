@@ -40,48 +40,26 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
 
   return (
 
-      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'350px', ml:4, mr:4, mt:0.1}}>
+      <Box sx={{ display: 'flex', justifyContent: 'center',border:'2px solid #eab464', '&:hover':{boxShadow:3 },width:'270px', ml:4, mr:4, mt:0.1}}>
         <FormControl sx={{mt:3, width:'140px'}} component="fieldset" variant="standard">
-          <RadioGroup
-            aria-label ledby="demo-radio-buttons-group-label"
-            defaultValue="speed"
-            name="radio-buttons-group"
-          >
+          <RadioGroup aria-label ledby="demo-radio-buttons-group-label" defaultValue="speed" name="radio-buttons-group">
             <FormControlLabel value="totalTime"  control={<Radio color='success'/>} label="speed" onChange={handleGraph} />
             <FormControlLabel value="totalQuantities"  control={<Radio color='success'/>} label="total" onChange={handleGraph} />
           </RadioGroup>
-        </FormControl>
+        {/* </FormControl> */}
 
         <Stack sx={{display: 'flex', justifyContent: 'center', mt:1, mb:3, width:'150px'}}>
-        <FormControl
-          required
-          size="small"
-          sx={{mt:2, width:'140px'}}
-          >
-            <RadioGroup
-              aria-label ledby="radio-buttons-group-label"
-              defaultValue="difficulity"
-              name="radio-buttons"
-            >
-              <FormControlLabel value="difficulty"   control={<Radio color='success'/>} label="difficulty" onChange={handleSelection} />
-
-            <FormControlLabel value="subject"   control={<Radio color='success'/>} label="subject" onChange={handleSelection} />
+        <FormControl required size="small" sx={{mt:2, width:'140px'}}>
+            <RadioGroup aria-label ledby="radio-buttons-group-label" defaultValue="difficulity" name="radio-buttons">
+                <FormControlLabel value="difficulty"   control={<Radio color='success'/>} label="difficulty" onChange={handleSelection} />
+                <FormControlLabel value="subject"   control={<Radio color='success'/>} label="subject" onChange={handleSelection} />
             </RadioGroup>
-          </FormControl>
+        </FormControl>
 
-            <FormControl>
-            <Select
-            labelid="demo-simple-select-label"
-            id="demo-simple-select-label"
-            value={subject}
-            multiple
-            size='small'
-            onChange={handleSubject}
-            label='Subject'
-            renderValue={(selected) => selected.join(', ')}
-            input={<OutlinedInput label='Subject' />}
-            MenuProps={MenuProps}
-            >
+        <FormControl>
+            <Select labelid="demo-simple-select-label" id="demo-simple-select-label" value={subject} multiple size='small' 
+            onChange={handleSubject} label='Subject' renderValue={(selected) => selected.join(', ')} 
+            input={<OutlinedInput label='Subject' />} MenuProps={MenuProps}>
               {leetTopics.map((topic) => {
                 return (
                 <MenuItem key={topic} value={topic}>
@@ -93,13 +71,10 @@ export default function CheckboxesGroup({graph, setGraph, subject,handleSubject,
           {/* </RadioGroup> */}
         </FormControl>
         </Stack>
+        </FormControl>
 
-        <Stack sx={{display: 'flex', justifyContent: 'center', mb:2}}>
-          <FormControl
-          required
-          size="small"
-          sx={{ m:1, mt:3, width:'140px'}}
-          >
+        <Stack sx={{display: 'flex',  mb:2}}>
+          <FormControl required size="small" sx={{ m:1, mt:3, width:'140px'}}>
             <StyledInput
               color="success"
               labelid="demo-simple-select-label"

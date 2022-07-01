@@ -17,11 +17,8 @@ import Graph2 from "./Graph2";
 import HeatMap from "./HeatMap";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
+  backgroundColor:  "#1A2027",
   textAlign: "left",
-  color: theme.palette.text.secondary,
 }));
 
 export default function DashBoard() {
@@ -97,10 +94,10 @@ export default function DashBoard() {
           <Stack spacing={2}>
             <Stack direction="row" spacing={2}>
               <Item>
-                <Graph2></Graph2>
+                <Graph1></Graph1>
               </Item>
               <Item>
-                <Graph1></Graph1>
+                <Graph2></Graph2>
               </Item>
             </Stack>
           </Stack>

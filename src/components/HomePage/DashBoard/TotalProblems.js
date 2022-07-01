@@ -15,14 +15,6 @@ export default function TotalProblems({problemData}) {
         tooltip: {
           trigger: 'item'
         },
-        legend: {
-          orient: 'horizontal',
-          left: 'left',
-          textStyle: {
-              color: '#fff'
-          }
-
-        },
         series: [
           {
             name: 'Problem',
@@ -55,7 +47,7 @@ export default function TotalProblems({problemData}) {
     // console.log(problemData)
 
     return <>
-    <h4> Problems </h4>
+    <h4> Problem Difficulty</h4>
     <div style={{height: "140px"}}>
     <ReactECharts option={option} style={{ height: "100%"}}/>
     </div>

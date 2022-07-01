@@ -132,9 +132,9 @@ export default function Bar() {
       data: selection==='difficulty'?['easy', 'medium', 'hard']:subject
 
    },
-    yAxis: {
-      type: 'value'
-    },
+    yAxis: [{
+      show: false
+    }],
     series: [
       {
         data: input,
