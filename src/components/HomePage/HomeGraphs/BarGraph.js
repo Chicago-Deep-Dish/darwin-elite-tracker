@@ -25,8 +25,8 @@ export default function Bar() {
     var easy = 0;
     var medium = 0;
     var hard = 0;
-    var lastDate=getLastDate(0);
-    var startDate=getLastDate(6);
+    var lastDate = getLastDate(0);
+    var startDate = getLastDate(6);
     if (range === 'month') {
       startDate = getLastDate(29);
     } else if (range === 'year') {
@@ -92,17 +92,17 @@ export default function Bar() {
         }
       });
     //get average and change to minus
-      if(countE!==0){
+      if(countE !== 0){
         easy /= countE;
         easy /= 1000;
         easy /= 60;
       }
-      if(countM!==0){
+      if(countM !== 0){
         medium /= countM;
         medium /= 1000;
         medium /= 60;
       }
-      if(countH!==0){
+      if(countH !== 0){
         hard /= countH;
         hard /= 1000;
         hard /= 60;
