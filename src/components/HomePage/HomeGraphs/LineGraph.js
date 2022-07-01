@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+/* eslint-disable no-loop-func */
+import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
 import moment from 'moment';
-import data from  './sampleData.js';
 import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Line() {
@@ -25,11 +25,11 @@ export default function Line() {
   }
 
   React.useEffect (() => {
-    var easy = 0;
-    var medium = 0;
-    var hard = 0;
-    var lastDate = getLastDate(0);
-    var startDate = getLastDate(6);
+    let easy = 0;
+    let medium = 0;
+    let hard = 0;
+    const lastDate = getLastDate(0);
+    let startDate = getLastDate(6);
     if (range === 'month') {
       startDate = getLastDate(29);
     } else if (range === 'year') {
@@ -39,8 +39,8 @@ export default function Line() {
     const timeAndLangFiltered = timeFiltered.filter(sample => sample["programmingLanguage"] === language);
 
 //filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
-  if (graph === 'totalQuantities' && selection==='subject') {
-    var subjectTeam={};
+  if (graph === 'totalQuantities' && selection === 'subject') {
+    const subjectTeam = {};
     timeAndLangFiltered.forEach(problem => {
       if (subject.includes(problem.topics)) {
         if (subjectTeam[problem.topics] === undefined) {
@@ -49,206 +49,172 @@ export default function Line() {
         subjectTeam[problem.topics].push(problem);
       }
     })
-    var updateFormate={};
-    for (var key in subjectTeam) {
-      var timeAndValue=subjectTeam[key];
-      var temp={};
-      for (let i=0; i<timeAndValue.length; i++) {
-        var time=timeAndValue[i]['timeStamp'].slice(0,10);
-        if (temp[time]!==undefined) {
+    const updateFormate = {};
+    for (let subject in subjectTeam) {
+      const temp = {};
+      subjectTeam[subject].forEach(problem => {
+        const time = problem.timeStamp.slice(0,10);
+        if (temp[time] !== undefined) {
           temp[time]++;
-        }else {
-          temp[time]=1;
+        } else {
+          temp[time] = 1;
         }
-
-      }
-      updateFormate[key]=temp;
+      })
+      updateFormate[subject] = temp;
     }
+
+    //convert format to fit graph
+    const finalResult = [];
+    for (let key in updateFormate) {
+      const temp = {};
+      temp['name'] = key;
+      temp['type'] = 'line';
+      //temp['stack']='Total';
+      temp['data'] = [];
+      for (let value in updateFormate[key]) {
+          temp.data.push([value, updateFormate[key][value]]);
+      }
+      finalResult.push(temp);
+    }
+
+    const container = [];
+    for (let i = 0; i < finalResult.length; i++) {
+      container.push(finalResult[i]['name']);
+    }
+    setLegend(container);
+    setInput(finalResult);
   }
 //at this point the format is {topic:{timestamp:quantities, timestamps:quantities,...}, topic2:{....}};
 
-//convert format to fit graph
- var finalResult=[];
- for (let key in updateFormate) {
-   var temp={};
-   temp['name']=key;
-   temp['type']='line';
-   //temp['stack']='Total';
-   temp['data']=[];
-   for (let value in updateFormate[key]) {
-      var data=[];
-      data.push(value);
-      data.push(updateFormate[key][value]);
-      temp['data'].push(data);
-   }
-   finalResult.push(temp);
 
 
- var container=[];
- for (let i=0; i<finalResult.length; i++) {
-  container.push(finalResult[i]['name']);
- }
- setLegend(container);
- setInput(finalResult);
-}
 
+  if (graph === 'totalQuantities' && selection === 'difficulty') {
+    const subjectTeam = {};
+    timeAndLangFiltered.forEach(problem => {
+      subjectTeam[problem.difficulty] = subjectTeam[problem.difficulty] === undefined ? [] : subjectTeam[problem.difficulty];
+      subjectTeam[problem.difficulty].push(problem);
+    })
 
-if(graph==='totalQuantities'&&selection==='difficulty') {
-  var subjectTeam={};
-  for(let i=0; i<timeAndLangFiltered.length;i++) {
-    var sub=timeAndLangFiltered[i]['difficulty'];
-    if(subjectTeam[sub]===undefined) {
-      subjectTeam[sub]=[];
-      subjectTeam[sub].push(timeAndLangFiltered[i]);
-    }else{
-      subjectTeam[sub].push(timeAndLangFiltered[i]);
+    const updateFormate = {};
+    for (let subject in subjectTeam) {
+      const temp = {};
+      subjectTeam[subject].forEach(problem => {
+        const time = problem.timeStamp.slice(0, 10);
+        if (temp[time] !== undefined) {
+          temp[time]++;
+        } else {
+          temp[time] = 1;
+        }
+      })
+      updateFormate[subject]=temp;
     }
-  }
-  var updateFormate={};
-  for (var key in subjectTeam) {
-    var timeAndValue=subjectTeam[key];
-    var temp={};
-    for (let i=0; i<timeAndValue.length; i++) {
-      var time=timeAndValue[i]['timeStamp'].slice(0,10);
-      if (temp[time]!==undefined) {
-        temp[time]++;
-      }else {
-        temp[time]=1;
-      }
+  //at this point the format is {topic:{timestamp:quantities, timestamps:quantities,...}, topic2:{....}};
 
+    //convert format to fit graph
+    const finalResult = [];
+    for (let difficulty in updateFormate) {
+      const temp = {};
+      temp['name'] = difficulty;
+      temp['type'] = 'line';
+      //temp['stack']='Total';
+      temp['data'] = [];
+      for (let date in updateFormate[difficulty]) {
+          temp['data'].push([date, updateFormate[difficulty][date]]);
+      }
+      finalResult.push(temp);
     }
-    updateFormate[key]=temp;
+
+    const containerB = finalResult.map(set => set.name);
+    setLegend(containerB);
+    setInput(finalResult);
   }
-//at this point the format is {topic:{timestamp:quantities, timestamps:quantities,...}, topic2:{....}};
-
-//convert format to fit graph
-var finalResult=[];
-for (let key in updateFormate) {
- var temp={};
- temp['name']=key;
- temp['type']='line';
- //temp['stack']='Total';
- temp['data']=[];
- for (let value in updateFormate[key]) {
-    var data=[];
-    data.push(value);
-    data.push(updateFormate[key][value]);
-    temp['data'].push(data);
- }
- finalResult.push(temp);
-}
-var containerB=[];
- for (let i=0; i<finalResult.length; i++) {
-  containerB.push(finalResult[i]['name']);
- }
- setLegend(containerB);
-setInput(finalResult);
-}
 
 
-if ( graph==='totalTime'&&selection==='subject') {
-  var subjectTeam={};
-  for(let i=0; i<timeAndLangFiltered.length;i++) {
-    var sub=timeAndLangFiltered[i]['topics'];
-    if( subject.includes(sub)) {
-      if(subjectTeam[sub]===undefined) {
-        subjectTeam[sub]=[];
-        subjectTeam[sub].push(timeAndLangFiltered[i]);
-      }else{
-        subjectTeam[sub].push(timeAndLangFiltered[i]);
-      }
-   }
-  }
+if (graph === 'totalTime' && selection === 'subject') {
+  const subjectTeam = {};
+  timeAndLangFiltered.forEach(problem => {
+    const sub = problem.topics;
+    if (subject.includes(sub)) {
+      subjectTeam[sub] = subjectTeam[sub] === undefined ? [] : subjectTeam[sub];
+      subjectTeam[sub].push(problem);
+    }
+  })
+
   //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
-  var updateFormate={};
-  for (var key in subjectTeam) {
-    var timeAndValue=subjectTeam[key];
-    var temp={};
-    for (let i=0; i<timeAndValue.length; i++) {
-      var time=timeAndValue[i]['timeStamp'].slice(0,10);
+  const updateFormate = {};
+  for (let topic in subjectTeam) {
+    const temp={};
+    subjectTeam[topic].forEach(problem => {
+      const time = problem.timeStamp.slice(0, 10);
       if (temp[time]!==undefined) {
-        temp[time]=(temp[time]+Number(timeAndValue[i]['totalTime'])/1000/60)/2;
-      }else {
-        temp[time]=Number(timeAndValue[i]['totalTime'])/1000/60;
+        temp[time] = (temp[time]+ Number(problem['totalTime'])/1000/60)/2;
+      } else {
+        temp[time] = Number(problem['totalTime'])/1000/60;
       }
-
-    }
-    updateFormate[key]=temp;
+    })
+    updateFormate[topic]=temp;
   }
-
-  var finalResult=[];
+  const finalResult=[];
   for (let key in updateFormate) {
-  var temp={};
-  temp['name']=key;
-  temp['type']='line';
-  //temp['stack']='Total';
-  temp['data']=[];
-  for (let value in updateFormate[key]) {
-      var data=[];
-      data.push(value);
-      data.push(updateFormate[key][value]);
-      temp['data'].push(data);
+    const temp = {};
+    temp['name'] = key;
+    temp['type'] = 'line';
+    //temp['stack']='Total';
+    temp['data'] = [];
+    for (let value in updateFormate[key]) {
+        temp['data'].push([value, updateFormate[key][value]]);
+    }
+    finalResult.push(temp);
   }
-  finalResult.push(temp);
-  }
-  console.log('total time and subject', finalResult);
-  var containerC=[];
- for (let i=0; i<finalResult.length; i++) {
-  containerC.push(finalResult[i]['name']);
- }
- setLegend(containerC);
+  const containerC = [];
+  finalResult.forEach(set => containerC.push(set.name));
+  setLegend(containerC);
   setInput(finalResult);
 }
 
-
-if ( graph==='totalTime'&&selection==='difficulty') {
-  var subjectTeam={};
-  for(let i=0; i<timeAndLangFiltered.length;i++) {
-    var sub=timeAndLangFiltered[i]['difficulty'];
-      if(subjectTeam[sub]===undefined) {
-        subjectTeam[sub]=[];
-        subjectTeam[sub].push(timeAndLangFiltered[i]);
-      }else{
-        subjectTeam[sub].push(timeAndLangFiltered[i]);
-      }
-  }
+if (graph === 'totalTime' && selection === 'difficulty') {
+  const subjectTeam = {};
+  timeAndLangFiltered.forEach(problem => {
+    const difficulty = problem.difficulty;
+    if (subjectTeam[difficulty] === undefined) {
+      subjectTeam[difficulty] = [];
+    }
+    subjectTeam[difficulty].push(problem);
+  })
   //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
-  var updateFormate={};
-  for (var key in subjectTeam) {
-    var timeAndValue=subjectTeam[key];
-    var temp={};
+  const updateFormate={};
+  for (const key in subjectTeam) {
+    const timeAndValue=subjectTeam[key];
+    const temp={};
     for (let i=0; i<timeAndValue.length; i++) {
-      var time=timeAndValue[i]['timeStamp'].slice(0,10);
-      if (temp[time]!==undefined) {
-        temp[time]=(temp[time]+Number(timeAndValue[i]['totalTime'])/1000/60)/2;
-      }else {
+      const time=timeAndValue[i]['timeStamp'].slice(0,10);
+      if (temp[time] !== undefined) {
+        temp[time] = (temp[time] + Number(timeAndValue[i]['totalTime'])/1000/60)/2;
+      } else {
         temp[time]=Number(timeAndValue[i]['totalTime'])/1000/60;
       }
-
     }
     updateFormate[key]=temp;
   }
 
-  var finalResult=[];
+  const finalResult = [];
   for (let key in updateFormate) {
-  var temp={};
-  temp['name']=key;
-  temp['type']='line';
-  //temp['stack']='Total';
-  temp['data']=[];
-  for (let value in updateFormate[key]) {
-      var data=[];
-      data.push(value);
-      data.push(updateFormate[key][value]);
-      temp['data'].push(data);
+    const temp = {};
+    temp['name'] = key;
+    temp['type'] = 'line';
+    //temp['stack']='Total';
+    temp['data'] = [];
+    for (let value in updateFormate[key]) {
+        temp['data'].push(value, updateFormate[key][value]);
+    }
+    finalResult.push(temp);
   }
-  finalResult.push(temp);
+  const containerD = [];
+  for (let i=0; i<finalResult.length; i++) {
+    containerD.push(finalResult[i]['name']);
   }
-  var containerD=[];
- for (let i=0; i<finalResult.length; i++) {
-  containerD.push(finalResult[i]['name']);
- }
- setLegend(containerD);
+  setLegend(containerD);
   setInput(finalResult);
 }
 

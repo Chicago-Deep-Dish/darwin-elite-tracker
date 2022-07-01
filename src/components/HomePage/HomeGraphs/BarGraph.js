@@ -3,8 +3,6 @@ import React from "react";
 import ReactEcharts from "echarts-for-react";
 import {Box, Stack} from '@mui/material';
 import MenuBar from './MenuBar.js';
-import data from  './sampleData.js';
-import axios from 'axios';
 import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
