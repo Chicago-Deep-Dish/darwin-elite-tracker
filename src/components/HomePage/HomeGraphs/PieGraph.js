@@ -208,7 +208,7 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
 
 // console.log('state', [easy, medium, hard]);
 // console.log('testtt', state.speed)
-}, [graph,selection, subject, time, language,range])
+}, [graph,selection, subject, time, language,range, userProblemArray])
 
 const option = {
   title:{

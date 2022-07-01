@@ -19,9 +19,9 @@ export default function Area() {
   const [legend, setLegend]=React.useState([]);
   const [settingsView, setSettingsView]=React.useState(false);
   const [settingsVisible, setSettingsVisible]=React.useState(false);
-  
 
-  
+
+
   const handleTime = (event: SelectChangeEvent) => {
     setTime(event.target.value);
   };
@@ -332,7 +332,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   setInput(finalResultC);
 }
 
-  },  [graph, selection, subject, time, language, range])
+  },  [graph, selection, subject, time, language, range, userProblemArray])
 
 
   const option = {
