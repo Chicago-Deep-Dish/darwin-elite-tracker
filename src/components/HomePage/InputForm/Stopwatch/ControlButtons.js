@@ -1,48 +1,49 @@
 import React from 'react';
 // import styled from '@emotion/styled';
 import { PlayArrow, Pause, RestartAlt, Edit, AddTask } from '@mui/icons-material'
+import IconButton from '@mui/material/IconButton';
 
 export default function ControlButtons({ handleStart, handleReset, handlePauseResume, active, isPaused, custom, handleCustom, handleConfirm }) {
 
 
   const StartButtons = (
     <div style={{display: 'flex', alignItems: 'center', justifyContent:'space-evenly'}}>
-     <div
+     <IconButton
       onClick={handleCustom}>
         {<Edit />}
-    </div>
-    <div
+    </IconButton>
+    <IconButton
       onClick={handleStart}
       >
         {<PlayArrow />}
-    </div>
+    </IconButton>
   </div>
 
   );
 
   const ActiveButtons = (
     <div style={{display: 'flex', alignItems: 'center', justifyContent:'space-evenly'}}>
-      <div
+      <IconButton
         onClick={handleReset}
         >
           {<RestartAlt />}
-      </div>
-      <div
+      </IconButton>
+      <IconButton
         onClick={handlePauseResume}
         >
           {isPaused ? (
             <PlayArrow />) : (<Pause />)
           }
-        </div>
+        </IconButton>
     </div>
   );
 
   const ConfirmClickButton = (
-    <div
+    <IconButton
       onClick={handleConfirm}
     >
       {<AddTask />}
-    </div>
+    </IconButton>
   )
 
   return (
