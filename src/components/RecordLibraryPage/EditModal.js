@@ -114,6 +114,13 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
     });
   }
 
+  function handleComplexityChange(e) {
+    setRow({
+      ...row,
+      timeComplexity: e.target.value
+    });
+  }
+
   return (
     <div className="modal-container" onClick={handleExitModal}>
       <section className="records-modal" onClick={e => e.stopPropagation()}>
@@ -183,6 +190,21 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
+            <FormControl variant='outlined'>
+              <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
+              <Select
+                labelid='timecomplexity-label'
+                name="timeComplexity"
+                value={row.timeComplexity}
+                onChange={(e) => handleComplexityChange(e)}
+              >
+                <MenuItem value='O(1)'>O(1)</MenuItem>
+                <MenuItem value='O(log n)'>O(log n)</MenuItem>
+                <MenuItem value='O(n)'>O(n)</MenuItem>
+                <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
+                <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
+              </Select>
+            </FormControl>
             <Button size="small" type="submit">Submit</Button>
           </FormControl>
         </div>

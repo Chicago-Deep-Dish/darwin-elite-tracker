@@ -61,6 +61,7 @@ export function GlobalContextProvider({ children }) {
         });
     } else {
       // setUserProblemArray(dummy data)
+      setUserLoggedIn(false)
       toast.error(
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme
