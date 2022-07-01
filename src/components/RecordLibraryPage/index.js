@@ -15,7 +15,6 @@ export default function RecordLibrary() {
     difficulty: 'all',
     timeFrame: 'all',
   });
-
   useEffect(() => {
     let newData = userProblemArray.filter((prompt) => (
       (prompt.promptName.includes(search) ||
@@ -25,7 +24,10 @@ export default function RecordLibrary() {
         filters.difficulty === prompt.difficulty
       ) &&
       (
-        filters.timeFrame === 'all'
+        filters.timeFrame === 'all' ||
+        (filters.timeFrame === 'daily' && new Date(prompt.timeStamp).getFullYear() === new Date().getFullYear() && new Date(prompt.timeStamp).getMonth() === new Date().getMonth() && new Date(prompt.timeStamp).getDate() === new Date().getDate()) ||
+        (filters.timeFrame === 'monthly' && new Date(prompt.timeStamp).getFullYear() === new Date().getFullYear() && new Date(prompt.timeStamp).getMonth() === new Date().getMonth()) ||
+        (filters.timeFrame === 'yearly' && new Date(prompt.timeStamp).getFullYear() === new Date().getFullYear())
       )
     ));
     setShownData(newData);
