@@ -78,7 +78,7 @@ export default function Streak({streakData}) {
               width: 40,
               height: 35,
               fontSize: 20,
-              padding: 4,
+              padding: 2,
               color: '#fff',
               backgroundColor: 'auto',
               borderRadius: 5,
@@ -89,7 +89,7 @@ export default function Streak({streakData}) {
       };
       // console.log(streakData.max)
     return <>
-        <Box sx={{height: "216px", width: "200px"}}>
+        <Box sx={{height: "200px", width: "180px"}}>
         <ReactECharts option={option} style={{height: "100%" }}/>
         </Box>
     </>
