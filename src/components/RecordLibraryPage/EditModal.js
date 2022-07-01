@@ -30,6 +30,12 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
 
   function handleFormSubmit(e) {
     e.preventDefault();
+    // if no session storage then toastify return
+    if (!sessionStorage.getItem('UserID')) {
+      toast.error('Not Logged in', toastifyTheme);
+      handleExitModal();
+      return;
+    }
     console.log('putting data:', row)
     axios.put(
       `/records/${row.id}`,
@@ -114,6 +120,13 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
     });
   }
 
+  function handleComplexityChange(e) {
+    setRow({
+      ...row,
+      timeComplexity: e.target.value
+    });
+  }
+
   return (
     <div className="modal-container" onClick={handleExitModal}>
       <section className="records-modal" onClick={e => e.stopPropagation()}>
@@ -125,11 +138,11 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
         </header>
         <div className="modal-content">
           <FormControl autoComplete="off" sx={{ '& > :not(style)': { m: 1 } }} component="form" onChange={handleFormChange} onSubmit={handleFormSubmit}>
-            <TextField id="promptName" label="Name" value={row.promptName}></TextField>
-            <TextField id="promptLink" label="Link" value={row.promptLink}></TextField>
+            <TextField size="small" id="promptName" label="Name" value={row.promptName} />
             <FormControl>
               <InputLabel id="difficulty-select-label">Difficulty</InputLabel>
               <Select
+                size="small"
                 labelId="difficulty-select-label"
                 id="difficulty"
                 value={row.difficulty}
@@ -141,18 +154,25 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
                 <MenuItem value="hard">hard</MenuItem>
               </Select>
             </FormControl>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="Date&Time picker"
-                value={row.timeStamp}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <TextField id="codeTime" type="number" label="Code Time" value={row.codeTime}></TextField>
+            <FormControl>
+              <InputLabel id="language-select-label">Language</InputLabel>
+              <Select
+                size="small"
+                labelId="language-select-label"
+                id="programmingLanguage"
+                value={row.programmingLanguage}
+                label="Language"
+                onChange={handleLanguageChange}
+              >
+                {languages.map((language) => (
+                  <MenuItem key={language} value={language}>{language}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl>
               <InputLabel id="topics-select-label">Topic</InputLabel>
               <Select
+                size="small"
                 labelId="topics-select-label"
                 id="topics"
                 value={row.topics}
@@ -166,21 +186,32 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
                 ))}
               </Select>
             </FormControl>
-            <FormControl>
-              <InputLabel id="language-select-label">Language</InputLabel>
+            <TextField size="small" id="codeTime" type="number" label="Code Time" value={row.codeTime} />
+            <TextField size="small" id="promptLink" label="Link" value={row.promptLink} />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DateTimePicker
+                label="Date&Time picker"
+                value={row.timeStamp}
+                onChange={handleDateChange}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <FormControl variant='outlined'>
+              <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel>
               <Select
-                labelId="language-select-label"
-                id="programmingLanguage"
-                value={row.programmingLanguage}
-                label="Language"
-                onChange={handleLanguageChange}
+                labelid='timecomplexity-label'
+                name="timeComplexity"
+                value={row.timeComplexity}
+                onChange={(e) => handleComplexityChange(e)}
               >
-                {languages.map((language) => (
-                  <MenuItem key={language} value={language}>{language}</MenuItem>
-                ))}
+                <MenuItem value='O(1)'>O(1)</MenuItem>
+                <MenuItem value='O(log n)'>O(log n)</MenuItem>
+                <MenuItem value='O(n)'>O(n)</MenuItem>
+                <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
+                <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
               </Select>
             </FormControl>
-            <Button type="submit">Submit</Button>
+            <Button size="small" type="submit">Submit</Button>
           </FormControl>
         </div>
       </section>
