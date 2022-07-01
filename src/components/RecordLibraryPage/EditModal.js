@@ -24,11 +24,7 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
 
   function handleFormSubmit(e) {
     e.preventDefault();
-    console.log(row.id)
-    if (isNaN(row.timeStampinfo.day)) {
-      console.log('invalid date')
-      return;
-    }
+    console.log('putting data:', row)
     axios.put(
       `/records/${row.id}`,
       {
@@ -38,11 +34,16 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
         readTime: parseInt(row.readTime),
         totalTime: parseInt(row.totalTime),
         whiteBoardTime: parseInt(row.whiteBoardTime),
+        timeStampinfo: {
+          month: parseInt(row.timeStampinfo.month),
+          day: parseInt(row.timeStampinfo.day),
+          year: parseInt(row.timeStampinfo.year),
+        },
       },
       {
         params: {
           userID: sessionStorage.getItem("UserID"),
-        }
+        },
       })
       .then(() => {
         axios.get("/records", {
