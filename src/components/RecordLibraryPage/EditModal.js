@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/PopupModal.css";
 import CloseIcon from '@mui/icons-material/Close';
 import Button from "@mui/material/Button";
@@ -16,6 +16,12 @@ import dataDecipher from "../../helpers/dataDecipher";
 
 export default function EditModal({ setShowEditModal, row, setRow, tableData, setTableData }) {
   const { setUserProblemArray, toastifyTheme } = useGlobalContext();
+  const [leetTopics] = useState(() => ([
+    'Arrays', 'Maps', 'Linked Lists', 'Queues', 'Heaps', 'Stacks', 'Trees', 'Graphs', 'Breadth-First-Search', 'Depth-First-Search', 'Binary Search', 'Recursion', 'Backtracking', 'Dynamic Programming', 'Trie', 'Matrix', 'Sorting'
+  ]));
+  const [languages] = useState(() => ([
+    'Javascript', 'Python', 'Java', 'C++', 'Kotlin', 'C', 'Swift', 'C#', 'PHP'
+  ]))
 
   function handleExitModal() {
     setShowEditModal(false);
@@ -101,6 +107,13 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
     });
   }
 
+  function handleTopicsChange(e) {
+    setRow({
+      ...row,
+      topics: e.target.value
+    });
+  }
+
   return (
     <div className="modal-container" onClick={handleExitModal}>
       <section className="records-modal" onClick={e => e.stopPropagation()}>
@@ -137,7 +150,23 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
               />
             </LocalizationProvider>
             <TextField id="codeTime" type="number" label="Code Time" value={row.codeTime}></TextField>
-            <TextField id="topics" label="Topics" value={row.topics}></TextField>
+            {/* <TextField id="topics" label="Topics" value={row.topics}></TextField> */}
+            <FormControl>
+              <InputLabel id="topics-select-label">Topic</InputLabel>
+              <Select
+                labelId="topics-select-label"
+                id="topics"
+                value={row.topics}
+                label="topics"
+                onChange={handleTopicsChange}
+              >
+                {leetTopics.map((topic) => (
+                  <MenuItem key={topic} value={topic}>
+                    {topic}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl>
               <InputLabel id="language-select-label">Language</InputLabel>
               <Select
@@ -147,15 +176,9 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
                 label="Language"
                 onChange={handleLanguageChange}
               >
-                <MenuItem value='Javascript'>Javascript</MenuItem>
-                <MenuItem value='Python'>Python</MenuItem>
-                <MenuItem value='Java'>Java</MenuItem>
-                <MenuItem value='C++'>C++</MenuItem>
-                <MenuItem value='Kotlin'>Kotlin</MenuItem>
-                <MenuItem value='C'>C</MenuItem>
-                <MenuItem value='Swift'>Swift</MenuItem>
-                <MenuItem value='C#'>C#</MenuItem>
-                <MenuItem value='PHP'>PHP</MenuItem>
+                {languages.map((language) => (
+                  <MenuItem key={language} value={language}>{language}</MenuItem>
+                ))}
               </Select>
             </FormControl>
             <Button type="submit">Submit</Button>
