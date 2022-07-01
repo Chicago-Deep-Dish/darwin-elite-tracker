@@ -162,11 +162,10 @@ export default function Bar() {
         <ReactEcharts option={option} />
       </Box>
       <Container sx={{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-         <IconButton sx={{right: '30%'}} onClick={() => setToggleGraphMenu(!toggleGraphMenu)}>
+      <div style={{display: 'flex', justifyContent: 'flex-start'}}>
+         <IconButton onClick={() => setToggleGraphMenu(!toggleGraphMenu)}>
         {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
         </IconButton>
-        <Typography style={{marginRight: '1%'}}>Hide Graph Menu</Typography>
      </div>
       </Container>
       <Collapse in={toggleGraphMenu}>
