@@ -38,9 +38,7 @@ exports.updateRecord = (data, userId, problem_id) => {
   // Junsu: uncomment for demonstration, have Firestore open to see realtime change
   const demo = doc(db, 'users', userId);
   return updateDoc(demo, {
-    problems: {
-      [problem_id]: data
-    }
+      [`problems.${problem_id}`]: data
   });
   //Junsu TODO: replace all INSERTS
   // const problemRef = doc(db, 'users', `${INSERT_USER_ID_HERE}`);

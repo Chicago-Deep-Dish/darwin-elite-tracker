@@ -21,7 +21,7 @@ import {
 import useGlobalContext from "../../context/GlobalContext";
 
 export default function Form({ modalName, setModal, handleExitModal }) {
-  const { toastifyTheme } = useGlobalContext();
+  const { toastifyTheme, setUserLoggedIn } = useGlobalContext();
 
   const [loginValues, setLogin] = useState({
     email: "",
@@ -44,6 +44,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
         })
         .then(({ data }) => {
           setLogin({ ...loginValues, userLoggedIn: true });
+          setUserLoggedIn(true);
           handleExitModal(null, "exit");
           setModal({ modalName: null });
           // console.log("data", data);
@@ -68,13 +69,14 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
           const userData = { ...registeredUser, userId: data.user.uid };
-          axios.post("/users/userData", userData).then((data) => {
-            // console.log(data);
-            toast.success(`Created Successfully`, toastifyTheme);
+          // axios.post("/users/userData", userData).then((data) => {
+          //   // console.log(data);
+          //   toast.success(`Created Successfully`, toastifyTheme);
 
-            handleExitModal(null, "exit");
-            setModal({ modalName: "empty" });
-          });
+          //   handleExitModal(null, "exit");
+          //   setModal({ modalName: "empty" });
+          // });
+          setUserLoggedIn(true);
         })
         .catch((error) => {
           firebaseErrorCodes(error.response.data.code, toastifyTheme);

@@ -14,7 +14,7 @@ export default function Bar() {
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('week');
+  const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
 
   const getLastDate = (x)=> {
@@ -128,7 +128,7 @@ export default function Bar() {
       type: 'value'
     },
     series: [
-      {
+      { title:{color:'red'},
         data: input,
         type: 'bar',
         emphasis: {
