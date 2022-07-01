@@ -138,6 +138,7 @@ export default function Line() {
 
 
 if (graph === 'totalTime' && selection === 'subject') {
+  setInput([]);
   const subjectTeam = {};
   timeAndLangFiltered.forEach(problem => {
     const sub = problem.topics;
@@ -169,7 +170,10 @@ if (graph === 'totalTime' && selection === 'subject') {
     //temp['stack']='Total';
     temp['data'] = [];
     for (let value in updateFormate[key]) {
-        temp['data'].push([value, updateFormate[key][value]]);
+      var data=[];
+      data.push(value);
+      data.push(updateFormate[key][value]);
+      temp['data'].push(data);
     }
     finalResult.push(temp);
   }
@@ -204,7 +208,7 @@ if (graph === 'totalTime' && selection === 'difficulty') {
     updateFormate[key]=temp;
   }
 
-  const finalResult = [];
+  const finalResultD = [];
   for (let key in updateFormate) {
     const temp = {};
     temp['name'] = key;
@@ -212,19 +216,23 @@ if (graph === 'totalTime' && selection === 'difficulty') {
     //temp['stack']='Total';
     temp['data'] = [];
     for (let value in updateFormate[key]) {
-        temp['data'].push(value, updateFormate[key][value]);
+      var data=[];
+      data.push(value);
+      data.push(updateFormate[key][value]);
+      temp['data'].push(data);
     }
-    finalResult.push(temp);
+    finalResultD.push(temp);
   }
   const containerD = [];
-  for (let i=0; i<finalResult.length; i++) {
-    containerD.push(finalResult[i]['name']);
+  for (let i=0; i<finalResultD.length; i++) {
+    containerD.push(finalResultD[i]['name']);
   }
+  //console.log('speed&diffculty', finalResultD);
   setLegend(containerD);
-  setInput(finalResult);
+  setInput(finalResultD);
 }
 
-},  [graph,selection, subject,time, language,range])
+},  [graph,selection, subject,time, language,range, userProblemArray])
 
 
   const option = {
@@ -273,26 +281,7 @@ if (graph === 'totalTime' && selection === 'difficulty') {
       type: 'value'
     },
      series: input
-    //[ //need to update according to data
-    //   { // sample data firstly filter with range ; then filter with hardlevel;
-    //     name: 'Hard',
-    //     type: 'line',
-    //     stack: 'Total',
-    //     data: [["2022-06-27", 33], ["2022-06-27T10:35:45",132], ["2022-06-28T17:35:45",101]]
-    //   },
-    //   {
-    //     name: 'Medium',
-    //     type: 'line',
-    //     stack: 'Total',
-    //     data: [["2022-06-25T10:35:45", 3], ["2022-06-27T12:35:45",132], ["2022-06-28T17:35:45",101]]
-    //   },
-    //   {
-    //     name: 'Easy',
-    //     type: 'line',
-    //     stack: 'Total',
-    //     data: [["2022-06-25T10:35:45", 3], ["2022-06-27T19:35:45",132], ["2022-06-28T20:35:45",101]]
-    //   }
-    // ]
+
   }
   return (
     <Stack style={{height: '605px'}}>

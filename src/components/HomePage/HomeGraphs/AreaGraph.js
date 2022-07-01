@@ -336,7 +336,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   setInput(finalResultC);
 }
 
-  },  [graph, selection, subject, time, language,range])
+  },  [graph, selection, subject, time, language,range, userProblemArray])
 
 
   const option = {

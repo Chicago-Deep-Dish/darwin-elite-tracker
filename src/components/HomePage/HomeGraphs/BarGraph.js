@@ -14,10 +14,11 @@ import Collapse from '@mui/material/Collapse';
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
+  console.log('dataaa', userProblemArray);
   const [graph, setGraph] = React.useState('totalQuantities');
   const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
-  const [input, setInput]=React.useState([])
+  const [input, setInput]=React.useState([12,33,54])
   const [time, setTime]=React.useState('whole process');
   const [range, setRange]=React.useState('year');
   const [language, setLanguage]=React.useState('Javascript');
@@ -117,8 +118,8 @@ export default function Bar() {
       }
       setInput([easy, medium, hard]);
     }//Junsu: working now
-  }, [graph, selection, subject, time, language, range])
-
+  }, [graph, selection, subject, time, language, range, userProblemArray ])
+  console.log('inputttttt',input);
   const option = {
     title:{
       text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
