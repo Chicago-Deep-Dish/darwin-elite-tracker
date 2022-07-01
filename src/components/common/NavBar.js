@@ -1,5 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import companyLogo from "./../../assets/Darwin_Logo_transparent.png";
+import badgeLow from "./../../assets/badge_low.png";
+import badgeMed from "./../../assets/badge_med.png";
+import badgeHigh from "./../../assets/badge_high.png";
+import badgeNew from "./../../assets/badge_new.png";
 
 import {
   Button,
@@ -18,34 +23,17 @@ import axios from "axios";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 import grindStreak from "./../../helpers/grindStreak";
 import { createSamplePrompt } from "../../test/sampleData";
-function importAll(r) {
-  let images = {};
-  r.keys().map((item, index) => {
-    images[item.replace("./", "")] = r(item);
-  });
-  return images;
-}
-
-const images = importAll(
-  require.context("./../../assets", false, /\.(png|jpe?g|svg)$/)
-);
 
 export default function NavBar({ setModal }) {
-  const {
-    toastifyTheme,
-    problemDatesArray,
-    setUserLoggedIn,
-    userProblemArray,
-  } = useGlobalContext();
+  const { toastifyTheme, problemDatesArray, setUserLoggedIn } =
+    useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [badge, setBadge] = React.useState({
-    icon: "badge_new.png",
+    icon: badgeNew,
     text: "Welcome newComer. Get two 3-day streaks to earn a new badge",
   });
-
-  // console.log('userProblemArray', userProblemArray);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -113,17 +101,17 @@ export default function NavBar({ setModal }) {
 
     if (grindCount < 5 && grindCount >= 2) {
       setBadge({
-        icon: "badge_low.png",
+        icon: badgeLow,
         text: `Woah, impressive! You got (${grindCount}) 3-day streaks!`,
       });
     } else if (grindCount < 10 && grindCount >= 5) {
       setBadge({
-        icon: "badge_med.png",
+        icon: badgeMed,
         text: `Now that's groovy! You got (${grindCount}) 3-day streaks!`,
       });
     } else if (grindCount >= 10) {
       setBadge({
-        icon: "badge_fast.png",
+        icon: badgeHigh,
         text: `Ok now that's Huge! You got (${grindCount}) 3-day streaks!`,
       });
     }
@@ -212,11 +200,7 @@ export default function NavBar({ setModal }) {
               display: "flex",
             }}
           >
-            <img
-              src={images["Darwin_Logo_transparent.png"]}
-              alt="logo"
-              style={{ maxWidth: 90 }}
-            />
+            <img src={companyLogo} alt="logo" style={{ maxWidth: 90 }} />
             <Button
               size="large"
               edge="start"
@@ -277,7 +261,7 @@ export default function NavBar({ setModal }) {
             </Button>
             <Tooltip title={badge.text}>
               <img
-                src={images[badge.icon]}
+                src={badge.icon}
                 alt="logo"
                 style={{ maxWidth: 45, marginRight: 15 }}
               />
