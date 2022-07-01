@@ -17,25 +17,49 @@ import Graph2 from "./Graph2";
 import HeatMap from "./HeatMap";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "left",
-  color: theme.palette.text.secondary,
+  backgroundColor:  "#1A2027",
+  textAlign: "center",
 }));
 
 export default function DashBoard() {
   const [problemData, setProblemData] = useState([]);
-  const { streakSummary } = useGlobalContext();
+  const { streakSummary, userProblemArray} = useGlobalContext();
   const [streakData, setStreakData] = useState([]);
 
+  // console.log(userProblemArray.group(({difficulty})=> 'difficulty'));
+  const problemTotal = userProblemArray.length;
+  // setProblemData([
+  //   { value: 100, name: "Easy" },
+  //   { value: 35, name: "Medium" },
+  //   { value: 5, name: "Hard" },
+  // ]);
+  // setStreakData({
+  //   max: streakSummary.longestStreak || 0,
+  //   current: streakSummary.currentStreak || 0,
+  // });
   useEffect(() => {
     //futute API request for problemData
+    let difficulties = {'easy':0, 'medium':0, 'hard':0}
+    for (const item of userProblemArray) {
+      if (item.difficulty === 'easy') {
+        difficulties.easy++
+      } else if (item.difficulty === 'medium'){
+        difficulties.medium++
+      } else {
+        difficulties.hard++
+      }
+    }
+    console.log(difficulties);
     setProblemData([
-      { value: 100, name: "Easy" },
-      { value: 35, name: "Medium" },
-      { value: 5, name: "Hard" },
+      { value: difficulties.easy, name: "Easy" },
+      { value: difficulties.medium, name: "Medium" },
+      { value: difficulties.hard, name: "Hard" },
     ]);
+    // setProblemData([
+    //   { value: 100, name: "Easy" },
+    //   { value: 35, name: "Medium" },
+    //   { value: 5, name: "Hard" },
+    // ]);
     //futute API request for dates
     // const streakSummary = summary({ dates });
     // console.log(streakSummary.currentStreak, streakSummary.longestStreak)
@@ -43,40 +67,45 @@ export default function DashBoard() {
       max: streakSummary.longestStreak || 0,
       current: streakSummary.currentStreak || 0,
     });
-  }, [streakSummary]);
+  }, [streakSummary, userProblemArray]);
 
   return (
     <>
-      <Grid sx={{ flexWrap: "wrap", justifyContent: "center" }} spacing={2}>
         <Stack
+          backgroundColor="#1A2027"
           direction="row"
-          sx={{ flexWrap: "wrap", justifyContent: "center" }}
+          sx={{ justifyContent: "center" }}
           spacing={2}
+          padding = "10px"
+          marginLeft= "30px"
+          marginTop="10px"
         >
           <Stack spacing={2}>
             <h3> Dashboard </h3>
-            <Item>
-              <TotalProblems problemData={problemData}></TotalProblems>
-            </Item>
             <Item>
               <Streak streakData={streakData}></Streak>
             </Item>
           </Stack>
           <Stack spacing={2}>
+            <Item>
+              <TotalProblems problemData={problemData}></TotalProblems>
+            </Item>
+            <Item style={{padding: '10px'}}>
+              <h4> Total Problems </h4>
+              <h2> {problemTotal} </h2>
+            </Item>
+          </Stack>
+          <Stack spacing={2}>
             <Stack direction="row" spacing={2}>
-              <Item>
-                <Graph2></Graph2>
-              </Item>
               <Item>
                 <Graph1></Graph1>
               </Item>
+              <Item>
+                <Graph2></Graph2>
+              </Item>
             </Stack>
-            <Item>
-              <HeatMap></HeatMap>
-            </Item>
           </Stack>
         </Stack>
-      </Grid>
     </>
   );
 }
