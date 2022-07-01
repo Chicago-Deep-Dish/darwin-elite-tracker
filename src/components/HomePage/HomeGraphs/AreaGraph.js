@@ -424,7 +424,7 @@ if ( graph==='totalTime'&&selection==='difficulty') {
 
 return (
   <Stack>
-     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027'}}>
+     <Box sx={{ '&:hover':{boxShadow:3},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027', borderRadius: 4, padding: 3}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>

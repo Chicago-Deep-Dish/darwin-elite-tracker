@@ -24,6 +24,8 @@ export function GlobalContextProvider({ children }) {
     position: "bottom-left",
   });
 
+  const [aboutToggle, setAboutToggle] = useState(false);
+
   //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
@@ -57,10 +59,13 @@ export function GlobalContextProvider({ children }) {
         })
         .catch((error) => {
           console.log(error);
+
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
       // setUserProblemArray(dummy data)
+      setUserLoggedIn(false);
+
       toast.error(
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme
@@ -79,6 +84,8 @@ export function GlobalContextProvider({ children }) {
     problemDatesArray,
     userLoggedIn,
     setUserLoggedIn,
+    aboutToggle,
+    setAboutToggle,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

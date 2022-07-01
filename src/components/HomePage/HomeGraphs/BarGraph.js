@@ -149,7 +149,7 @@ export default function Bar() {
   }
   return (
     <Stack >
-      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027"}}>
+      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027", borderRadius: 4, padding: 3}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar
