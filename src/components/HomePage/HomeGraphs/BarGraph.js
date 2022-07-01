@@ -7,6 +7,7 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
+  console.log('dataaa', userProblemArray);
   const [graph, setGraph] = React.useState('totalQuantities');
   const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
