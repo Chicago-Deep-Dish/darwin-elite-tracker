@@ -7,8 +7,8 @@ import useGlobalContext from '../../../context/GlobalContext.js'
 
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
-  const [graph, setGraph] = React.useState('totalTime');
-  const [selection, setSelection]=React.useState('');
+  const [graph, setGraph] = React.useState('totalQuantities');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([])
   const [time, setTime]=React.useState('whole process');
@@ -113,7 +113,16 @@ export default function Bar() {
 
   const option = {
     title:{
-      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
+      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
+      textStyle:{
+        color:'white'
+      }
+    },
+    textStyle: {
+      color:function(value, index) {
+        return 'white';
+      },
+      fontWeight:'bold'
     },
     tooltip: {
       trigger: 'item'
@@ -121,12 +130,13 @@ export default function Bar() {
     xAxis: {
       type: 'category',
       data: selection==='difficulty'?['easy', 'medium', 'hard']:subject
-    },
+
+   },
     yAxis: {
       type: 'value'
     },
     series: [
-      { title:{color:'red'},
+      {
         data: input,
         type: 'bar',
         emphasis: {
@@ -139,7 +149,7 @@ export default function Bar() {
   }
   return (
     <Stack >
-      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: 'black'}}>
+      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027"}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar

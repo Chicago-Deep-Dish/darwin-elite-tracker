@@ -10,7 +10,7 @@ export default function Line() {
 
   const { userProblemArray } = useGlobalContext();
   const [graph, setGraph] = React.useState('totalQuantities');
-  const [selection, setSelection]=React.useState('dificulty');
+  const [selection, setSelection]=React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
   const [input, setInput]=React.useState([]);
   const [legend, setLegend]=React.useState([]);
@@ -223,14 +223,24 @@ if (graph === 'totalTime' && selection === 'difficulty') {
 
   const option = {
     title: {
-      text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null,
+      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
       padding:[20,5,5,5],
+      textStyle:{
+        color:'white'
+      }
+    },
+    textStyle: {
+      color:function(value, index) {
+        return 'white';
+      },
+      fontWeight:'bold'
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
-      data: legend
+      data: legend,
+      textStyle :{color:'white'}
     },
     grid: {
       left: '3%',
@@ -280,7 +290,7 @@ if (graph === 'totalTime' && selection === 'difficulty') {
   }
   return (
     <Stack>
-      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
+      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027'}}>
         <ReactEcharts option={option} />
       </Box>
       <MenuBar

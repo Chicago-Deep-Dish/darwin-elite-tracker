@@ -212,15 +212,21 @@ setInput([{value:easy, name:'easy'},{value:medium,name:'medium'},{value:hard,nam
 
 const option = {
   title:{
-    text: graph==='totalTime'?'speed (mins)':graph==='totalQuantities'?'total':null
+    text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
+    textStyle:{
+      color:'white'
+    }
   },
+
   tooltip: {
     trigger: 'item',
     formatter: '{a} <br/>{b} : {c} ({d}%)'
   },
   legend: {
     top:'bottom',
-    left: '80%'
+    left: '80%',
+    textStyle :{color:'white'}
+
   },
   toolbox: {
     show: true,
@@ -241,7 +247,11 @@ const option = {
       itemStyle: {
         borderRadius: 8
       },
-      data: input
+      data: input,
+      label:{
+        color:'white',
+        fontSize:15
+      }
       //selection==='difficulty'?
       // [ { value: input[0], name: 'easy' },
       //   { value: input[1], name: 'medium' },
@@ -256,7 +266,7 @@ const option = {
 };
 return (
   <Stack>
-    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px',  ml:4, mr:4, mt:1,mb:2, backgroundColor:'black'}}>
+    <Box sx={{ '&:hover':{boxShadow:3}, width:'500px',  ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027'}}>
       <ReactEcharts option={option} />
     </Box>
     <MenuBar graph={graph} setGraph={setGraph} subject= {subject} handleSubject={handleSubject} selection={selection} setSelection={setSelection} time={time} range={range} language={language} handleRange={handleRange} handleLanguage={handleLanguage} handleTime={handleTime} handleGraph={handleGraph} handleSelection={handleSelection}/>
