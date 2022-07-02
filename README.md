@@ -15,22 +15,23 @@
 </div>
 
 ## Description
-![](https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif)
-![](https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif)
-![](https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif)
+<div align="center">
+  ![](https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif)
+  ![](https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif)
+  ![](https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif)
+</div>
 
 ## Components and Contributors
 
-Architect Owner and Records: Gil Cohen
-Firebase Authentication and Firestore DBMS: Alex Krut, Junsu Park
-Dashboard and UI: Zebib Gebraslassie
-Input Form and UI: Jerry Tapia
-Graphs: Xiaohuan Hu, Junsu Park
+Architect Owner and Records: Gil Cohen  
+Firebase Authentication and Firestore DBMS: Alex Krut, Junsu Park  
+Dashboard and UI: Zebib Gebraslassie  
+Input Form and UI: Jerry Tapia  
+Graphs: Xiaohuan Hu, Junsu Park  
 
-React Router: Gil Cohen, Jerry Tapia
-React Toastify and Badges: Alex Krut
-React Global Context API: Gil Cohen
-
+React Router: Gil Cohen, Jerry Tapia  
+React Toastify and Badges: Alex Krut  
+React Global Context API: Gil Cohen  
 
 
 ## Getting Started with Create React App
