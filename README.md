@@ -11,7 +11,6 @@
   <p align="center">
             <p><em>ELEET-TRACKER</em> is a service that has your future in mind. We know you are well on your way to become the best Software Engineer you can be, and we're here for you. We bring to you a service that allows you to track, record, and analyze your performance on the leetcode problems you attempt, so you can see how you stack up against the fiercest competition out there - yourself.</p>
 
-    <br />
   </p>
 </div>
 
