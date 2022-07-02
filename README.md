@@ -15,11 +15,11 @@
 </div>
 
 ## Description
-<div align="center">
-  ![](https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif)
-  ![](https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif)
-  ![](https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif)
-</div>
+  <p align="center">
+  <img src="https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif" alt="animated" />
+  <img src="https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif" alt="animated" />
+  <img src="https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif" alt="animated" />
+</p>
 
 ## Components and Contributors
 
