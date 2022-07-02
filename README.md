@@ -1,5 +1,20 @@
 # Darwin Eleet Tracker
 
+<br />
+<div align="center">
+  <a href="https://github.com/Chicago-Deep-Dish/darwin-elite-tracker">
+    <img src="src/assets/Darwin_Logo_transparent.png" alt="Logo" width="120" height="120">
+  </a>
+
+  <h3 align="center">Eleet Code Tracker</h3>
+
+  <p align="center">
+            <p><em>ELEET-TRACKER</em> is a service that has your future in mind. We know you are well on your way to become the best Software Engineer you can be, and we're here for you. We bring to you a service that allows you to track, record, and analyze your performance on the leetcode problems you attempt, so you can see how you stack up against the fiercest competition out there - yourself.</p>
+
+    <br />
+  </p>
+</div>
+
 ## Description
 ![](https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif)
 ![](https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif)
@@ -17,20 +32,7 @@ React Router: Gil Cohen, Jerry Tapia
 React Toastify and Badges: Alex Krut
 React Global Context API: Gil Cohen
 
-<br />
-<div align="center">
-  <a href="https://github.com/Chicago-Deep-Dish/darwin-elite-tracker">
-    <img src="src/assets/Darwin_Logo_transparent.png" alt="Logo" width="120" height="120">
-  </a>
 
-  <h3 align="center">Eleet Code Tracker</h3>
-
-  <p align="center">
-            <p><em>ELEET-TRACKER</em> is a service that has your future in mind. We know you are well on your way to become the best Software Engineer you can be, and we're here for you. We bring to you a service that allows you to track, record, and analyze your performance on the leetcode problems you attempt, so you can see how you stack up against the fiercest competition out there - yourself.</p>
-
-    <br />
-  </p>
-</div>
 
 ## Getting Started with Create React App
 
