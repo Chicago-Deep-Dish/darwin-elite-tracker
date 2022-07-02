@@ -2,7 +2,6 @@
 
 ## Description
 ![](https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif)
-![](https://media.giphy.com/media/2518KuGMfVsgFO52q0/giphy.gif)
 ![](https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif)
 ![](https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif)
 
