@@ -14,15 +14,19 @@
   </p>
 </div>
 
-## Description
-  <p align="center">
-  Authentication and Toastify Notifications
-  <img src="https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif" alt="animated" />
-  Input Submission, Dashboard and Graphs
-  <img src="https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif" alt="animated" />
-  Records Library
-  <img src="https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif" alt="animated" />
-</p>
+## App Preview
+<br />
+<div align="center"><br />
+    <h3 align="center">Authentication and Toastify Notifications</h3>
+
+  <img src="https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif" alt="animated" /><br />
+    <h3 align="center">Input Submission, Dashboard and Graphs</h3>
+
+  <img src="https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif" alt="animated" /><br />
+    <h3 align="center">Records Library</h3>
+
+  <img src="https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif" alt="animated" /><br />
+  </div>
 
 ## Components and Contributors
 
