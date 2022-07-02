@@ -66,7 +66,7 @@ Starts server to route front-end requests to Firebase.
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
 
-- Deployment: Firebase Hosting \
+- Deployment: Firebase Hosting
 
 - Team Collaboration: \
 ![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)
