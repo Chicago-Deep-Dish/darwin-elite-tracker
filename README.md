@@ -16,8 +16,11 @@
 
 ## Description
   <p align="center">
+  Authentication and Toastify Notifications
   <img src="https://media.giphy.com/media/I2dca39UFSBktlNoDn/giphy.gif" alt="animated" />
+  Input Submission, Dashboard and Graphs
   <img src="https://media.giphy.com/media/dY8TebUTKbWDixb2tU/giphy.gif" alt="animated" />
+  Records Library
   <img src="https://media.giphy.com/media/lMAbvaeFIHkSC9docz/giphy.gif" alt="animated" />
 </p>
 
@@ -89,3 +92,31 @@ Starts server to route front-end requests to Firebase.
 ![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
 ![Zoom](https://img.shields.io/badge/Zoom-2D8CFF?style=for-the-badge&logo=zoom&logoColor=white)
 ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)
+
+## Contact
+
+#### ZEBIB
+Github: zebibg <br />
+Email: zgebres@gmail.com
+
+#### GIL
+Github: gilcohen67 <br />
+Email: gil.cohen67@gmail.com
+
+#### XIAOHUAN
+Github: xiaohuan0319 <br />
+Email: huxiaohuan.jlu@gmail.com
+
+#### JUNSU
+Github: junsupark94 <br />
+Email: junsupark94@gmail.com
+
+#### JERRY 
+Github: jerrytapia <br />
+Email: jerryxtapia@gmail.com
+
+#### ALEX
+Github: EtoKruto <br />
+Email: akrut26@gmail.com
+
+<p align="right">(<a href="#top">back to top</a>)</p>
