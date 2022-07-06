@@ -64,8 +64,12 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
           },
         })
           .then(({ data }) => {
-            const setUserData = dataDecipher(data);
-            setUserProblemArray(setUserData[1]);
+            const userData = dataDecipher(data);
+            setUserProblemArray(
+              userData[1].sort((prompt1, prompt2) =>
+                prompt1.timeStamp.localeCompare(prompt2.timeStamp)
+              )
+            );
             toast.success("Problem Changed", toastifyTheme);
             handleExitModal();
           })

@@ -227,7 +227,6 @@ export default function Pie() {
           onClick = {() => setToggleGraphMenu(!toggleGraphMenu)}>
           {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
           </IconButton>
-          <Typography style = {{marginRight: '1%'}}>Hide Graph Menu</Typography>
         </div>
       </Container>
       <Collapse in = {toggleGraphMenu}>
