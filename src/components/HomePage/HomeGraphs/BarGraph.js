@@ -10,23 +10,20 @@ import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 
-
-
 export default function Bar() {
   const { userProblemArray } = useGlobalContext();
-  console.log('dataaa', userProblemArray);
   const [graph, setGraph] = React.useState('totalQuantities');
-  const [selection, setSelection]=React.useState('difficulty');
+  const [selection, setSelection] = React.useState('difficulty');
   const [subject, setSubject] = React.useState([]);
-  const [input, setInput]=React.useState([12,33,54])
-  const [time, setTime]=React.useState('whole process');
-  const [range, setRange]=React.useState('year');
-  const [language, setLanguage]=React.useState('Javascript');
+  const [input, setInput] = React.useState([12,33,54])
+  const [time, setTime] = React.useState('whole process');
+  const [range, setRange] = React.useState('year');
+  const [language, setLanguage]= React.useState('Javascript');
   const [toggleGraphMenu, setToggleGraphMenu] = React.useState(false);
 
-  const getLastDate = (x)=> {
+  const getLastDate = (x) => {
     const now = new Date();
-    const result=new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
+    const result = new Date(now.getFullYear(), now.getMonth(), now.getDate() - x);
     return result.toISOString();
   }
 
@@ -71,15 +68,15 @@ export default function Bar() {
       timeAndLangFiltered.forEach(problem => {
         const index = subject.indexOf(problem.topics);
         if (index !== -1) {
-          totalTime[index] = parseInt(problem.totalTime);
+          totalTime[index] = totalTime[index]+Number(problem.totalTime);
           count[index]++;
         }
       });
       totalTime = totalTime.map((time, i) => {
         if(time !== 0) {
-          time /= count[i]; // Junsu: average
-          time /= 1000; // Junsu: 1000 milliseconds
-          time /= 60; // Junsu: 60 seconds
+          time /= count[i];
+          time /= 1000;
+          time /= 60;
         }
         return time;
       })
@@ -90,13 +87,13 @@ export default function Bar() {
       var countE = 0, countM = 0, countH = 0;
       timeAndLangFiltered.forEach(problem => {
         if (problem.difficiulty === 'easy') {
-          easy += parseInt(problem.totalTime);
+          easy += Number(problem.totalTime);
           countE++;
         } else if (problem.difficulty === 'medium') {
-          medium += parseInt(problem.totalTime);
+          medium += Number(problem.totalTime);
           countM++;
         } else {
-          hard += parseInt(problem.totalTime);
+          hard += Number(problem.totalTime);
           countH++;
         }
       });
@@ -117,28 +114,28 @@ export default function Bar() {
         hard /= 60;
       }
       setInput([easy, medium, hard]);
-    }//Junsu: working now
+    }
   }, [graph, selection, subject, time, language, range, userProblemArray ])
-  console.log('inputttttt',input);
+
   const option = {
     title:{
-      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
-      textStyle:{
+      text: graph === 'totalTime'?'Speed (mins)': graph==='totalQuantities'?'Total': null,
+      textStyle: {
         color:'white'
       }
     },
     textStyle: {
-      color:function(value, index) {
+      color: function(value, index) {
         return 'white';
       },
-      fontWeight:'bold'
+      fontWeight: 'bold'
     },
     tooltip: {
       trigger: 'item'
     },
     xAxis: {
       type: 'category',
-      data: selection==='difficulty'?['easy', 'medium', 'hard']:subject
+      data: selection === 'difficulty'?['easy', 'medium', 'hard']: subject
 
    },
     yAxis: {
@@ -157,33 +154,34 @@ export default function Bar() {
     ]
   }
   return (
-    <Stack style={{height: '605px'}}>
-      <Box sx={{ '&:hover':{boxShadow:5},   width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor: "#1A2027", borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
-        <ReactEcharts option={option} />
+    <Stack style = {{height: '605px'}}>
+      <Box sx = {{ '&:hover':{boxShadow:5}, width: '500px', ml: 4, mr: 4, mt: 1, mb: 2, backgroundColor: "#1A2027", borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
+        <ReactEcharts option = {option} />
       </Box>
-      <Container sx={{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
-      <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-         <IconButton onClick={() => setToggleGraphMenu(!toggleGraphMenu)}>
-        {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
-        </IconButton>
-     </div>
+      <Container sx = {{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
+        <div style = {{display: 'flex', justifyContent: 'center'}}>
+          <IconButton sx = {{right: '30%'}}
+          onClick = {() => setToggleGraphMenu(!toggleGraphMenu)}>
+          {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
+          </IconButton>
+        </div>
       </Container>
-      <Collapse in={toggleGraphMenu}>
+      <Collapse in = {toggleGraphMenu}>
         <MenuBar
-          graph={graph}
-          subject= {subject}
-          selection={selection}
-          time={time}
-          range={range}
-          language={language}
-          setGraph={setGraph}
-          setSelection={setSelection}
-          handleSubject={(e) => setSubject(e.target.value)}
-          handleRange={(e) => setRange(e.target.value)}
-          handleLanguage={(e) => setLanguage(e.target.value)}
-          handleTime={(e) => setTime(e.target.value)}
-          handleGraph={(e) => setGraph(e.target.value)}
-          handleSelection={(e) => {
+          graph = {graph}
+          subject = {subject}
+          selection = {selection}
+          time = {time}
+          range = {range}
+          language = {language}
+          setGraph = {setGraph}
+          setSelection = {setSelection}
+          handleSubject = {(e) => setSubject(e.target.value)}
+          handleRange = {(e) => setRange(e.target.value)}
+          handleLanguage = {(e) => setLanguage(e.target.value)}
+          handleTime = {(e) => setTime(e.target.value)}
+          handleGraph = {(e) => setGraph(e.target.value)}
+          handleSelection = {(e) => {
             setSelection(e.target.value);
             setSubject([]);
           }}

@@ -94,7 +94,6 @@ export default function Line() {
 
 
 
-
   if (graph === 'totalQuantities' && selection === 'difficulty') {
     const subjectTeam = {};
     timeAndLangFiltered.forEach(problem => {
@@ -137,124 +136,123 @@ export default function Line() {
   }
 
 
-if (graph === 'totalTime' && selection === 'subject') {
-  setInput([]);
-  const subjectTeam = {};
-  timeAndLangFiltered.forEach(problem => {
-    const sub = problem.topics;
-    if (subject.includes(sub)) {
-      subjectTeam[sub] = subjectTeam[sub] === undefined ? [] : subjectTeam[sub];
-      subjectTeam[sub].push(problem);
-    }
-  })
-
-  //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
-  const updateFormate = {};
-  for (let topic in subjectTeam) {
-    const temp={};
-    subjectTeam[topic].forEach(problem => {
-      const time = problem.timeStamp.slice(0, 10);
-      if (temp[time]!==undefined) {
-        temp[time] = (temp[time]+ Number(problem['totalTime'])/1000/60)/2;
-      } else {
-        temp[time] = Number(problem['totalTime'])/1000/60;
+  if (graph === 'totalTime' && selection === 'subject') {
+    setInput([]);
+    const subjectTeam = {};
+    timeAndLangFiltered.forEach(problem => {
+      const sub = problem.topics;
+      if (subject.includes(sub)) {
+        subjectTeam[sub] = subjectTeam[sub] === undefined ? [] : subjectTeam[sub];
+        subjectTeam[sub].push(problem);
       }
     })
-    updateFormate[topic]=temp;
-  }
-  const finalResult=[];
-  for (let key in updateFormate) {
-    const temp = {};
-    temp['name'] = key;
-    temp['type'] = 'line';
-    //temp['stack']='Total';
-    temp['data'] = [];
-    for (let value in updateFormate[key]) {
-      var data=[];
-      data.push(value);
-      data.push(updateFormate[key][value]);
-      temp['data'].push(data);
-    }
-    finalResult.push(temp);
-  }
-  const containerC = [];
-  finalResult.forEach(set => containerC.push(set.name));
-  setLegend(containerC);
-  setInput(finalResult);
-}
 
-if (graph === 'totalTime' && selection === 'difficulty') {
-  const subjectTeam = {};
-  timeAndLangFiltered.forEach(problem => {
-    const difficulty = problem.difficulty;
-    if (subjectTeam[difficulty] === undefined) {
-      subjectTeam[difficulty] = [];
+    //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
+    const updateFormate = {};
+    for (let topic in subjectTeam) {
+      const temp={};
+      subjectTeam[topic].forEach(problem => {
+        const time = problem.timeStamp.slice(0, 10);
+        if (temp[time]!==undefined) {
+          temp[time] = (temp[time]+ Number(problem['totalTime'])/1000/60)/2;
+        } else {
+          temp[time] = Number(problem['totalTime'])/1000/60;
+        }
+      })
+      updateFormate[topic]=temp;
     }
-    subjectTeam[difficulty].push(problem);
-  })
-  //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
-  const updateFormate={};
-  for (const key in subjectTeam) {
-    const timeAndValue=subjectTeam[key];
-    const temp={};
-    for (let i=0; i<timeAndValue.length; i++) {
-      const time=timeAndValue[i]['timeStamp'].slice(0,10);
-      if (temp[time] !== undefined) {
-        temp[time] = (temp[time] + Number(timeAndValue[i]['totalTime'])/1000/60)/2;
-      } else {
-        temp[time]=Number(timeAndValue[i]['totalTime'])/1000/60;
+    const finalResult=[];
+    for (let key in updateFormate) {
+      const temp = {};
+      temp['name'] = key;
+      temp['type'] = 'line';
+      temp['data'] = [];
+      for (let value in updateFormate[key]) {
+        var data=[];
+        data.push(value);
+        data.push(updateFormate[key][value]);
+        temp['data'].push(data);
       }
+      finalResult.push(temp);
     }
-    updateFormate[key]=temp;
+    const containerC = [];
+    finalResult.forEach(set => containerC.push(set.name));
+    setLegend(containerC);
+    setInput(finalResult);
   }
 
-  const finalResultD = [];
-  for (let key in updateFormate) {
-    const temp = {};
-    temp['name'] = key;
-    temp['type'] = 'line';
-    //temp['stack']='Total';
-    temp['data'] = [];
-    for (let value in updateFormate[key]) {
-      var data=[];
-      data.push(value);
-      data.push(updateFormate[key][value]);
-      temp['data'].push(data);
+  if (graph === 'totalTime' && selection === 'difficulty') {
+    const subjectTeam = {};
+    timeAndLangFiltered.forEach(problem => {
+      const difficulty = problem.difficulty;
+      if (subjectTeam[difficulty] === undefined) {
+        subjectTeam[difficulty] = [];
+      }
+      subjectTeam[difficulty].push(problem);
+    })
+    //format now {'tree':[date1, data2...], 'hash':[dateI,daataII.....]...}
+    const updateFormate={};
+    for (const key in subjectTeam) {
+      const timeAndValue=subjectTeam[key];
+      const temp={};
+      for (let i=0; i<timeAndValue.length; i++) {
+        const time=timeAndValue[i]['timeStamp'].slice(0,10);
+        if (temp[time] !== undefined) {
+          temp[time] = (temp[time] + Number(timeAndValue[i]['totalTime'])/1000/60)/2;
+        } else {
+          temp[time]=Number(timeAndValue[i]['totalTime'])/1000/60;
+        }
+      }
+      updateFormate[key]=temp;
     }
-    finalResultD.push(temp);
-  }
-  const containerD = [];
-  for (let i=0; i<finalResultD.length; i++) {
-    containerD.push(finalResultD[i]['name']);
-  }
-  //console.log('speed&diffculty', finalResultD);
-  setLegend(containerD);
-  setInput(finalResultD);
-}
 
-},  [graph,selection, subject,time, language,range, userProblemArray])
+    const finalResultD = [];
+    for (let key in updateFormate) {
+      const temp = {};
+      temp['name'] = key;
+      temp['type'] = 'line';
+      //temp['stack']='Total';
+      temp['data'] = [];
+      for (let value in updateFormate[key]) {
+        var data = [];
+        data.push(value);
+        data.push(updateFormate[key][value]);
+        temp['data'].push(data);
+      }
+      finalResultD.push(temp);
+    }
+    const containerD = [];
+    for (let i = 0; i < finalResultD.length; i++) {
+      containerD.push(finalResultD[i]['name']);
+    }
+
+    setLegend(containerD);
+    setInput(finalResultD);
+  }
+
+  },  [graph,selection, subject,time, language,range, userProblemArray])
 
 
   const option = {
     title: {
-      text: graph==='totalTime'?'Speed (mins)':graph==='totalQuantities'?'Total':null,
-      padding:[20,5,5,5],
-      textStyle:{
-        color:'white'
+      text: graph === 'totalTime' ? 'Speed (mins)': graph === 'totalQuantities' ? 'Total': null,
+      padding: [20,5,5,5],
+      textStyle: {
+        color: 'white'
       }
     },
     textStyle: {
-      color:function(value, index) {
+      color: function (value, index) {
         return 'white';
       },
-      fontWeight:'bold'
+      fontWeight: 'bold'
     },
     tooltip: {
       trigger: 'axis'
     },
     legend: {
       data: legend,
-      textStyle :{color:'white'}
+      textStyle: {color: 'white'}
     },
     grid: {
       left: '3%',
@@ -285,17 +283,17 @@ if (graph === 'totalTime' && selection === 'difficulty') {
   }
   return (
     <Stack style={{height: '605px'}}>
-      <Box sx={{ '&:hover':{boxShadow:3},  width:'500px', ml:4, mr:4, mt:1,mb:2, backgroundColor:'#1A2027',borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
-        <ReactEcharts option={option} />
+      <Box sx={{ '&:hover': {boxShadow:3},  width: '500px', ml: 4, mr: 4, mt: 1, mb: 2, backgroundColor: '#1A2027',borderTopLeftRadius: 4, borderTopRightRadius: 4, padding: 3}}>
+        <ReactEcharts option = {option} />
       </Box>
-      <Container sx={{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
-         <div style={{display: 'flex', justifyContent: 'flex-start'}}>
-          <IconButton onClick={() => setToggleGraphMenu(!toggleGraphMenu)}>
+      <Container sx = {{backgroundColor: '#1A2027', width: '500px', padding: 1}}>
+        <div style = {{display: 'flex', justifyContent: 'center'}}>
+          <IconButton  sx = {{right: '30%'}} onClick = {() => setToggleGraphMenu(!toggleGraphMenu)}>
             {toggleGraphMenu ? (<ArrowDropUp/>) : (<ArrowDropDown />)}
            </IconButton>
-        </div>
+      </div>
       </Container>
-      <Collapse in={toggleGraphMenu}>
+      <Collapse in = {toggleGraphMenu}>
       <MenuBar
         graph={graph}
         setGraph={setGraph}
