@@ -7,7 +7,7 @@ export default function IconButtonSizes({setSettingsView, settingsView, settings
 
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
-      <IconButton aria-label="delete" size="small" onClick={()=>{console.log(settingsView); setSettingsView(!settingsView)}}>
+      <IconButton aria-label="delete" size="small" onClick={()=>{setSettingsView(!settingsView)}}>
         
       {settingsVisible? <SettingsApplicationsIcon  opacity={'1'} fontSize="small" />:<SettingsApplicationsIcon  opacity={'0'} fontSize="small" />}
       </IconButton>

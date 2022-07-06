@@ -44,8 +44,6 @@ export default function TotalProblems({problemData}) {
           }
         ]
     };
-    // console.log(problemData)
-
     return <>
     <h4> Problems</h4>
     <div style={{height: "76px"}}>

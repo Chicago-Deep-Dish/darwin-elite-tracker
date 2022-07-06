@@ -77,7 +77,6 @@ export default function Line() {
         }
       }
     }
-  //console.log( 'rangggge' , range, samples);
   //filter the language
   var sampleUpdate=[];
   for ( let i=0; i<samples.length; i++) {
@@ -87,8 +86,6 @@ export default function Line() {
     }
   }
   }
-  console.log('updated', sampleUpdate);
- console.log('waht is select', graph, selection);
 //filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
   if (graph==='totalQuantities'&&selection==='subject') {
 
@@ -106,7 +103,6 @@ export default function Line() {
       continue;
     }
   }
-  console.log('anything',subjectTeam);
     var updateFormate={};
     for (var key in subjectTeam) {
       var timeAndValue=subjectTeam[key];
@@ -240,7 +236,6 @@ if ( graph==='totalTime'&&selection==='subject') {
   }
   finalResult.push(temp);
   }
-  console.log('total time and subject', finalResult);
   var containerC=[];
  for (let i=0; i<finalResult.length; i++) {
   containerC.push(finalResult[i]['name']);

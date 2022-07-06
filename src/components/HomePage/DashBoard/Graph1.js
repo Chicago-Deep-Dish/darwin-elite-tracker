@@ -54,9 +54,6 @@ export default function Area() {
 
   React.useEffect ( ()=>{
     var samples=[];
-
-    // console.log('subject',subject);
-
     //filter range
     if ( range==='week') {
       for (let i=0; i< userProblemArray.length; i++) {
@@ -79,7 +76,6 @@ export default function Area() {
         }
       }
     }
-  //console.log( 'rangggge' , range, samples);
   //filter the language
   var sampleUpdate=[];
   for ( let i=0; i<samples.length; i++) {
@@ -89,12 +85,8 @@ export default function Area() {
     }
   }
   }
-  console.log('updated', sampleUpdate);
-
-//filter graph type(totalQuantities/ aveerge speed) and setting(difficulty/subject)
+//filter graph type(totalQuantities/ averge speed) and setting(difficulty/subject)
   if (graph==='totalQuantities'&&selection==='subject') {
-    //setInput([]);
-
     var subjectTeam={};
     for(let i=0; i<sampleUpdate.length;i++) {
       var sub=sampleUpdate[i]['topics'];
@@ -125,7 +117,6 @@ export default function Area() {
       updateFormate[key]=temp;
     }
 //at this point the format is {topic:{timestamp:quantities, timestamps:quantities,...}, topic2:{....}};
-
 //convert format to fit graph
  var finalResult=[];
  for (let key in updateFormate) {
@@ -155,8 +146,6 @@ export default function Area() {
 
 
 if(graph==='totalQuantities'&&selection==='difficulty') {
-  //setInput([]);
-
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
     var sub=sampleUpdate[i]['difficulty'];
@@ -208,7 +197,6 @@ for (let i=0; i<finalResultA.length; i++) {
 var containerA=[];
  for (let i=0; i<finalResultA.length; i++) {
   containerA.push(finalResultA[i]['name']);
-  console.log('container', containerA);
  }
  setLegend(containerA);
  setInput(finalResultA);
@@ -216,8 +204,6 @@ var containerA=[];
 
 
 if ( graph==='totalTime'&&selection==='subject') {
-  //setInput([]);
-
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
     var sub=sampleUpdate[i]['topics'];
@@ -267,7 +253,6 @@ if ( graph==='totalTime'&&selection==='subject') {
   var containerB=[];
  for (let i=0; i<finalResultB.length; i++) {
   containerB.push(finalResultB[i]['name']);
-  console.log('legend', containerB);
  }
   setLegend(containerB);
   setInput(finalResultB);
@@ -275,8 +260,6 @@ if ( graph==='totalTime'&&selection==='subject') {
 
 
 if ( graph==='totalTime'&&selection==='difficulty') {
-  //setInput([]);
-
   var subjectTeam={};
   for(let i=0; i<sampleUpdate.length;i++) {
     var sub=sampleUpdate[i]['difficulty'];
@@ -321,13 +304,10 @@ if ( graph==='totalTime'&&selection==='difficulty') {
   }
   finalResultC.push(temp);
   }
-  console.log('areaaaa',finalResultC);
   var containerC=[];
  for (let i=0; i<finalResultC.length; i++) {
   containerC.push(finalResultC[i]['name']);
-  console.log('container', containerC);
  }
-  console.log('total, subject', finalResultC);
   setLegend(containerC);
   setInput(finalResultC);
 }

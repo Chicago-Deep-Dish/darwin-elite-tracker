@@ -87,7 +87,6 @@ export default function Streak({streakData}) {
           }
         ]
       };
-      // console.log(streakData.max)
     return <>
         <Box sx={{height: "242px", width: "180px"}}>
         <ReactECharts option={option} style={{height: "100%" }}/>
