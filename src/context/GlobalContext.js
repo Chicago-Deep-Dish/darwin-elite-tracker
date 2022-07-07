@@ -81,6 +81,8 @@ export function GlobalContextProvider({ children }) {
     setAboutToggle,
   };
   return (
-    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>
+      {children}
+    </GlobalContext.Provider>
   );
 }

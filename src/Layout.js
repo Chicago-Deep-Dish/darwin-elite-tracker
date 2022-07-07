@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./components/common/NavBar";
+import NavBar from "./components/common/NavBar/NavBar";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import PopupModal from "./components/common/PopupModal";
