@@ -32,7 +32,6 @@ export default function RecordLibrary() {
     ));
     setShownData(newData);
   }, [search, filters, userProblemArray]);
-
   return (
     <main className="main">
       <InputFields
@@ -49,7 +48,6 @@ export default function RecordLibrary() {
       {showEditModal &&
         <EditModal
           tableData={userProblemArray}
-          // setTableData={setTableData}
           setShowEditModal={setShowEditModal}
           row={editRow}
           setRow={setEditRow}

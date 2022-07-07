@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Paper from '@mui/material/Paper'
 
-
 export default function InputFields({ search, setSearch, filters, setFilters }) {
   return (
     <Paper
