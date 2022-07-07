@@ -40,36 +40,59 @@ React Router: Gil Cohen, Jerry Tapia
 React Toastify and Badges: Alex Krut  
 React Global Context API: Gil Cohen  
 
+## LOCAL SETUP
 
-## Getting Started with Create React App
+In the project directory, begin by running:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### `npm install`
 
-## Available Scripts
+to install dependencies for the project.
 
-In the project directory, you can run:
+to run the project locally, type in 
+#### `npm start`
 
-### `npm install`
-
-Install dependencies for the project.
-
-### `.env`
-
-Create a `.env` file in the root directory.
-Get Firebase config.
-Edit `.env` with obtained cofig.
-
-### `npm start`
-
-Runs the app in the development mode.\
+This will run the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm run server-dev`
+Additionally, you will need to initiate the server file by typing: 
+#### `npm run server-dev`
 
-Starts server to route front-end requests to Firebase.
+which will start the server that will route front-end requests to Firebase.
+
+## FIREBASE SETUP
+
+Create a firebase account and setup a new Project
+
+[https://console.firebase.google.com/u/0/](https://console.firebase.google.com/u/0/)
+
+Once created, “Build” the following 2 services on Firebase:
+
+1. Authentication 
+- Set it up with the option for Name and Password
+
+ 2. Firestore Database [not Realtime db]
+- Toggle this to be 'Production' ready
+- Copy the following Rule into the 'RULES' tab for 
+`rules_version = '2';
+service cloud.firestore {
+match /databases/{database}/documents {
+match /users/{userId}/{documents=**} {
+allow read, write: if true;
+}
+}
+}`
+- Settings > Project Settings > General > Your apps > click the </> icon (****Add Firebase to your web app)****
+
+- Follow the instructions provided and install firebase locally
+- Copy and rename your env.copy file into a blank '.env file'. Make sure this file is greyed out (part of .gitignore file).
+  - Add apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId to the .ENV file you made earlier (located in the root of file).
+    - REACT_APP_DATABASE_URL inside .env file will be the “name_of_project.firebaseio.com”
+
+Test that everything works by registering a new user and submitting your first problem.
+
 
 ## Technologies Used
 
