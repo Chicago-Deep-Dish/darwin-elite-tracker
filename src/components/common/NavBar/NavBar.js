@@ -15,7 +15,6 @@ import {
   Box,
   Toolbar,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import useGlobalContext from "../../../context/GlobalContext";
@@ -23,16 +22,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import firebaseErrorCodes from "../../../helpers/firebaseErrorCodes";
 import grindStreak from "../../../helpers/grindStreak";
-import { createSamplePrompt } from "../../../test/sampleData";
 
-export default function NavBar({ setModal }) {
+export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
   const {
     toastifyTheme,
     problemDatesArray,
     setUserLoggedIn,
     userLoggedIn,
-    aboutToggle,
-    setAboutToggle,
   } = useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
