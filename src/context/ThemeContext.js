@@ -15,7 +15,6 @@ const darkTheme = createTheme({
     },
   },
 });
-
 export default function Theme({ children }) {
   return (
     <ThemeProvider theme={(darkTheme)}>{children}</ThemeProvider>

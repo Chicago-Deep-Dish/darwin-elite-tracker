@@ -22,21 +22,17 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
   const [languages] = useState(() => ([
     'Javascript', 'Python', 'Java', 'C++', 'Kotlin', 'C', 'Swift', 'C#', 'PHP'
   ]))
-
   function handleExitModal() {
     setShowEditModal(false);
     setRow({});
   }
-
   function handleFormSubmit(e) {
     e.preventDefault();
-    // if no session storage then toastify return
     if (!sessionStorage.getItem('UserID')) {
       toast.error('Not Logged in', toastifyTheme);
       handleExitModal();
       return;
     }
-    console.log('putting data:', row)
     axios.put(
       `/records/${row.id}`,
       {
@@ -74,16 +70,14 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
             handleExitModal();
           })
       })
-      .catch(err => console.log(err))
+      .catch(err => toast.error("Something went wrong updating the record.", toastifyTheme))
   }
-
   function handleFormChange(e) {
     setRow({
       ...row,
       [e.target.id]: e.target.value
     });
   }
-
   function handleDateChange(newDate) {
     if (isNaN(newDate.getDate())) {
       toast.error('Invalid Date', toastifyTheme);
@@ -95,42 +89,36 @@ export default function EditModal({ setShowEditModal, row, setRow, tableData, se
       day: (newDate.getDate()),
       year: (newDate.getFullYear())
     }
-    console.log(timeStampinfo);
     setRow({
       ...row,
       timeStamp,
       timeStampinfo
     });
   }
-
   function handleDifficultyChange(e) {
     setRow({
       ...row,
       difficulty: e.target.value
     });
   }
-
   function handleLanguageChange(e) {
     setRow({
       ...row,
       programmingLanguage: e.target.value
     });
   }
-
   function handleTopicsChange(e) {
     setRow({
       ...row,
       topics: e.target.value
     });
   }
-
   function handleComplexityChange(e) {
     setRow({
       ...row,
       timeComplexity: e.target.value
     });
   }
-
   return (
     <div className="modal-container" onClick={handleExitModal}>
       <section className="records-modal" onClick={e => e.stopPropagation()}>

@@ -28,23 +28,18 @@ import { toast } from 'react-toastify';
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (event) => {
+  function handleFirstPageButtonClick(event) {
     onPageChange(event, 0);
   };
-
-  const handleBackButtonClick = (event) => {
+  function handleBackButtonClick(event) {
     onPageChange(event, page - 1);
   };
-
-  const handleNextButtonClick = (event) => {
+  function handleNextButtonClick(event) {
     onPageChange(event, page + 1);
   };
-
-  const handleLastPageButtonClick = (event) => {
+  function handleLastPageButtonClick(event) {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
-
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
@@ -78,32 +73,25 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
 };
-
 export default function RecordTable({ tableData, setShowEditModal, setEditRow }) {
   const { setUserProblemArray, toastifyTheme } = useGlobalContext();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
-
   function handleChangePage(event, newPage) {
     setPage(newPage);
   };
-
   function handleChangeRowsPerPage(event) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   function handleEditClick(data, idx) {
     setEditRow(data)
     setShowEditModal(true);
@@ -132,47 +120,14 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
 
       })
       .catch((error) => {
-        console.log(error);
         firebaseCodes(error.response.data.code, toastifyTheme);
       });
   }
-
   function millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
   };
-
-  // function handleDelete(data) {
-  // Junsu: Gil, this delete route works now, feel free to modify how data is sent
-  // axios({
-  //   method: 'delete',
-  //   url: `/records`,
-  //   data: data,
-  // })
-  //   .then(response => console.log(response));
-
-  // Junsu: Gil, this is the edit/put route
-  // axios({
-  //   method: 'put',
-  //   url: `/records`,
-  //   data: data,
-  // })
-  //   .then(response => console.log(response));
-
-  //Junsu: Gil, this is for search
-  // axios.get('/records')
-  //   .then(response => console.log(response.data._document.data.value.mapValue.fields));
-
-  // Junsu: Gil, feel free to delete this or provide it to Jerry for his component
-  //   axios({
-  //     method: 'post',
-  //     url: `/records`,
-  //     data: data,
-  //   })
-  //     .then(response => console.log(response));
-  // }
-
   return (
     <TableContainer
       sx={{
@@ -230,7 +185,6 @@ export default function RecordTable({ tableData, setShowEditModal, setEditRow })
               </TableCell>
             </TableRow>
           ))}
-
           {emptyRows > 0 && (
             <TableRow style={{ height: 73 * emptyRows }}>
               <TableCell colSpan={6} />

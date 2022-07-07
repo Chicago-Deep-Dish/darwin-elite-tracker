@@ -220,8 +220,6 @@ function randomDate(start, end) {
   );
 }
 
-console.log(new Date(randomDate(new Date(2022, 1, 1), new Date())));
-
 function ISOtoDateMonthYear(date) {
   // date = new Date(date);
   const year = date.getFullYear().toString();
