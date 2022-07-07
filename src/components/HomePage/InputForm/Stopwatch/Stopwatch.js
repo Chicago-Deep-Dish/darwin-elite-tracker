@@ -65,13 +65,9 @@ export default function Stopwatch({ times, setTimes }) {
     let milTime = milHours + milMins;
     setCustom(false);
     setIsActive(true);
-<<<<<<< HEAD
     setTime(milTime);
     setTimes(milTime);
-  }
-=======
   };
->>>>>>> master
 
   const handleHourChange = (e) => {
     setHours(e.target.value);

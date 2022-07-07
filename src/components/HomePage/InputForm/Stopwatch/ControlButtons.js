@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-import { PlayArrow, Pause, RestartAlt, Edit, AddTask } from '@mui/icons-material'
-import IconButton from '@mui/material/IconButton';
-
-export default function ControlButtons({ handleStart, handleReset, handlePauseResume, active, isPaused, custom, handleCustom, handleConfirm }) {
-
-=======
 import React from "react";
-// import styled from '@emotion/styled';
 import {
   PlayArrow,
   Pause,
@@ -16,7 +7,6 @@ import {
   AddTask,
 } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
->>>>>>> master
 
 export default function ControlButtons({
   handleStart,
