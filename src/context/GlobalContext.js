@@ -41,7 +41,6 @@ export function GlobalContextProvider({ children }) {
         .then(({ data }) => {
           const userData = dataDecipher(data);
           setUserProfileData(userData[0]);
-          console.log('globabbbbbbl', userData[1]);
           setUserProblemArray(
             userData[1].sort((prompt1, prompt2) =>
               prompt1.timeStamp.localeCompare(prompt2.timeStamp)
@@ -66,8 +65,6 @@ export function GlobalContextProvider({ children }) {
         });
     } else {
       // setUserProblemArray(dummy data)
-
-      //console.log('globabbbbbbl', userData[1]);
       setUserProblemArray(samples);
 
       let dataArray = [];
