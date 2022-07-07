@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Timer from './Timer';
-import ControlButtons from './ControlButtons';
-
+import React, { useState, useEffect } from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Timer from "./Timer";
+import ControlButtons from "./ControlButtons";
 
 export default function Stopwatch({ times, setTimes }) {
-
   const [isActive, setIsActive] = useState(false);
 
   const [isPaused, setIsPaused] = useState(false);
@@ -19,7 +17,7 @@ export default function Stopwatch({ times, setTimes }) {
 
   const [hours, setHours] = useState(0);
 
-  const [minutes, setMinutes] = useState(0)
+  const [minutes, setMinutes] = useState(0);
 
   useEffect(() => {
     let interval = null;
@@ -66,26 +64,23 @@ export default function Stopwatch({ times, setTimes }) {
     setTime(milTime);
     setCustom(false);
     setIsActive(true);
-  }
+  };
 
   const handleHourChange = (e) => {
     setHours(e.target.value);
   };
 
   const handleMinuteChange = (e) => {
-    setMinutes(e.target.value)
+    setMinutes(e.target.value);
   };
-
 
   const timeInputBox = (
     <div>
-      <FormControl size='small'>
-        <InputLabel id='demo-simple-select-label'>
-        Hours
-        </InputLabel>
+      <FormControl size="small">
+        <InputLabel id="demo-simple-select-label">Hours</InputLabel>
         <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
+          labelid="demo-simple-select-label"
+          id="demo-simple-select"
           value={hours}
           label="Hours"
           onChange={handleHourChange}
@@ -99,28 +94,29 @@ export default function Stopwatch({ times, setTimes }) {
           <MenuItem value={6}>6</MenuItem>
         </Select>
       </FormControl>
-      <FormControl size='small'>
-        <InputLabel id='demo-simple-select-label'>
-        Minutes
-        </InputLabel>
+      <FormControl size="small">
+        <InputLabel id="demo-simple-select-label">Minutes</InputLabel>
         <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
+          labelid="demo-simple-select-label"
+          id="demo-simple-select"
           value={minutes}
           label="Hours"
           onChange={handleMinuteChange}
-          MenuProps={{PaperProps: {sx: {maxHeight: 250}}}}
+          MenuProps={{ PaperProps: { sx: { maxHeight: 250 } } }}
         >
-          {[...Array(60).keys()].map((min) => (<MenuItem value={min} key={min}>{min}</MenuItem>))}
+          {[...Array(60).keys()].map((min) => (
+            <MenuItem value={min} key={min}>
+              {min}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>
   );
 
   return (
-    <div className='stop-watch'>
-
-      {!custom ? (<Timer time={time}/>) : (timeInputBox)}
+    <div className="stop-watch">
+      {!custom ? <Timer time={time} /> : timeInputBox}
 
       <ControlButtons
         custom={custom}

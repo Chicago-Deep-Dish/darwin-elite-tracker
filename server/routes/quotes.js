@@ -1,8 +1,7 @@
-const quotesRouter = require('express').Router();
-const ctrl = require('../controllers/quotes')
+//TODO: quotes route
+// const quotesRouter = require('express').Router();
+// const ctrl = require('../controllers/quotes')
 
+// quotesRouter.get('/quotes', ctrl.getQuotes);
 
-quotesRouter.get('/quotes', ctrl.getQuotes);
-
-
-module.exports = quotesRouter;
+// module.exports = quotesRouter;

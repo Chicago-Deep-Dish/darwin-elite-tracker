@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
 import dataDecipher from "../helpers/dataDecipher";
 import { summary } from "date-streaks";
-import samples from './sampleDatas.js';
+import sampleData from "./../data/defaultData";
 
 const GlobalContext = createContext();
 export default function useGlobalContext() {
@@ -49,12 +50,16 @@ export function GlobalContextProvider({ children }) {
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
+          console.log("error in Global COntext UseEffect", error);
+
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
-      setUserProblemArray(samples);
+      setUserProblemArray(sampleData);
+
       let dataArray = [];
-      samples.forEach((problem) => {
+      setUserProblemArray(sampleData);
+      sampleData.forEach((problem) => {
         dataArray.push(new Date(problem.timeStamp));
       });
       setProblemDatesArray(dataArray);
