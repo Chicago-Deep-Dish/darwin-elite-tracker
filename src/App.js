@@ -10,10 +10,14 @@ import RecordLibrary from "./components/RecordLibraryPage";
 import Theme from "./context/ThemeContext.js";
 import Layout from "./Layout";
 import { CssBaseline } from "@mui/material";
+import Footer from "./components/common/Footer/Footer";
 
 export default function App() {
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{ minHeight: 600, marginBottom: 200, clear: "both" }}
+    >
       <Theme>
         <CssBaseline>
           <GlobalContextProvider>
@@ -22,6 +26,7 @@ export default function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/records" element={<RecordLibrary />} />
               </Routes>
+              <Footer />
             </Layout>
           </GlobalContextProvider>
         </CssBaseline>

@@ -21,7 +21,6 @@ export function GlobalContextProvider({ children }) {
     hideProgressBar: false,
     position: "bottom-left",
   });
-  const [aboutToggle, setAboutToggle] = useState(false);
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
       toast.success("Logged In", toastifyTheme);
@@ -82,10 +81,10 @@ export function GlobalContextProvider({ children }) {
     problemDatesArray,
     userLoggedIn,
     setUserLoggedIn,
-    aboutToggle,
-    setAboutToggle,
   };
   return (
-    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>
+      {children}
+    </GlobalContext.Provider>
   );
 }

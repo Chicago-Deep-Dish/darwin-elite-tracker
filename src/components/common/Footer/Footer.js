@@ -8,6 +8,7 @@ export default function Footer() {
         backgroundColor: "rgb(39, 39, 39)",
         bottom: 0,
         padding: "1.3vh",
+        position: "fixed",
       }}
     >
       <p style={{ margin: 0, padding: 3 }}>

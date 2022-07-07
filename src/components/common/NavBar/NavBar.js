@@ -1,11 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import companyLogo from "./../../assets/Darwin_Logo_transparent.png";
-import badgeLow from "./../../assets/badge_low.png";
-import badgeMed from "./../../assets/badge_med.png";
-import badgeHigh from "./../../assets/badge_high.png";
-import badgeNew from "./../../assets/badge_new.png";
-
+import companyLogo from "../../../assets/Darwin_Logo_transparent.png";
+import badgeLow from "../../../assets/badge_low.png";
+import badgeMed from "../../../assets/badge_med.png";
+import badgeHigh from "../../../assets/badge_high.png";
+import badgeNew from "../../../assets/badge_new.png";
 import {
   Button,
   IconButton,
@@ -17,18 +16,16 @@ import {
   Tooltip,
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import useGlobalContext from "../../context/GlobalContext";
+import useGlobalContext from "../../../context/GlobalContext";
 import { toast } from "react-toastify";
-import grindStreak from "./../../helpers/grindStreak";
+import grindStreak from "../../../helpers/grindStreak";
 
-export default function NavBar({ setModal }) {
+export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
   const {
     toastifyTheme,
     problemDatesArray,
     setUserLoggedIn,
     userLoggedIn,
-    aboutToggle,
-    setAboutToggle,
   } = useGlobalContext();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
