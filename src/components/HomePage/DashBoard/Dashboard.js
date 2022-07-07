@@ -25,18 +25,8 @@ export default function DashBoard() {
   const [problemData, setProblemData] = useState([]);
   const { streakSummary, userProblemArray } = useGlobalContext();
   const [streakData, setStreakData] = useState([]);
-
-  // console.log(userProblemArray.group(({difficulty})=> 'difficulty'));
   const problemTotal = userProblemArray.length;
-  // setProblemData([
-  //   { value: 100, name: "Easy" },
-  //   { value: 35, name: "Medium" },
-  //   { value: 5, name: "Hard" },
-  // ]);
-  // setStreakData({
-  //   max: streakSummary.longestStreak || 0,
-  //   current: streakSummary.currentStreak || 0,
-  // });
+
   useEffect(() => {
     //futute API request for problemData
     let difficulties = { easy: 0, medium: 0, hard: 0 };
@@ -49,20 +39,12 @@ export default function DashBoard() {
         difficulties.hard++;
       }
     }
-    console.log(difficulties);
     setProblemData([
       { value: difficulties.easy, name: "Easy" },
       { value: difficulties.medium, name: "Medium" },
       { value: difficulties.hard, name: "Hard" },
     ]);
-    // setProblemData([
-    //   { value: 100, name: "Easy" },
-    //   { value: 35, name: "Medium" },
-    //   { value: 5, name: "Hard" },
-    // ]);
-    //futute API request for dates
-    // const streakSummary = summary({ dates });
-    // console.log(streakSummary.currentStreak, streakSummary.longestStreak)
+
     setStreakData({
       max: streakSummary.longestStreak || 0,
       current: streakSummary.currentStreak || 0,
@@ -79,7 +61,7 @@ export default function DashBoard() {
         padding="30px"
         marginLeft="30px"
         marginTop="10px"
-        borderRadius='10px'
+        borderRadius="10px"
       >
         <Stack spacing={2}>
           <h3> Dashboard </h3>

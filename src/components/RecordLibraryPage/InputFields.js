@@ -1,24 +1,29 @@
-import React from 'react';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Paper from '@mui/material/Paper'
+import React from "react";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Paper from "@mui/material/Paper";
 
-export default function InputFields({ search, setSearch, filters, setFilters }) {
+export default function InputFields({
+  search,
+  setSearch,
+  filters,
+  setFilters,
+}) {
   return (
     <Paper
       component="div"
       sx={{
-        display: 'flex',
-        flexDirection: 'row',
+        display: "flex",
+        flexDirection: "row",
         padding: 1,
-        width: '80%',
+        width: "80%",
         mt: 5,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
-        '& > :not(style)': { mx: 1 },
+        "& > :not(style)": { mx: 1 },
       }}
       noValidate
       autoComplete="off"
@@ -34,10 +39,12 @@ export default function InputFields({ search, setSearch, filters, setFilters }) 
       <FormControl variant="standard">
         <InputLabel id="difficulty-select">Difficulty</InputLabel>
         <Select
-          labelId="difficulty-select"
+          labelid="difficulty-select"
           id="difficulty-select-standard"
           value={filters.difficulty}
-          onChange={(e) => setFilters({ ...filters, difficulty: e.target.value })}
+          onChange={(e) =>
+            setFilters({ ...filters, difficulty: e.target.value })
+          }
           label="Difficulty"
           sx={{ width: 85 }}
         >
@@ -50,10 +57,12 @@ export default function InputFields({ search, setSearch, filters, setFilters }) 
       <FormControl variant="standard">
         <InputLabel id="time-frame-select">Time Frame</InputLabel>
         <Select
-          labelId="time-frame-select"
+          labelid="time-frame-select"
           id="time-frame-select-standard"
           value={filters.timeFrame}
-          onChange={(e) => setFilters({ ...filters, timeFrame: e.target.value })}
+          onChange={(e) =>
+            setFilters({ ...filters, timeFrame: e.target.value })
+          }
           label="Time Frame"
           sx={{ width: 120 }}
         >

@@ -5,7 +5,6 @@ import badgeLow from "../../../assets/badge_low.png";
 import badgeMed from "../../../assets/badge_med.png";
 import badgeHigh from "../../../assets/badge_high.png";
 import badgeNew from "../../../assets/badge_new.png";
-
 import {
   Button,
   IconButton,
@@ -19,8 +18,6 @@ import {
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import useGlobalContext from "../../../context/GlobalContext";
 import { toast } from "react-toastify";
-import axios from "axios";
-import firebaseErrorCodes from "../../../helpers/firebaseErrorCodes";
 import grindStreak from "../../../helpers/grindStreak";
 
 export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
@@ -82,22 +79,21 @@ export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
     toast.success("Logged Out", toastifyTheme);
   };
 
-  const handleInputData = (inputProblem) => {
-    // console.log("inputPramas", inputProblem);
-    axios
-      .post("/records", inputProblem, {
-        params: {
-          userID: sessionStorage.getItem("UserID"),
-        },
-      })
-      .then(({ data }) => {
-        // console.log("data", data);
-        toast.success("Added Data Successfully", toastifyTheme);
-      })
-      .catch((error) => {
-        firebaseErrorCodes(error.response.data.code, toastifyTheme);
-      });
-  };
+  // hidden handler in case dev needs to add additional data points to DB for testing
+  // const handleInputData = (inputProblem) => {
+  //   axios
+  //     .post("/records", inputProblem, {
+  //       params: {
+  //         userID: sessionStorage.getItem("UserID"),
+  //       },
+  //     })
+  //     .then(({ data }) => {
+  //       toast.success("Added Data Successfully", toastifyTheme);
+  //     })
+  //     .catch((error) => {
+  //       firebaseErrorCodes(error.response.data.code, toastifyTheme);
+  //     });
+  // };
 
   //conditional render badge
   React.useEffect(() => {
@@ -151,13 +147,13 @@ export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
     >
       <MenuItem
         key="Profile"
-        onClick={() => console.log(`opens menu for Profile`)}
+        // onClick={() => console.log(`opens menu for Profile`)} TODO: add profile page
       >
         <p>Profile</p>
       </MenuItem>
       <MenuItem
         key="Settings"
-        onClick={() => console.log(`opens menu for Settings`)}
+        // onClick={() => console.log(`opens menu for Settings`)} TODO: add settings page
       >
         <p>Settings</p>
       </MenuItem>
@@ -166,6 +162,8 @@ export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
       </MenuItem>
     </Menu>
   );
+
+  //menu items mobile
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -186,13 +184,13 @@ export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
     >
       <MenuItem
         key="Profile"
-        onClick={() => console.log(`opens menu for Profile`)}
+        // onClick={() => console.log(`opens menu for Profile`)} TODO: add profile page
       >
         <p>Profile</p>
       </MenuItem>
       <MenuItem
         key="Settings"
-        onClick={() => console.log(`opens menu for Settings`)}
+        // onClick={() => console.log(`opens menu for Settings`)} TODO: add settings page
       >
         <p>Settings</p>
       </MenuItem>
@@ -227,7 +225,9 @@ export default function NavBar({ setModal, aboutToggle, setAboutToggle }) {
           </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {/* <Button
+            {/*
+              // hidden button in case dev needs to add additional data points to DB for testing
+               <Button
               onClick={() => {
                 handleInputData(createSamplePrompt());
               }}

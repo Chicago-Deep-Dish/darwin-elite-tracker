@@ -1,28 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-// let sampleData = {
-//   promptName: "Two Sum",
-//   totalTime: 1500000,
-//   difficulty: "easy",
-//   topic: ["Array", "Hash Table"],
-//   promptLink: "https://leetcode.com/problems/two-sum/",
-//   PromptText:
-//     "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.",
-//   constraints: [
-//     "2 <= nums.length < 10000",
-//     "-1000000000 <= nums[i] <= 1000000000",
-//     "-1000000000 <= target = 1000000000",
-//     "only one valid answer exists",
-//   ],
-//   timeComplexity: "O(n2)",
-//   solution: "",
-//   programmingLanguage: "JavaScript",
-//   readTime: 300000,
-//   whiteBoardTime: 300000,
-//   pseudocodeTime: 600000,
-//   codeTime: 300000,
-// };
-
 export const sampleClass = {
   userId: "kVZzjxSp3DOoL4c1Bcq97pmZ1uT2", //single user to populate database
   settings: { defaultGraph: ["bar", "line"] }, //object with properties
@@ -175,13 +152,8 @@ let leetTopics = [
 function randomizeFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
-// const users = [
-//   "WcmIqdF33oc7KGOpcvtD82YyCv53",
-//   "9nj0CngezSPN6q8vj0gDjienlsT2",
-//   "LdiAUMtv6rOjnN33s5XnJ6VVUdb2",
-// ];
 
-//helper
+//helper functions
 function createRandomNumerWithRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -204,15 +176,6 @@ function createRandomParagraph(length) {
   return result;
 }
 
-// function RandomTimeGeneratorForLast5Months() {
-//   const timeStamp = {
-//     month: new Date().getMonth() + createRandomNumerWithRange(1, 5),
-//     day: new Date().getDate(),
-//     year: 2022,
-//   };
-//   return timeStamp;
-// }
-
 function randomDate(start, end) {
   return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
@@ -220,7 +183,6 @@ function randomDate(start, end) {
 }
 
 function ISOtoDateMonthYear(date) {
-  // date = new Date(date);
   const year = date.getFullYear().toString();
   let month = date.getMonth() + 1;
   let dt = date.getDate().toString();
@@ -238,7 +200,7 @@ function getrandomDateIn2022() {
   return new Date(randomDate(new Date(2022, 1, 1), new Date(2022, 1, 7)));
 }
 
-//NOT USED YET
+//NOT USED
 // function randomUserGenerator() {
 //   return {
 //     username: createRandomWordStringWithLength(5),
