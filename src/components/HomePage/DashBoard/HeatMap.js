@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 export default function HeatMap() {
-
-    return <h5> HeatMap </h5>
+  return <h5> HeatMap </h5>;
 }

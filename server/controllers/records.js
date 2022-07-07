@@ -16,11 +16,10 @@ exports.addRecord = (req, res) => {
   models
     .addRecord(req.body, req.query.userID)
     .then((response) => {
-      // console.log("login response", response);
       res.send(response);
     })
     .catch((err) => {
-      console.log("updateRecord err", err);
+      console.log("addRecord err", err);
       res.status(405).send(err);
     });
 };

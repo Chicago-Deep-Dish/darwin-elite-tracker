@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import firebaseErrorCodes from "./../../helpers/firebaseErrorCodes";
 
-import createSampleData, { registeredUser } from "../../test/sampleData";
+import createSampleData, { registeredUser } from "../../data/randomData";
 //Styling
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
@@ -30,11 +30,8 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     userLoggedIn: false,
   });
 
-    // console.log(createSampleData(1));
-
   const handleClickSubmit = () => {
     if (modalName === "LOGIN") {
-      //TODO: add userAccountIcon show up on successful login
       axios
         .get("/users/login", {
           params: {
@@ -47,7 +44,6 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           setUserLoggedIn(true);
           handleExitModal(null, "exit");
           setModal({ modalName: null });
-          // console.log("data", data);
           sessionStorage.setItem("AuthToken", data._tokenResponse.refreshToken);
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Logged In Successfully", toastifyTheme);
@@ -69,17 +65,12 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
           const userData = { ...registeredUser, userId: data.user.uid };
-          // axios.post("/users/userData", userData).then((data) => {
-          //   // console.log(data);
-          //   toast.success(`Created Successfully`, toastifyTheme);
-
-          //   handleExitModal(null, "exit");
-          //   setModal({ modalName: "empty" });
-          // });
-          setUserLoggedIn(true);
-        })
-        .catch((error) => {
-          firebaseErrorCodes(error.response.data.code, toastifyTheme);
+          axios.post("/users/userData", userData).then((data) => {
+            toast.success(`Created Successfully`, toastifyTheme);
+            handleExitModal(null, "exit");
+            setUserLoggedIn(true);
+            setModal({ modalName: "empty" });
+          });
         });
     }
   };

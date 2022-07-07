@@ -11,11 +11,7 @@ import Theme from "./context/ThemeContext.js";
 import Layout from "./Layout";
 import { CssBaseline } from "@mui/material";
 
-
-
 export default function App() {
-
-
   return (
     <div className="App">
       <Theme>

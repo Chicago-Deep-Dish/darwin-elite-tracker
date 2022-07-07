@@ -5,7 +5,7 @@ import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
 import dataDecipher from "../helpers/dataDecipher";
 import { summary } from "date-streaks";
-import samples from './sampleDatas.js';
+import sampleData from "./../data/defaultData";
 
 const GlobalContext = createContext();
 
@@ -59,21 +59,20 @@ export function GlobalContextProvider({ children }) {
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
-          console.log(error);
+          console.log("error in Global COntext UseEffect", error);
 
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
-      // setUserProblemArray(dummy data)
-      setUserProblemArray(samples);
+      setUserProblemArray(sampleData);
 
       let dataArray = [];
-      samples.forEach((problem) => {
+      setUserProblemArray(sampleData);
+      sampleData.forEach((problem) => {
         dataArray.push(new Date(problem.timeStamp));
       });
-
       setProblemDatesArray(dataArray);
-            setUserLoggedIn(false);
+      setUserLoggedIn(false);
 
       setstreakSummary(summary(dataArray));
 
@@ -81,7 +80,6 @@ export function GlobalContextProvider({ children }) {
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme
       );
-
     }
   }, [userLoggedIn]);
 
