@@ -30,7 +30,7 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     userLoggedIn: false,
   });
 
-    // console.log(createSampleData(1));
+  // console.log(createSampleData(1));
 
   const handleClickSubmit = () => {
     if (modalName === "LOGIN") {
@@ -69,14 +69,13 @@ export default function Form({ modalName, setModal, handleExitModal }) {
           sessionStorage.setItem("UserID", data.user.uid);
           toast.success("User Created Successfully", toastifyTheme);
           const userData = { ...registeredUser, userId: data.user.uid };
-          // axios.post("/users/userData", userData).then((data) => {
-          //   // console.log(data);
-          //   toast.success(`Created Successfully`, toastifyTheme);
-
-          //   handleExitModal(null, "exit");
-          //   setModal({ modalName: "empty" });
-          // });
-          setUserLoggedIn(true);
+          axios.post("/users/userData", userData)
+            .then((data) => {
+              toast.success(`Created Successfully`, toastifyTheme);
+              handleExitModal(null, "exit");
+              setUserLoggedIn(true);
+              setModal({ modalName: "empty" });
+            });
         })
         .catch((error) => {
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
