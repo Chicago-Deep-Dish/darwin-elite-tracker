@@ -29,7 +29,6 @@ export default function Form({ modalName, setModal, handleExitModal }) {
     showPassword: false,
     userLoggedIn: false,
   });
-
   const handleClickSubmit = () => {
     if (modalName === "LOGIN") {
       axios
@@ -71,6 +70,9 @@ export default function Form({ modalName, setModal, handleExitModal }) {
             setUserLoggedIn(true);
             setModal({ modalName: "empty" });
           });
+        })
+        .catch((error) => {
+          firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     }
   };

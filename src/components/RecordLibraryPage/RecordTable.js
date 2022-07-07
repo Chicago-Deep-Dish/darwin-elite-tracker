@@ -28,23 +28,18 @@ import { toast } from "react-toastify";
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (event) => {
+  function handleFirstPageButtonClick(event) {
     onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (event) => {
+  }
+  function handleBackButtonClick(event) {
     onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event) => {
+  }
+  function handleNextButtonClick(event) {
     onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
+  }
+  function handleLastPageButtonClick(event) {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
+  }
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
       <IconButton
@@ -86,7 +81,6 @@ function TablePaginationActions(props) {
     </Box>
   );
 }
-
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onPageChange: PropTypes.func.isRequired,
@@ -102,11 +96,8 @@ export default function RecordTable({
   const { setUserProblemArray, toastifyTheme } = useGlobalContext();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
-
   function handleChangePage(event, newPage) {
     setPage(newPage);
   }
@@ -146,11 +137,9 @@ export default function RecordTable({
           });
       })
       .catch((error) => {
-        console.log(error);
         firebaseCodes(error.response.data.code, toastifyTheme);
       });
   }
-
   function millisToMinutesAndSeconds(millis) {
     let minutes = Math.floor(millis / 60000);
     let seconds = ((millis % 60000) / 1000).toFixed(0);
@@ -224,7 +213,6 @@ export default function RecordTable({
               </TableCell>
             </TableRow>
           ))}
-
           {emptyRows > 0 && (
             <TableRow style={{ height: 73 * emptyRows }}>
               <TableCell colSpan={6} />

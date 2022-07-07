@@ -52,15 +52,12 @@ export default function EditModal({
     "C#",
     "PHP",
   ]);
-
   function handleExitModal() {
     setShowEditModal(false);
     setRow({});
   }
-
   function handleFormSubmit(e) {
     e.preventDefault();
-    // if no session storage then toastify return
     if (!sessionStorage.getItem("UserID")) {
       toast.error("Not Logged in", toastifyTheme);
       handleExitModal();
@@ -106,16 +103,16 @@ export default function EditModal({
             handleExitModal();
           });
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        toast.error("Something went wrong updating the record.", toastifyTheme)
+      );
   }
-
   function handleFormChange(e) {
     setRow({
       ...row,
       [e.target.id]: e.target.value,
     });
   }
-
   function handleDateChange(newDate) {
     if (isNaN(newDate.getDate())) {
       toast.error("Invalid Date", toastifyTheme);
@@ -133,35 +130,30 @@ export default function EditModal({
       timeStampinfo,
     });
   }
-
   function handleDifficultyChange(e) {
     setRow({
       ...row,
       difficulty: e.target.value,
     });
   }
-
   function handleLanguageChange(e) {
     setRow({
       ...row,
       programmingLanguage: e.target.value,
     });
   }
-
   function handleTopicsChange(e) {
     setRow({
       ...row,
       topics: e.target.value,
     });
   }
-
   function handleComplexityChange(e) {
     setRow({
       ...row,
       timeComplexity: e.target.value,
     });
   }
-
   return (
     <div className="modal-container" onClick={handleExitModal}>
       <section className="records-modal" onClick={(e) => e.stopPropagation()}>

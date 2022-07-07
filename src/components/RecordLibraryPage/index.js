@@ -38,7 +38,6 @@ export default function RecordLibrary() {
     );
     setShownData(newData);
   }, [search, filters, userProblemArray]);
-
   return (
     <main className="main">
       <InputFields
