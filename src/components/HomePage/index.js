@@ -2,7 +2,6 @@ import React from "react";
 import DashBoard from "./DashBoard/Dashboard.js";
 import InputForm from "./InputForm/InputForm.js";
 import Graphs from "../../components/HomePage/HomeGraphs/Graphs.js";
-import Footer from "./Footer/Footer";
 
 export default function HomePage() {
   return (
@@ -21,7 +20,6 @@ export default function HomePage() {
           <Graphs />
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
