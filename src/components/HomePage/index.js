@@ -24,9 +24,7 @@ export default function HomePage() {
           justifyContent: "center",
         }}
       >
-        {/* <div className='side-bar'> */}
         <InputForm />
-        {/* </div> */}
         <div>
           <DashBoard />
           <Graphs />

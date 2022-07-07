@@ -24,13 +24,15 @@
 }
 
 .about{
+  /* display: flex; */
+  position: relative;
   bottom: 0;
   top: 0;
   margin-top: 0;
   height: 60vh;
   background: url('../assets/Darwin_Logo_transparent.png') no-repeat center , radial-gradient(circle at 50% 50%, rgb(107, 120, 152), rgb(0, 0, 0), rgb(0, 0, 0));
   background-size: 10%, auto;
-  opacity: 0.2, auto;
+  opacity: 0.5, auto;
 }
 
 .timeboxes{

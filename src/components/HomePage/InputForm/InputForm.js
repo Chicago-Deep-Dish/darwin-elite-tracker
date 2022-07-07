@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp';
 import Stopwatch from './Stopwatch/Stopwatch';
@@ -17,6 +15,8 @@ import firebaseErrorCodes from '../../../helpers/firebaseErrorCodes';
 import useGlobalContext from '../../../context/GlobalContext';
 import Collapse from '@mui/material/Collapse';
 import styled from 'styled-components';
+import Chip from '@mui/material/Chip';
+
 
 
 const StyledInput = styled(TextField)`
@@ -30,18 +30,15 @@ width: 100%;
   color:red
 }`;
 
-
 export default function InputForm() {
-  const { toastifyTheme } =  useGlobalContext();
 
-  const [times, setTimes] = useState(0);
+  const { toastifyTheme } =  useGlobalContext();
 
   const [values, setValues] = useState({
     promptName: '',
     difficulty: '',
     promptLink: '',
     promptText: '',
-    constraints: '',
     timeComplexity: '',
     solution: '',
     programmingLanguage: 'Javascript',
@@ -52,11 +49,34 @@ export default function InputForm() {
     topic: '',
   });
 
+  const [times, setTimes] = useState(0);
+
+  const [constraintVal, setConstraintVal] = useState(['press enter to add']);
+
+  const [currConstraint, setCurrConstraint] = useState('');
 
   const [expand, setExpand] = useState(false);
 
   const toggleExpand = () => {
     setExpand((prev) => !prev);
+  }
+
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      setConstraintVal((oldState) => [...oldState, e.target.value]);
+      setCurrConstraint('');
+    }
+  };
+
+
+  const handleDelete = (item, index) => {
+    let arr = [...constraintVal];
+    arr.splice(index, 1);
+    setConstraintVal(arr)
+  }
+
+  const handleConChange = (e) => {
+    setCurrConstraint(e.target.value);
   }
 
   const handleChange = (e) => {
@@ -69,7 +89,7 @@ export default function InputForm() {
     e.preventDefault();
     axios.post('/records', {
       ...values,
-      'constraints': values.constraints.split(', '),
+      'constraints': constraintVal,
       'solution': values.solution.split(', '),
       time: times,
       timeStamp: new Date().toISOString(),
@@ -89,7 +109,6 @@ export default function InputForm() {
         difficulty: '',
         promptLink: '',
         promptText: '',
-        constraints: '',
         timeComplexity: '',
         solution: '',
         programmingLanguage: '',
@@ -100,12 +119,16 @@ export default function InputForm() {
         topic: '',
       })
         setTimes(0);
+        setConstraintVal(['press enter to add']);
         toast.success('Data submitted successfully', toastifyTheme);
       })
       .catch((err) => {
         firebaseErrorCodes(err.response.data.code, toastifyTheme
       )});
   };
+
+  useEffect(() => {
+  }, [constraintVal]);
 
 
   let leetTopics = ['Arrays', 'Maps', 'Linked Lists', 'Queues', 'Heaps', 'Stacks', 'Trees', 'Graphs', 'Breadth-First-Search', 'Depth-First-Search', 'Binary Search', 'Recursion', 'Backtracking', 'Dynamic Programming', 'Trie', 'Matrix', 'Sorting'];
@@ -115,9 +138,6 @@ export default function InputForm() {
      className='beginning-inputs'
      sx={{width: 200, mt: '10px', mx: '10px', minWidth: 18}}
      >
-      {/* padding: 10px;
-    border-radius: 10px;
-    background-color: #1A2027; */}
        <Stack
         sx={{width: 200, mt: 0, mx: '10px',  padding: '25px', borderRadius: '10px', backgroundColor: '#1A2027', minWidth:17}}
         spacing={2}
@@ -141,29 +161,12 @@ export default function InputForm() {
               value={values.promptName}
               onChange={(e) => handleChange(e)}
             />
-            {/* <TextField
-            size='small'
-            variant='outlined'
-            required
-            type='text'
-            id="outlined-basic"
-            label="Prompt Name"
-            name='promptName'
-            value={values.promptName}
-            onChange={(e) => handleChange(e)}
-            /> */}
+
             <FormControl
               variant='outlined'
               size='small'
               required
               >
-              {/* <InputLabel id='difficulty-label'>Difficulty*</InputLabel> */}
-              {/* <Select
-                labelid='difficulty-label'
-                name="difficulty"
-                value={values.difficulty}
-                onChange={(e) => handleChange(e)}
-              > */}
               <StyledInput
                 select
                 color='success'
@@ -178,22 +181,15 @@ export default function InputForm() {
                 <MenuItem value='easy'>Easy</MenuItem>
                 <MenuItem value='medium'>Medium</MenuItem>
                 <MenuItem value='hard'>Hard</MenuItem>
-              {/* </Select> */}
               </StyledInput>
             </FormControl>
+
             <FormControl variant='outlined' size='small'>
-              {/* <InputLabel id='language-label'>Programming Language</InputLabel> */}
-              {/* <Select
-              labelid='language-label'
-                name="programmingLanguage"
-                value={values.programmingLanguage}
-                onChange={(e) => handleChange(e)}
-              > */}
               <StyledInput
                 select
                 color='success'
                 labelId='language-label'
-                label='Programmming Language*'
+                label='Language*'
                 name='programmingLanguage'
                 value={values.programmingLanguage}
                 variant='outlined'
@@ -209,18 +205,10 @@ export default function InputForm() {
                 <MenuItem value='Swift'>Swift</MenuItem>
                 <MenuItem value='C#'>C#</MenuItem>
                 <MenuItem value='PHP'>PHP</MenuItem>
-              {/* </Select> */}
               </StyledInput>
             </FormControl>
+
             <FormControl variant='outlined' size='small'>
-              {/* <InputLabel id='demo-simple-select-label'>Topic</InputLabel> */}
-              {/* <Select
-              labelid='demo-simple-select-label'
-              id='demo-simple-select'
-              name='topic'
-              value={values.topic}
-              onChange={(e) => handleChange(e)}
-              > */}
               <StyledInput
                 select
                 color='success'
@@ -237,14 +225,12 @@ export default function InputForm() {
                     {topic}
                   </MenuItem>
                 ))}
-              {/* </Select> */}
               </StyledInput>
             </FormControl>
             <Stopwatch
               times={times}
               setTimes={setTimes}
             />
-          {/* {expand && ( */}
           <Collapse
             in={expand}
             >
@@ -254,15 +240,7 @@ export default function InputForm() {
               >
                 Additional Fields
               </Typography>
-              {/* <TextField
-                size='small'
-                type='text'
-                id="outlined-basic"
-                label="Prompt Link"
-                name='promptLink'
-                value={values.promptLink}
-                onChange={(e) => handleChange(e)}
-              /> */}
+
               <StyledInput
               size='small'
               variant='outlined'
@@ -274,16 +252,7 @@ export default function InputForm() {
               value={values.promptLink}
               onChange={(e) => handleChange(e)}
             />
-              {/* <TextField
-              size='small'
-              label="Prompt Text"
-              multiline
-              rows={4}
-              type='text'
-              name='promptText'
-              value={values.promptText}
-              onChange={(e) => handleChange(e)}
-              /> */}
+
               <StyledInput
               size='small'
               variant='outlined'
@@ -297,37 +266,27 @@ export default function InputForm() {
               value={values.promptText}
               onChange={(e) => handleChange(e)}
             />
-              {/* <TextField
-              size='small'
-              label="Constraints"
-              multiline
-              rows={4}
-              type='text'
-              name='constraints'
-              value={values.constraints}
-              onChange={(e) => handleChange(e)}
-              /> */}
+
+            <FormControl variant='outlined'>
+              <div style={{marginBottom: '5px'}}>
+                {constraintVal.map((item, index) => (
+                  <Chip key={item} size='small' onDelete={() => handleDelete(item, index)} label={item} />
+                ))}
+              </div>
               <StyledInput
-              size='small'
-              variant='outlined'
-              color='success'
-              type='text'
-              multiline
-              rows={4}
-              label='Constraints'
-              id='outlined-basic'
-              name="constraints"
-              value={values.constraints}
-              onChange={(e) => handleChange(e)}
-            />
+                size='small'
+                variant='outlined'
+                color='success'
+                multiline
+                rows={4}
+                label='Constraints'
+                value={currConstraint}
+                onChange={handleConChange}
+                onKeyDown={handleKeyUp}
+              />
+            </FormControl>
+
               <FormControl variant='outlined'>
-                {/* <InputLabel id='timecomplexity-label'>Time Complexity</InputLabel> */}
-                {/* <Select
-                  labelid='timecomplexity-label'
-                  name="timeComplexity"
-                  value={values.timeComplexity}
-                  onChange={(e) => handleChange(e)}
-                > */}
                 <StyledInput
                   select
                   color='success'
@@ -344,19 +303,9 @@ export default function InputForm() {
                   <MenuItem value='O(n)'>O(n)</MenuItem>
                   <MenuItem value='O(n log n)'>O(n log n)</MenuItem>
                   <MenuItem value='O(n^2)'>O(n^2)</MenuItem>
-                {/* </Select> */}
                 </StyledInput>
               </FormControl>
-              {/* <TextField
-              size='small'
-                label="Solution"
-                multiline
-                rows={4}
-                type='text'
-                name='solution'
-                value={values.solution}
-                onChange={(e) => handleChange(e)}
-                /> */}
+
               <StyledInput
                 size='small'
                 variant='outlined'
@@ -372,7 +321,6 @@ export default function InputForm() {
             />
 
           </Stack>
-          {/* )} */}
           </Collapse>
           <Box
             sx={{
@@ -381,7 +329,7 @@ export default function InputForm() {
             }}
           >
            <Button
-            sx={{backgroundColor: '#f3ab40', marginRight: '1px' }}
+            sx={{backgroundColor: '#f3ab40', color: '#597081', marginRight: '1px' }}
               variant='contained'
               type='button'
               size='medium'
@@ -403,4 +351,3 @@ export default function InputForm() {
      </Stack>
   );
 }
-
