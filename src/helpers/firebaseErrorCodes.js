@@ -2,9 +2,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function firebaseCodes(code, toastifyTheme) {
-
-  console.log("code", code);
-
   switch (code) {
     case "auth/wrong-password":
       toast.error(

@@ -3,25 +3,7 @@
 import React from "react";
 import Form from "./Form";
 import "../../styles/PopupModal.css";
-// const style = {
-//   position: "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 400,
-//   bgcolor: "background.paper",
-//   border: "2px solid #000",
-//   boxShadow: 24,
-//   p: 4,
-// };
 
-//------ MODAL ------//
-// By default, modal is an empty object {}
-// When using setModal, the syntax is setModal({ modalName, modalData })
-// modalName: Required; a string, decides which modal content to render
-// modalData: Optional; an object, should contain some data you need for the modal
-// Example 1 - setModal: line 14 @ './QuestionsAndAnswers/QAListEntry.jsx'
-// Example 2 - redernModal: line 8 @ './helper/Modals/Modals.jsx'
 export default function PopupModal({ modal, setModal }) {
   function renderModal({ modalName }) {
     if (modalName) {

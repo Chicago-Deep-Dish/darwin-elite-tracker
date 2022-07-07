@@ -5,18 +5,15 @@ import firebaseErrorCodes from "../helpers/firebaseErrorCodes";
 import axios from "axios";
 import dataDecipher from "../helpers/dataDecipher";
 import { summary } from "date-streaks";
-import samples from './sampleDatas.js';
+import sampleData from "./../data/defaultData";
 
 const GlobalContext = createContext();
-
 export default function useGlobalContext() {
   return useContext(GlobalContext);
 }
-
 export function GlobalContextProvider({ children }) {
   const [userProblemArray, setUserProblemArray] = useState([]);
   const [userProfileData, setUserProfileData] = useState([]);
-
   const [userLoggedIn, setUserLoggedIn] = useState(true);
   const [problemDatesArray, setProblemDatesArray] = useState([]);
   const [streakSummary, setstreakSummary] = useState([]);
@@ -24,10 +21,6 @@ export function GlobalContextProvider({ children }) {
     hideProgressBar: false,
     position: "bottom-left",
   });
-
-  const [aboutToggle, setAboutToggle] = useState(false);
-
-  //TODO: axios request on mount to get user settings
   useEffect(() => {
     if (sessionStorage.getItem("AuthToken")) {
       toast.success("Logged In", toastifyTheme);
@@ -46,45 +39,37 @@ export function GlobalContextProvider({ children }) {
               prompt1.timeStamp.localeCompare(prompt2.timeStamp)
             )
           );
-
           let dataArray = [];
           userData[1].forEach((problem) => {
             dataArray.push(new Date(problem.timeStamp));
           });
-
           setProblemDatesArray(dataArray);
           setstreakSummary(summary(dataArray));
-
           setUserLoggedIn(true);
           toast.success("Recieved Data Successfully", toastifyTheme);
         })
         .catch((error) => {
-          console.log(error);
+          console.log("error in Global COntext UseEffect", error);
 
           firebaseErrorCodes(error.response.data.code, toastifyTheme);
         });
     } else {
-      // setUserProblemArray(dummy data)
-      setUserProblemArray(samples);
+      setUserProblemArray(sampleData);
 
       let dataArray = [];
-      samples.forEach((problem) => {
+      setUserProblemArray(sampleData);
+      sampleData.forEach((problem) => {
         dataArray.push(new Date(problem.timeStamp));
       });
-
       setProblemDatesArray(dataArray);
-            setUserLoggedIn(false);
-
+      setUserLoggedIn(false);
       setstreakSummary(summary(dataArray));
-
       toast.error(
         "Not Logged in: Please Login to begin using all features",
         toastifyTheme
       );
-
     }
   }, [userLoggedIn]);
-
   const value = {
     toastifyTheme,
     setToastifyTheme,
@@ -96,10 +81,10 @@ export function GlobalContextProvider({ children }) {
     problemDatesArray,
     userLoggedIn,
     setUserLoggedIn,
-    aboutToggle,
-    setAboutToggle,
   };
   return (
-    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>
+      {children}
+    </GlobalContext.Provider>
   );
 }

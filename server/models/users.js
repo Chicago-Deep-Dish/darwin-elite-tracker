@@ -1,18 +1,16 @@
 const { db } = require("../db/firebase-config");
-const { doc, setDoc } = require('firebase/firestore');
+const { doc, setDoc } = require("firebase/firestore");
 const {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } = require("firebase/auth");
 
-// login
 exports.login = ({ email, password }) => {
   const authentication = getAuth();
   return signInWithEmailAndPassword(authentication, email, password);
 };
 
-//register
 exports.register = ({ email, password }) => {
   const authentication = getAuth();
   return createUserWithEmailAndPassword(authentication, email, password);
